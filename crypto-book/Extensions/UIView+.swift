@@ -99,26 +99,8 @@ extension UIView {
     // MARK: - Anchor Helpers
     
     /// Method to add anchors easier
-    /// Note: anchors will be activated by default and the view will have it's translatesAutoresizingMaskIntoConstraints
-    /// property set to false
-    ///
-    /// - Parameters:
-    ///   - top: NSLayoutYAxisAnchor to be attached to self.topAnchor
-    ///   - topMargin: top margin separation (positive value)
-    ///   - bottom: NSLayoutYAxisAnchor to be attached to self.bottomAnchor
-    ///   - bottomMargin: bottom margin separation (positive value)
-    ///   - left: NSLayoutXAxisAnchor to be attached to self.leftAnchor
-    ///   - leftMargin: left margin separation (positive value)
-    ///   - leading: NSLayoutXAxisAnchor to be attached to self.leadingAnchor
-    ///   - leadingMargin: leading margin separation (positive value)
-    ///   - right: NSLayoutXAxisAnchor to be attached to self.rightAnchor
-    ///   - rightMargin: right margin separation (positive value)
-    ///   - trailing: NSLayoutXAxisAnchor to be attached to self.trailingAnchor
-    ///   - trailingMargin: trailing margin separation (positive value)
-    ///   - centerX: NSLayoutXAxisAnchor to be attached to self.centerXAnchor
-    ///   - centerY: NSLayoutYAxisAnchor to be attached to self.centerYAnchor
-    ///   - widthConstant: a width constant for self.widthAnchor
-    ///   - heightConstant: a height constant for self.heightAnchor
+    /// - Note: anchors will be activated by default and the view will have it's translatesAutoresizingMaskIntoConstraints
+    /// property set to false.
     /// - Returns: An array with all constraints already activated
     @discardableResult
     func anchor(top: NSLayoutYAxisAnchor? = nil,

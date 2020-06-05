@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Combine
 
 /// Component that displays several pages (view controllers) horizontally.
 /// Contains a top menu to allow selecion of a controller.
@@ -19,7 +20,7 @@ final class PageViewController: UIViewController {
     private var trailingContentViewConstraint: NSLayoutConstraint?
     private var withContentViewConstraint: NSLayoutConstraint?
     
-    private var viewControllers: [UIViewController] = []
+    private var viewControllers: [ChildPageViewController] = []
     
     private var width: CGFloat { view.frame.size.width }
     private var offset: CGFloat { scrollView.contentOffset.x }
@@ -27,20 +28,19 @@ final class PageViewController: UIViewController {
     
     private var previousIndex: Int = 0
     
-    /// Returns the current selected page index
-    var index: Int = 0
+    private var index: Int = 0
     
     /// Returns the current selected view controller
-    var currentViewController: UIViewController? {
+    var currentViewController: ChildPageViewController? {
         viewControllers[safe: index]
     }
     
-    /// Custom init. You can pass the pages from the beginning or use later `add(viewController:)`.
-    /// - Parameter pages: The starting view controllers (pages)
-    init(pages: [UIViewController]) {
-        pageMenuView = PageMenuView(items: pages.compactMap { $0.title })
+    /// Custom init. You can pass the pages from the beginning or use later `add(childPage:)`.
+    /// - Parameter childPages: The starting view controllers (child pages)
+    init(childPages: [ChildPageViewController]) {
+        pageMenuView = PageMenuView(items: childPages.map { $0.title ?? "No Title" })
         super.init(nibName: nil, bundle: nil)
-        self.viewControllers = pages
+        self.viewControllers = childPages
     }
     
     @available(*, unavailable)
@@ -54,12 +54,12 @@ final class PageViewController: UIViewController {
         setupViewControllers()
     }
     
-    /// Adds a new page (view controller)
-    func add(page: UIViewController) {
+    /// Adds a new child (view controller)
+    func add(childPage: ChildPageViewController) {
         let lastViewController = viewControllers.last
-        viewControllers.append(page)
-        addViewController(page, previousViewController: lastViewController)
-        pageMenuView.add(item: page.title ?? "No Title")
+        viewControllers.append(childPage)
+        addViewController(childPage, previousViewController: lastViewController)
+        pageMenuView.add(item: childPage.title ?? "No Title")
     }
 }
 
@@ -68,7 +68,7 @@ final class PageViewController: UIViewController {
 private extension PageViewController {
     
     func setupViews() {
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = .binanceBackground
         
         scrollView.isScrollEnabled = false
         scrollView.showsVerticalScrollIndicator = false
@@ -106,6 +106,7 @@ private extension PageViewController {
             self?.addViewController(vc, previousViewController: previousViewController)
             previousViewController = vc
         }
+        viewControllers[index].isActive = true
     }
     
     func addViewController(_ viewController: UIViewController, previousViewController: UIViewController?) {
@@ -154,10 +155,14 @@ private extension PageViewController {
     
     func scroll(to index: Int) {
         Log.message("Scrolling to: \(index)", level: .info, type: .page)
+        
         previousIndex = self.index
         self.index = index
         pageMenuView.select(index: index)
         scrollView.setContentOffset(CGPoint(x: CGFloat(index) * width, y: 0), animated: true)
+        
+        viewControllers[previousIndex].isActive = false
+        viewControllers[index].isActive = true
     }
     
     // MARK: - User Input

@@ -13,13 +13,23 @@
 		8E92A28E2487ED2200D43828 /* UIView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E92A28D2487ED2200D43828 /* UIView+.swift */; };
 		8E92A2902487EF3700D43828 /* DevMenuPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E92A28F2487EF3700D43828 /* DevMenuPageViewController.swift */; };
 		8E92A2922487F18E00D43828 /* UIColor+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E92A2912487F18E00D43828 /* UIColor+.swift */; };
-		8E92A2942487F1A900D43828 /* CGFloat+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E92A2932487F1A800D43828 /* CGFloat+.swift */; };
 		8E92A296248805BD00D43828 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E92A295248805BD00D43828 /* Logger.swift */; };
 		8E92A2982488346A00D43828 /* PageMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E92A2972488346A00D43828 /* PageMenuView.swift */; };
 		8E92A29A2488405F00D43828 /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E92A2992488405F00D43828 /* String+.swift */; };
 		8E92A29C2488409500D43828 /* Int+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E92A29B2488409500D43828 /* Int+.swift */; };
 		8E92A2A124886AA600D43828 /* MarketDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E92A2A024886AA600D43828 /* MarketDetailViewController.swift */; };
 		8E92A2A324886AAF00D43828 /* MarketDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E92A2A224886AAF00D43828 /* MarketDetailViewModel.swift */; };
+		8EA6AB3A248A846A0017FE63 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8EA6AB39248A846A0017FE63 /* Localizable.strings */; };
+		8EA6AB3C248A84D20017FE63 /* Localizable+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EA6AB3B248A84D20017FE63 /* Localizable+.swift */; };
+		8EA6AB3F248A85020017FE63 /* ArrayTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EA6AB3E248A85020017FE63 /* ArrayTests.swift */; };
+		8EA6AB41248A97ED0017FE63 /* MarketPair.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EA6AB40248A97ED0017FE63 /* MarketPair.swift */; };
+		8EA6AB45248A99BA0017FE63 /* MarketHistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EA6AB44248A99BA0017FE63 /* MarketHistoryViewController.swift */; };
+		8EA6AB47248A99D20017FE63 /* OrderBookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EA6AB46248A99D20017FE63 /* OrderBookViewController.swift */; };
+		8EA6AB49248A99EF0017FE63 /* OrderBookViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EA6AB48248A99EF0017FE63 /* OrderBookViewModel.swift */; };
+		8EA6AB4B248A99F80017FE63 /* MarketHistoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EA6AB4A248A99F80017FE63 /* MarketHistoryViewModel.swift */; };
+		8EA6AB4D248AA4BD0017FE63 /* OrderBookTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EA6AB4C248AA4BD0017FE63 /* OrderBookTableView.swift */; };
+		8EA6AB4F248AA6E60017FE63 /* OrderBookCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EA6AB4E248AA6E60017FE63 /* OrderBookCellViewModel.swift */; };
+		8EA6AB51248AA6EE0017FE63 /* OrderBookBidCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EA6AB50248AA6EE0017FE63 /* OrderBookBidCell.swift */; };
 		8EA6FEF92487BE8400AC978E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EA6FEF82487BE8400AC978E /* AppDelegate.swift */; };
 		8EA6FEFB2487BE8400AC978E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EA6FEFA2487BE8400AC978E /* SceneDelegate.swift */; };
 		8EA6FEFD2487BE8400AC978E /* DevMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EA6FEFC2487BE8400AC978E /* DevMenuViewController.swift */; };
@@ -27,6 +37,14 @@
 		8EA6FF022487BE8500AC978E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8EA6FF012487BE8500AC978E /* Assets.xcassets */; };
 		8EA6FF052487BE8500AC978E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8EA6FF032487BE8500AC978E /* LaunchScreen.storyboard */; };
 		8EA6FF102487BE8500AC978E /* crypto_bookTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EA6FF0F2487BE8500AC978E /* crypto_bookTests.swift */; };
+		8ED65002248AC9EC0044B32D /* OrderBookTableType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED65001248AC9EC0044B32D /* OrderBookTableType.swift */; };
+		8ED65004248AD0B00044B32D /* Double+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED65003248AD0B00044B32D /* Double+.swift */; };
+		8ED65006248AD0F60044B32D /* DoubleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED65005248AD0F60044B32D /* DoubleTests.swift */; };
+		8ED65008248ADE460044B32D /* OrderBook.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED65007248ADE460044B32D /* OrderBook.swift */; };
+		8ED6500A248ADF2D0044B32D /* OrderBookService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED65009248ADF2D0044B32D /* OrderBookService.swift */; };
+		8ED6500F248ADF9B0044B32D /* DependencyInjector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED6500E248ADF9B0044B32D /* DependencyInjector.swift */; };
+		8ED65011248AF47E0044B32D /* ChildPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED65010248AF47E0044B32D /* ChildPageViewController.swift */; };
+		8ED65013248AF8260044B32D /* ChildPageViewControllerMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED65012248AF8260044B32D /* ChildPageViewControllerMock.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,13 +64,23 @@
 		8E92A28D2487ED2200D43828 /* UIView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+.swift"; sourceTree = "<group>"; };
 		8E92A28F2487EF3700D43828 /* DevMenuPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevMenuPageViewController.swift; sourceTree = "<group>"; };
 		8E92A2912487F18E00D43828 /* UIColor+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+.swift"; sourceTree = "<group>"; };
-		8E92A2932487F1A800D43828 /* CGFloat+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGFloat+.swift"; sourceTree = "<group>"; };
 		8E92A295248805BD00D43828 /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		8E92A2972488346A00D43828 /* PageMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageMenuView.swift; sourceTree = "<group>"; };
 		8E92A2992488405F00D43828 /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
 		8E92A29B2488409500D43828 /* Int+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+.swift"; sourceTree = "<group>"; };
 		8E92A2A024886AA600D43828 /* MarketDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketDetailViewController.swift; sourceTree = "<group>"; };
 		8E92A2A224886AAF00D43828 /* MarketDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketDetailViewModel.swift; sourceTree = "<group>"; };
+		8EA6AB39248A846A0017FE63 /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
+		8EA6AB3B248A84D20017FE63 /* Localizable+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Localizable+.swift"; sourceTree = "<group>"; };
+		8EA6AB3E248A85020017FE63 /* ArrayTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayTests.swift; sourceTree = "<group>"; };
+		8EA6AB40248A97ED0017FE63 /* MarketPair.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketPair.swift; sourceTree = "<group>"; };
+		8EA6AB44248A99BA0017FE63 /* MarketHistoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketHistoryViewController.swift; sourceTree = "<group>"; };
+		8EA6AB46248A99D20017FE63 /* OrderBookViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderBookViewController.swift; sourceTree = "<group>"; };
+		8EA6AB48248A99EF0017FE63 /* OrderBookViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderBookViewModel.swift; sourceTree = "<group>"; };
+		8EA6AB4A248A99F80017FE63 /* MarketHistoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketHistoryViewModel.swift; sourceTree = "<group>"; };
+		8EA6AB4C248AA4BD0017FE63 /* OrderBookTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderBookTableView.swift; sourceTree = "<group>"; };
+		8EA6AB4E248AA6E60017FE63 /* OrderBookCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderBookCellViewModel.swift; sourceTree = "<group>"; };
+		8EA6AB50248AA6EE0017FE63 /* OrderBookBidCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderBookBidCell.swift; sourceTree = "<group>"; };
 		8EA6FEF52487BE8400AC978E /* crypto-book.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "crypto-book.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8EA6FEF82487BE8400AC978E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8EA6FEFA2487BE8400AC978E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -64,6 +92,14 @@
 		8EA6FF0B2487BE8500AC978E /* crypto-bookTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "crypto-bookTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8EA6FF0F2487BE8500AC978E /* crypto_bookTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = crypto_bookTests.swift; sourceTree = "<group>"; };
 		8EA6FF112487BE8500AC978E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8ED65001248AC9EC0044B32D /* OrderBookTableType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderBookTableType.swift; sourceTree = "<group>"; };
+		8ED65003248AD0B00044B32D /* Double+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+.swift"; sourceTree = "<group>"; };
+		8ED65005248AD0F60044B32D /* DoubleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoubleTests.swift; sourceTree = "<group>"; };
+		8ED65007248ADE460044B32D /* OrderBook.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderBook.swift; sourceTree = "<group>"; };
+		8ED65009248ADF2D0044B32D /* OrderBookService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderBookService.swift; sourceTree = "<group>"; };
+		8ED6500E248ADF9B0044B32D /* DependencyInjector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DependencyInjector.swift; sourceTree = "<group>"; };
+		8ED65010248AF47E0044B32D /* ChildPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChildPageViewController.swift; sourceTree = "<group>"; };
+		8ED65012248AF8260044B32D /* ChildPageViewControllerMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChildPageViewControllerMock.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,17 +135,59 @@
 				8EA6FEFE2487BE8400AC978E /* Main.storyboard */,
 				8EA6FEFC2487BE8400AC978E /* DevMenuViewController.swift */,
 				8E92A28F2487EF3700D43828 /* DevMenuPageViewController.swift */,
+				8ED65012248AF8260044B32D /* ChildPageViewControllerMock.swift */,
 			);
 			path = DevMenu;
 			sourceTree = "<group>";
 		};
-		8E92A29F24886A9300D43828 /* Merket Detail */ = {
+		8E92A29F24886A9300D43828 /* Market Detail */ = {
 			isa = PBXGroup;
 			children = (
 				8E92A2A024886AA600D43828 /* MarketDetailViewController.swift */,
 				8E92A2A224886AAF00D43828 /* MarketDetailViewModel.swift */,
+				8EA6AB42248A998D0017FE63 /* Order Book */,
+				8EA6AB43248A99990017FE63 /* Market History */,
 			);
-			path = "Merket Detail";
+			path = "Market Detail";
+			sourceTree = "<group>";
+		};
+		8EA6AB3D248A84F70017FE63 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				8EA6AB3E248A85020017FE63 /* ArrayTests.swift */,
+				8ED65005248AD0F60044B32D /* DoubleTests.swift */,
+			);
+			name = Extensions;
+			sourceTree = "<group>";
+		};
+		8EA6AB42248A998D0017FE63 /* Order Book */ = {
+			isa = PBXGroup;
+			children = (
+				8EA6AB46248A99D20017FE63 /* OrderBookViewController.swift */,
+				8EA6AB48248A99EF0017FE63 /* OrderBookViewModel.swift */,
+				8EA6AB52248AA8140017FE63 /* Table */,
+			);
+			path = "Order Book";
+			sourceTree = "<group>";
+		};
+		8EA6AB43248A99990017FE63 /* Market History */ = {
+			isa = PBXGroup;
+			children = (
+				8EA6AB44248A99BA0017FE63 /* MarketHistoryViewController.swift */,
+				8EA6AB4A248A99F80017FE63 /* MarketHistoryViewModel.swift */,
+			);
+			path = "Market History";
+			sourceTree = "<group>";
+		};
+		8EA6AB52248AA8140017FE63 /* Table */ = {
+			isa = PBXGroup;
+			children = (
+				8ED65001248AC9EC0044B32D /* OrderBookTableType.swift */,
+				8EA6AB4C248AA4BD0017FE63 /* OrderBookTableView.swift */,
+				8EA6AB50248AA6EE0017FE63 /* OrderBookBidCell.swift */,
+				8EA6AB4E248AA6E60017FE63 /* OrderBookCellViewModel.swift */,
+			);
+			path = Table;
 			sourceTree = "<group>";
 		};
 		8EA6FEEC2487BE8400AC978E = {
@@ -150,6 +228,7 @@
 		8EA6FF0E2487BE8500AC978E /* crypto-bookTests */ = {
 			isa = PBXGroup;
 			children = (
+				8EA6AB3D248A84F70017FE63 /* Extensions */,
 				8EA6FF0F2487BE8500AC978E /* crypto_bookTests.swift */,
 				8EA6FF212487BF0B00AC978E /* Supporting Files */,
 			);
@@ -162,9 +241,10 @@
 				8E92A28B2487EB7300D43828 /* Array+.swift */,
 				8E92A28D2487ED2200D43828 /* UIView+.swift */,
 				8E92A2912487F18E00D43828 /* UIColor+.swift */,
-				8E92A2932487F1A800D43828 /* CGFloat+.swift */,
 				8E92A2992488405F00D43828 /* String+.swift */,
 				8E92A29B2488409500D43828 /* Int+.swift */,
+				8EA6AB3B248A84D20017FE63 /* Localizable+.swift */,
+				8ED65003248AD0B00044B32D /* Double+.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -172,6 +252,8 @@
 		8EA6FF1B2487BEA000AC978E /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				8ED6500E248ADF9B0044B32D /* DependencyInjector.swift */,
+				8ED6500B248ADF340044B32D /* Order Book */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -179,7 +261,7 @@
 		8EA6FF1C2487BEA500AC978E /* Screens */ = {
 			isa = PBXGroup;
 			children = (
-				8E92A29F24886A9300D43828 /* Merket Detail */,
+				8E92A29F24886A9300D43828 /* Market Detail */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -187,6 +269,8 @@
 		8EA6FF1D2487BEAF00AC978E /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				8EA6AB40248A97ED0017FE63 /* MarketPair.swift */,
+				8ED65007248ADE460044B32D /* OrderBook.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -197,6 +281,7 @@
 				8EA6FF012487BE8500AC978E /* Assets.xcassets */,
 				8EA6FF032487BE8500AC978E /* LaunchScreen.storyboard */,
 				8EA6FF062487BE8500AC978E /* Info.plist */,
+				8EA6AB39248A846A0017FE63 /* Localizable.strings */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -214,8 +299,17 @@
 			children = (
 				8E6835312487DAD700D84F53 /* PageViewController.swift */,
 				8E92A2972488346A00D43828 /* PageMenuView.swift */,
+				8ED65010248AF47E0044B32D /* ChildPageViewController.swift */,
 			);
 			path = "Page Controller";
+			sourceTree = "<group>";
+		};
+		8ED6500B248ADF340044B32D /* Order Book */ = {
+			isa = PBXGroup;
+			children = (
+				8ED65009248ADF2D0044B32D /* OrderBookService.swift */,
+			);
+			path = "Order Book";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -299,6 +393,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8EA6AB3A248A846A0017FE63 /* Localizable.strings in Resources */,
 				8EA6FF052487BE8500AC978E /* LaunchScreen.storyboard in Resources */,
 				8EA6FF022487BE8500AC978E /* Assets.xcassets in Resources */,
 				8E6835342487DD8800D84F53 /* README.md in Resources */,
@@ -321,19 +416,34 @@
 			buildActionMask = 2147483647;
 			files = (
 				8EA6FEFD2487BE8400AC978E /* DevMenuViewController.swift in Sources */,
+				8EA6AB4B248A99F80017FE63 /* MarketHistoryViewModel.swift in Sources */,
+				8ED65013248AF8260044B32D /* ChildPageViewControllerMock.swift in Sources */,
 				8E92A296248805BD00D43828 /* Logger.swift in Sources */,
+				8ED6500A248ADF2D0044B32D /* OrderBookService.swift in Sources */,
+				8ED6500F248ADF9B0044B32D /* DependencyInjector.swift in Sources */,
+				8EA6AB4D248AA4BD0017FE63 /* OrderBookTableView.swift in Sources */,
 				8E92A29C2488409500D43828 /* Int+.swift in Sources */,
+				8EA6AB45248A99BA0017FE63 /* MarketHistoryViewController.swift in Sources */,
 				8E92A28C2487EB7300D43828 /* Array+.swift in Sources */,
 				8E92A2902487EF3700D43828 /* DevMenuPageViewController.swift in Sources */,
 				8E92A28E2487ED2200D43828 /* UIView+.swift in Sources */,
-				8E92A2942487F1A900D43828 /* CGFloat+.swift in Sources */,
 				8EA6FEF92487BE8400AC978E /* AppDelegate.swift in Sources */,
 				8EA6FEFB2487BE8400AC978E /* SceneDelegate.swift in Sources */,
 				8E6835322487DAD700D84F53 /* PageViewController.swift in Sources */,
+				8ED65002248AC9EC0044B32D /* OrderBookTableType.swift in Sources */,
+				8ED65004248AD0B00044B32D /* Double+.swift in Sources */,
+				8EA6AB51248AA6EE0017FE63 /* OrderBookBidCell.swift in Sources */,
+				8EA6AB3C248A84D20017FE63 /* Localizable+.swift in Sources */,
 				8E92A2A124886AA600D43828 /* MarketDetailViewController.swift in Sources */,
 				8E92A2A324886AAF00D43828 /* MarketDetailViewModel.swift in Sources */,
+				8ED65008248ADE460044B32D /* OrderBook.swift in Sources */,
+				8EA6AB49248A99EF0017FE63 /* OrderBookViewModel.swift in Sources */,
 				8E92A2982488346A00D43828 /* PageMenuView.swift in Sources */,
+				8ED65011248AF47E0044B32D /* ChildPageViewController.swift in Sources */,
+				8EA6AB47248A99D20017FE63 /* OrderBookViewController.swift in Sources */,
+				8EA6AB41248A97ED0017FE63 /* MarketPair.swift in Sources */,
 				8E92A29A2488405F00D43828 /* String+.swift in Sources */,
+				8EA6AB4F248AA6E60017FE63 /* OrderBookCellViewModel.swift in Sources */,
 				8E92A2922487F18E00D43828 /* UIColor+.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -343,6 +453,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				8EA6FF102487BE8500AC978E /* crypto_bookTests.swift in Sources */,
+				8ED65006248AD0F60044B32D /* DoubleTests.swift in Sources */,
+				8EA6AB3F248A85020017FE63 /* ArrayTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

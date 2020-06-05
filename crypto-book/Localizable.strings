@@ -1,0 +1,13 @@
+/* 
+  Localizable.strings
+  crypto-book
+
+  Created by Nestor Garcia on 05/06/2020.
+  Copyright © 2020 nestor. All rights reserved.
+*/
+
+"page-menu-order-book-title" = "Order Book";
+"page-menu-market-history-title" = "Market History";
+
+"bid-title" = "Bid";
+"ask-title" = "Ask";

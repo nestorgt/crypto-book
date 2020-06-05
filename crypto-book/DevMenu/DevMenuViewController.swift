@@ -8,28 +8,31 @@
 
 import UIKit
 
-class DevMenuViewController: UITableViewController {
-
-    enum Sections: Int {
-        case start
-        case marketDetails
-        case components
-    }
+final class DevMenuViewController: UITableViewController {
     
-    enum Components: Int {
-        case pageViewController
-    }
+    @IBOutlet var fromMarketPairTextField: UITextField!
+    @IBOutlet var toMarketPairTextField: UITextField!
+    @IBOutlet weak var depthLimitTextField: UITextField!
+    @IBOutlet weak var aggLimitTextField: UITextField!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         clearsSelectionOnViewWillAppear = true
     }
     
+    // MARK: - UITableViewDataSource
+    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let section = Sections(rawValue: indexPath.section) else { return  }
         switch section {
         case .start:
-            navigationController?.pushViewController(MarketDetailViewController(), animated: true)
+            guard let marketPair = MarketPair(from: fromMarketPairTextField.text,
+                                              to: toMarketPairTextField.text)
+                else { return }
+            let vc = MarketDetailViewController(viewModel: MarketDetailViewModel(marketPair: marketPair),
+                                                orderBookViewModel: OrderBookViewModel(marketPair: marketPair),
+                                                marketHistoryViewModel: MarketHistoryViewModel(marketPair: marketPair))
+            navigationController?.pushViewController(vc, animated: true)
         case .marketDetails:
             break
         case .components:
@@ -42,3 +45,17 @@ class DevMenuViewController: UITableViewController {
     }
 }
 
+// MARK: - Enums
+
+extension DevMenuViewController {
+    
+    enum Sections: Int {
+        case start
+        case marketDetails
+        case components
+    }
+    
+    enum Components: Int {
+        case pageViewController
+    }
+}

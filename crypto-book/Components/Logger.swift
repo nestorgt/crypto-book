@@ -54,6 +54,7 @@ extension Log {
     enum Kind: String, CaseIterable {
         case devMenu = "Dev Menu"
         case page
+        case orderBook = "Order Book"
         case decoder
         case network
         case other

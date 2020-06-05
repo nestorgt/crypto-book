@@ -13,6 +13,7 @@
 * Architecture MVVM.
 * All view models & services uses dependency injection to allow creation of mocks in allow better testability. 
 * No 3rd party libraries.
+* FRP with Combine.
 
 ## Tests
 

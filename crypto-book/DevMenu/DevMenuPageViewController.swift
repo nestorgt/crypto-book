@@ -29,8 +29,8 @@ private extension DevMenuPageViewController {
     }
     
     func setupPageViewController() {
-        pageViewController = PageViewController(pages: [randomViewController(color: .red, title: "First"),
-                                                        randomViewController(color: .blue, title: "Second")])
+        pageViewController = PageViewController(childPages: [randomChildPage(color: .red, title: "First"),
+                                                             randomChildPage(color: .blue, title: "Second")])
         guard let pageViewController = pageViewController else { return }
         addChild(pageViewController)
         view.addSafeFillingSubview(pageViewController.view)
@@ -39,11 +39,11 @@ private extension DevMenuPageViewController {
     
     @objc func addChildPage() {
         Log.message("Adding new page", level: .debug, type: .devMenu)
-        pageViewController?.add(page: randomViewController())
+        pageViewController?.add(childPage: randomChildPage())
     }
     
-    func randomViewController(color: UIColor = .random(), title: String = String.random(length: 5)) -> UIViewController {
-        let vc = UIViewController()
+    func randomChildPage(color: UIColor = .random(), title: String = String.random(length: 5)) -> ChildPageViewController {
+        let vc = ChildPageViewControllerMock()
         vc.view.backgroundColor = color
         vc.title = title
         return vc

@@ -7,7 +7,15 @@
 //
 
 import Foundation
+import Combine
 
 final class MarketDetailViewModel {
+
+    @Published var marketPair: MarketPair
     
+    private var cancelables = Set<AnyCancellable>()
+    
+    init(marketPair: MarketPair) {
+        self.marketPair = marketPair
+    }
 }

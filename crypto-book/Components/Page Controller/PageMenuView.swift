@@ -8,11 +8,12 @@
 
 import UIKit
 
+/// Top bar of the Page View Controller that allows selection.
 final class PageMenuView: UIView {
 
-    static let height: CGFloat = 50
-    static let titleFont: UIFont = .systemFont(ofSize: 18)
-    static let selectedTitleFont: UIFont = .boldSystemFont(ofSize: 18)
+    static let height: CGFloat = 44
+    static let titleFont: UIFont = .systemFont(ofSize: 16)
+    static let selectedTitleFont: UIFont = .boldSystemFont(ofSize: 16)
     
     private let stackView = UIStackView()
     private var buttons: [UIButton] = []
@@ -98,8 +99,8 @@ private extension PageMenuView {
                          right: rightAnchor)
         selectorView.anchor(top: stackView.bottomAnchor,
                             bottom: bottomAnchor,
-                            widthConstant: 30,
-                            heightConstant: 3)
+                            widthConstant: 40,
+                            heightConstant: 2)
         
         buttons.forEach { [weak self] in self?.setup(button: $0) }
         
@@ -111,14 +112,14 @@ private extension PageMenuView {
     }
     
     func selectButton(_ button: UIButton, percentage: CGFloat) {
-        if percentage < 0.2 {
+        if percentage < 0.5 {
             button.setTitleColor(.systemYellow, for: .normal)
             button.titleLabel?.font = Self.selectedTitleFont
         }
     }
     
     func deselectButton(_ button: UIButton, percentage: CGFloat) {
-        if percentage < 0.8 {
+        if percentage < 0.5 {
             button.setTitleColor(.systemGray, for: .normal)
             button.titleLabel?.font = Self.titleFont
         }
