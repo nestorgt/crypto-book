@@ -21,7 +21,10 @@ final class DependencyInjector: DependencyInjectorProtocol {
     
     static let shared = DependencyInjector() // singleton
 
-    lazy var orderBookService: OrderBookServiceProtocol = OrderBookService()
+    /// A new instance is returned every time we call this.
+    var orderBookService: OrderBookServiceProtocol {
+        OrderBookService(webSocketService: WebSocketService())
+    }
         
     private init() { }
 }

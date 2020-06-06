@@ -70,7 +70,7 @@ private extension OrderBookViewController {
         $isActive
             .dropFirst()
             .sink { [weak self] in
-                $0 ? self?.viewModel.startLiveUpdates() : self?.viewModel.stopLiveUpdates() }
+                $0 ? self?.viewModel.startLiveUpdates() : self?.viewModel.pauseLiveUpdates() }
             .store(in: &cancelables)
     }
     

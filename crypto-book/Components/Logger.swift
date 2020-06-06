@@ -21,7 +21,7 @@ final class Log {
             else { return }
         os_log("%@",
                log: OSLog(subsystem: Bundle.main.bundleIdentifier ?? "",
-                          category: type.description),
+                          category: type.rawValue),
                type: level.oslogType,
                "\(message ?? "")")
     }
@@ -53,18 +53,14 @@ extension Log {
     /// Kind refers to the different sections of the app that could potentially send logs.
     enum Kind: String, CaseIterable {
         case devMenu = "Dev Menu"
-        case page
-        case orderBook = "Order Book"
-        case decoder
-        case network
-        case other
-        
-        var description: String {
-            if case self = Log.Kind.other {
-                return ""
-            } else {
-                return rawValue.capitalized
-            }
-        }
+        case page = "Page"
+        case orderBookViewModel = "Order Book ViewModel"
+        case orderBookService = "Order Book Service"
+        case marketHistoryViewModel = "Market History ViewModel"
+        case marketHistoryService = "Market History Service"
+        case parser = "Parser"
+        case network = "Network"
+        case websocket = "Web Socket"
+        case other = "Other"
     }
 }

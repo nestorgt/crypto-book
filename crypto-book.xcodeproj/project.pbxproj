@@ -49,6 +49,17 @@
 		8ED65017248B158E0044B32D /* OrderBookBidCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED65016248B158E0044B32D /* OrderBookBidCell.swift */; };
 		8ED65019248BBF550044B32D /* OrderBookHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED65018248BBF550044B32D /* OrderBookHeaderView.swift */; };
 		8ED6501C248BC1B10044B32D /* UIFont+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED6501B248BC1B10044B32D /* UIFont+.swift */; };
+		8ED6501E248BD2A40044B32D /* WebSocketService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED6501D248BD2A40044B32D /* WebSocketService.swift */; };
+		8ED65020248BE69B0044B32D /* BinanceWSRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED6501F248BE69B0044B32D /* BinanceWSRouter.swift */; };
+		8ED65023248BF0940044B32D /* WebSocketServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED65022248BF0940044B32D /* WebSocketServiceProtocol.swift */; };
+		8ED65025248BF0AA0044B32D /* WebSocketServiceDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED65024248BF0AA0044B32D /* WebSocketServiceDelegate.swift */; };
+		8ED65029248C0F460044B32D /* URLSessionWebSocketTaskMessage+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED65028248C0F460044B32D /* URLSessionWebSocketTaskMessage+.swift */; };
+		8ED6502B248C0FF70044B32D /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED6502A248C0FF70044B32D /* Parser.swift */; };
+		8ED6502D248C12170044B32D /* OrderBookDiff.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED6502C248C12170044B32D /* OrderBookDiff.swift */; };
+		8ED6502F248C12EA0044B32D /* BinanceWSError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED6502E248C12EA0044B32D /* BinanceWSError.swift */; };
+		8ED65032248C17220044B32D /* BinanceWSEventType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED65031248C17220044B32D /* BinanceWSEventType.swift */; };
+		8ED6503B248C19D30044B32D /* OrderBookDiffTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED6503A248C19D30044B32D /* OrderBookDiffTests.swift */; };
+		8ED6503D248C24430044B32D /* JSONDecoder+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED6503C248C24430044B32D /* JSONDecoder+.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -108,6 +119,17 @@
 		8ED65016248B158E0044B32D /* OrderBookBidCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderBookBidCell.swift; sourceTree = "<group>"; };
 		8ED65018248BBF550044B32D /* OrderBookHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderBookHeaderView.swift; sourceTree = "<group>"; };
 		8ED6501B248BC1B10044B32D /* UIFont+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+.swift"; sourceTree = "<group>"; };
+		8ED6501D248BD2A40044B32D /* WebSocketService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocketService.swift; sourceTree = "<group>"; };
+		8ED6501F248BE69B0044B32D /* BinanceWSRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BinanceWSRouter.swift; sourceTree = "<group>"; };
+		8ED65022248BF0940044B32D /* WebSocketServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocketServiceProtocol.swift; sourceTree = "<group>"; };
+		8ED65024248BF0AA0044B32D /* WebSocketServiceDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocketServiceDelegate.swift; sourceTree = "<group>"; };
+		8ED65028248C0F460044B32D /* URLSessionWebSocketTaskMessage+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSessionWebSocketTaskMessage+.swift"; sourceTree = "<group>"; };
+		8ED6502A248C0FF70044B32D /* Parser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
+		8ED6502C248C12170044B32D /* OrderBookDiff.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderBookDiff.swift; sourceTree = "<group>"; };
+		8ED6502E248C12EA0044B32D /* BinanceWSError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BinanceWSError.swift; sourceTree = "<group>"; };
+		8ED65031248C17220044B32D /* BinanceWSEventType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BinanceWSEventType.swift; sourceTree = "<group>"; };
+		8ED6503A248C19D30044B32D /* OrderBookDiffTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderBookDiffTests.swift; sourceTree = "<group>"; };
+		8ED6503C248C24430044B32D /* JSONDecoder+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "JSONDecoder+.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -131,8 +153,9 @@
 		8E6835302487DA9400D84F53 /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				8E92A295248805BD00D43828 /* Logger.swift */,
 				8EA6FF222487D72F00AC978E /* Page Controller */,
+				8E92A295248805BD00D43828 /* Logger.swift */,
+				8ED6502A248C0FF70044B32D /* Parser.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -157,15 +180,6 @@
 				8EA6AB43248A99990017FE63 /* Market History */,
 			);
 			path = "Market Detail";
-			sourceTree = "<group>";
-		};
-		8EA6AB3D248A84F70017FE63 /* Extensions */ = {
-			isa = PBXGroup;
-			children = (
-				8EA6AB3E248A85020017FE63 /* ArrayTests.swift */,
-				8ED65005248AD0F60044B32D /* DoubleTests.swift */,
-			);
-			name = Extensions;
 			sourceTree = "<group>";
 		};
 		8EA6AB42248A998D0017FE63 /* Order Book */ = {
@@ -236,7 +250,8 @@
 		8EA6FF0E2487BE8500AC978E /* crypto-bookTests */ = {
 			isa = PBXGroup;
 			children = (
-				8EA6AB3D248A84F70017FE63 /* Extensions */,
+				8ED65039248C19C40044B32D /* Models */,
+				8ED65035248C19A40044B32D /* Extensions */,
 				8EA6FF0F2487BE8500AC978E /* crypto_bookTests.swift */,
 				8EA6FF212487BF0B00AC978E /* Supporting Files */,
 			);
@@ -254,6 +269,8 @@
 				8E92A29B2488409500D43828 /* Int+.swift */,
 				8EA6AB3B248A84D20017FE63 /* Localizable+.swift */,
 				8ED65003248AD0B00044B32D /* Double+.swift */,
+				8ED65028248C0F460044B32D /* URLSessionWebSocketTaskMessage+.swift */,
+				8ED6503C248C24430044B32D /* JSONDecoder+.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -262,7 +279,8 @@
 			isa = PBXGroup;
 			children = (
 				8ED6500E248ADF9B0044B32D /* DependencyInjector.swift */,
-				8ED6500B248ADF340044B32D /* Order Book */,
+				8ED65021248BF0830044B32D /* WebSocket */,
+				8ED65009248ADF2D0044B32D /* OrderBookService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -280,6 +298,7 @@
 			children = (
 				8EA6AB40248A97ED0017FE63 /* MarketPair.swift */,
 				8ED65007248ADE460044B32D /* OrderBook.swift */,
+				8ED6502C248C12170044B32D /* OrderBookDiff.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -313,14 +332,6 @@
 			path = "Page Controller";
 			sourceTree = "<group>";
 		};
-		8ED6500B248ADF340044B32D /* Order Book */ = {
-			isa = PBXGroup;
-			children = (
-				8ED65009248ADF2D0044B32D /* OrderBookService.swift */,
-			);
-			path = "Order Book";
-			sourceTree = "<group>";
-		};
 		8ED6501A248BBF640044B32D /* Cell */ = {
 			isa = PBXGroup;
 			children = (
@@ -330,6 +341,44 @@
 				8EA6AB4E248AA6E60017FE63 /* OrderBookCellViewModel.swift */,
 			);
 			path = Cell;
+			sourceTree = "<group>";
+		};
+		8ED65021248BF0830044B32D /* WebSocket */ = {
+			isa = PBXGroup;
+			children = (
+				8ED65022248BF0940044B32D /* WebSocketServiceProtocol.swift */,
+				8ED65024248BF0AA0044B32D /* WebSocketServiceDelegate.swift */,
+				8ED6501D248BD2A40044B32D /* WebSocketService.swift */,
+				8ED65030248C13580044B32D /* Binance WebSocket */,
+			);
+			path = WebSocket;
+			sourceTree = "<group>";
+		};
+		8ED65030248C13580044B32D /* Binance WebSocket */ = {
+			isa = PBXGroup;
+			children = (
+				8ED6501F248BE69B0044B32D /* BinanceWSRouter.swift */,
+				8ED6502E248C12EA0044B32D /* BinanceWSError.swift */,
+				8ED65031248C17220044B32D /* BinanceWSEventType.swift */,
+			);
+			path = "Binance WebSocket";
+			sourceTree = "<group>";
+		};
+		8ED65035248C19A40044B32D /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				8EA6AB3E248A85020017FE63 /* ArrayTests.swift */,
+				8ED65005248AD0F60044B32D /* DoubleTests.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		8ED65039248C19C40044B32D /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				8ED6503A248C19D30044B32D /* OrderBookDiffTests.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -439,25 +488,35 @@
 				8EA6AB4B248A99F80017FE63 /* MarketHistoryViewModel.swift in Sources */,
 				8ED65013248AF8260044B32D /* ChildPageViewControllerMock.swift in Sources */,
 				8E92A296248805BD00D43828 /* Logger.swift in Sources */,
+				8ED65020248BE69B0044B32D /* BinanceWSRouter.swift in Sources */,
 				8ED6500A248ADF2D0044B32D /* OrderBookService.swift in Sources */,
+				8ED6502D248C12170044B32D /* OrderBookDiff.swift in Sources */,
 				8ED65015248B14530044B32D /* OrderBookAskCell.swift in Sources */,
 				8ED6500F248ADF9B0044B32D /* DependencyInjector.swift in Sources */,
+				8ED65029248C0F460044B32D /* URLSessionWebSocketTaskMessage+.swift in Sources */,
 				8ED65017248B158E0044B32D /* OrderBookBidCell.swift in Sources */,
 				8EA6AB4D248AA4BD0017FE63 /* OrderBookTableView.swift in Sources */,
 				8E92A29C2488409500D43828 /* Int+.swift in Sources */,
+				8ED6502B248C0FF70044B32D /* Parser.swift in Sources */,
+				8ED6501E248BD2A40044B32D /* WebSocketService.swift in Sources */,
 				8EA6AB45248A99BA0017FE63 /* MarketHistoryViewController.swift in Sources */,
 				8E92A28C2487EB7300D43828 /* Array+.swift in Sources */,
+				8ED6502F248C12EA0044B32D /* BinanceWSError.swift in Sources */,
+				8ED65025248BF0AA0044B32D /* WebSocketServiceDelegate.swift in Sources */,
 				8E92A2902487EF3700D43828 /* DevMenuPageViewController.swift in Sources */,
 				8E92A28E2487ED2200D43828 /* UIView+.swift in Sources */,
 				8EA6FEF92487BE8400AC978E /* AppDelegate.swift in Sources */,
 				8EA6FEFB2487BE8400AC978E /* SceneDelegate.swift in Sources */,
 				8E6835322487DAD700D84F53 /* PageViewController.swift in Sources */,
+				8ED65023248BF0940044B32D /* WebSocketServiceProtocol.swift in Sources */,
 				8ED65002248AC9EC0044B32D /* OrderBookTableType.swift in Sources */,
 				8ED6501C248BC1B10044B32D /* UIFont+.swift in Sources */,
+				8ED65032248C17220044B32D /* BinanceWSEventType.swift in Sources */,
 				8ED65004248AD0B00044B32D /* Double+.swift in Sources */,
 				8EA6AB51248AA6EE0017FE63 /* OrderBookCell.swift in Sources */,
 				8ED65019248BBF550044B32D /* OrderBookHeaderView.swift in Sources */,
 				8EA6AB3C248A84D20017FE63 /* Localizable+.swift in Sources */,
+				8ED6503D248C24430044B32D /* JSONDecoder+.swift in Sources */,
 				8E92A2A124886AA600D43828 /* MarketDetailViewController.swift in Sources */,
 				8E92A2A324886AAF00D43828 /* MarketDetailViewModel.swift in Sources */,
 				8ED65008248ADE460044B32D /* OrderBook.swift in Sources */,
@@ -478,6 +537,7 @@
 			files = (
 				8EA6FF102487BE8500AC978E /* crypto_bookTests.swift in Sources */,
 				8ED65006248AD0F60044B32D /* DoubleTests.swift in Sources */,
+				8ED6503B248C19D30044B32D /* OrderBookDiffTests.swift in Sources */,
 				8EA6AB3F248A85020017FE63 /* ArrayTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
