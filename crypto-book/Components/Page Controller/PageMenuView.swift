@@ -12,8 +12,8 @@ import UIKit
 final class PageMenuView: UIView {
 
     static let height: CGFloat = 44
-    static let titleFont: UIFont = .systemFont(ofSize: 16)
-    static let selectedTitleFont: UIFont = .boldSystemFont(ofSize: 16)
+    static let titleFont: UIFont = .binanceTitle
+    static let selectedTitleFont: UIFont = .binanceSelectedTitle
     
     private let stackView = UIStackView()
     private var buttons: [UIButton] = []
@@ -113,14 +113,14 @@ private extension PageMenuView {
     
     func selectButton(_ button: UIButton, percentage: CGFloat) {
         if percentage < 0.5 {
-            button.setTitleColor(.systemYellow, for: .normal)
+            button.setTitleColor(.binanceYellow, for: .normal)
             button.titleLabel?.font = Self.selectedTitleFont
         }
     }
     
     func deselectButton(_ button: UIButton, percentage: CGFloat) {
         if percentage < 0.5 {
-            button.setTitleColor(.systemGray, for: .normal)
+            button.setTitleColor(.binanceGray, for: .normal)
             button.titleLabel?.font = Self.titleFont
         }
     }
@@ -133,7 +133,7 @@ private extension PageMenuView {
     static func createButton(with title: String) -> UIButton {
         let button = UIButton()
         button.setTitle(title, for: .normal)
-        button.setTitleColor(.systemGray, for: .normal)
+        button.setTitleColor(.binanceGray, for: .normal)
         button.titleLabel?.adjustsFontSizeToFitWidth = true
         button.titleLabel?.minimumScaleFactor = 0.50
         button.titleLabel?.textAlignment = .center

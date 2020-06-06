@@ -29,7 +29,7 @@
 		8EA6AB4B248A99F80017FE63 /* MarketHistoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EA6AB4A248A99F80017FE63 /* MarketHistoryViewModel.swift */; };
 		8EA6AB4D248AA4BD0017FE63 /* OrderBookTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EA6AB4C248AA4BD0017FE63 /* OrderBookTableView.swift */; };
 		8EA6AB4F248AA6E60017FE63 /* OrderBookCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EA6AB4E248AA6E60017FE63 /* OrderBookCellViewModel.swift */; };
-		8EA6AB51248AA6EE0017FE63 /* OrderBookBidCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EA6AB50248AA6EE0017FE63 /* OrderBookBidCell.swift */; };
+		8EA6AB51248AA6EE0017FE63 /* OrderBookCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EA6AB50248AA6EE0017FE63 /* OrderBookCell.swift */; };
 		8EA6FEF92487BE8400AC978E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EA6FEF82487BE8400AC978E /* AppDelegate.swift */; };
 		8EA6FEFB2487BE8400AC978E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EA6FEFA2487BE8400AC978E /* SceneDelegate.swift */; };
 		8EA6FEFD2487BE8400AC978E /* DevMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EA6FEFC2487BE8400AC978E /* DevMenuViewController.swift */; };
@@ -45,6 +45,10 @@
 		8ED6500F248ADF9B0044B32D /* DependencyInjector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED6500E248ADF9B0044B32D /* DependencyInjector.swift */; };
 		8ED65011248AF47E0044B32D /* ChildPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED65010248AF47E0044B32D /* ChildPageViewController.swift */; };
 		8ED65013248AF8260044B32D /* ChildPageViewControllerMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED65012248AF8260044B32D /* ChildPageViewControllerMock.swift */; };
+		8ED65015248B14530044B32D /* OrderBookAskCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED65014248B14530044B32D /* OrderBookAskCell.swift */; };
+		8ED65017248B158E0044B32D /* OrderBookBidCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED65016248B158E0044B32D /* OrderBookBidCell.swift */; };
+		8ED65019248BBF550044B32D /* OrderBookHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED65018248BBF550044B32D /* OrderBookHeaderView.swift */; };
+		8ED6501C248BC1B10044B32D /* UIFont+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED6501B248BC1B10044B32D /* UIFont+.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -80,7 +84,7 @@
 		8EA6AB4A248A99F80017FE63 /* MarketHistoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketHistoryViewModel.swift; sourceTree = "<group>"; };
 		8EA6AB4C248AA4BD0017FE63 /* OrderBookTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderBookTableView.swift; sourceTree = "<group>"; };
 		8EA6AB4E248AA6E60017FE63 /* OrderBookCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderBookCellViewModel.swift; sourceTree = "<group>"; };
-		8EA6AB50248AA6EE0017FE63 /* OrderBookBidCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderBookBidCell.swift; sourceTree = "<group>"; };
+		8EA6AB50248AA6EE0017FE63 /* OrderBookCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderBookCell.swift; sourceTree = "<group>"; };
 		8EA6FEF52487BE8400AC978E /* crypto-book.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "crypto-book.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8EA6FEF82487BE8400AC978E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8EA6FEFA2487BE8400AC978E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -100,6 +104,10 @@
 		8ED6500E248ADF9B0044B32D /* DependencyInjector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DependencyInjector.swift; sourceTree = "<group>"; };
 		8ED65010248AF47E0044B32D /* ChildPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChildPageViewController.swift; sourceTree = "<group>"; };
 		8ED65012248AF8260044B32D /* ChildPageViewControllerMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChildPageViewControllerMock.swift; sourceTree = "<group>"; };
+		8ED65014248B14530044B32D /* OrderBookAskCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderBookAskCell.swift; sourceTree = "<group>"; };
+		8ED65016248B158E0044B32D /* OrderBookBidCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderBookBidCell.swift; sourceTree = "<group>"; };
+		8ED65018248BBF550044B32D /* OrderBookHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderBookHeaderView.swift; sourceTree = "<group>"; };
+		8ED6501B248BC1B10044B32D /* UIFont+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -182,10 +190,10 @@
 		8EA6AB52248AA8140017FE63 /* Table */ = {
 			isa = PBXGroup;
 			children = (
-				8ED65001248AC9EC0044B32D /* OrderBookTableType.swift */,
 				8EA6AB4C248AA4BD0017FE63 /* OrderBookTableView.swift */,
-				8EA6AB50248AA6EE0017FE63 /* OrderBookBidCell.swift */,
-				8EA6AB4E248AA6E60017FE63 /* OrderBookCellViewModel.swift */,
+				8ED65001248AC9EC0044B32D /* OrderBookTableType.swift */,
+				8ED65018248BBF550044B32D /* OrderBookHeaderView.swift */,
+				8ED6501A248BBF640044B32D /* Cell */,
 			);
 			path = Table;
 			sourceTree = "<group>";
@@ -241,6 +249,7 @@
 				8E92A28B2487EB7300D43828 /* Array+.swift */,
 				8E92A28D2487ED2200D43828 /* UIView+.swift */,
 				8E92A2912487F18E00D43828 /* UIColor+.swift */,
+				8ED6501B248BC1B10044B32D /* UIFont+.swift */,
 				8E92A2992488405F00D43828 /* String+.swift */,
 				8E92A29B2488409500D43828 /* Int+.swift */,
 				8EA6AB3B248A84D20017FE63 /* Localizable+.swift */,
@@ -310,6 +319,17 @@
 				8ED65009248ADF2D0044B32D /* OrderBookService.swift */,
 			);
 			path = "Order Book";
+			sourceTree = "<group>";
+		};
+		8ED6501A248BBF640044B32D /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				8EA6AB50248AA6EE0017FE63 /* OrderBookCell.swift */,
+				8ED65016248B158E0044B32D /* OrderBookBidCell.swift */,
+				8ED65014248B14530044B32D /* OrderBookAskCell.swift */,
+				8EA6AB4E248AA6E60017FE63 /* OrderBookCellViewModel.swift */,
+			);
+			path = Cell;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -420,7 +440,9 @@
 				8ED65013248AF8260044B32D /* ChildPageViewControllerMock.swift in Sources */,
 				8E92A296248805BD00D43828 /* Logger.swift in Sources */,
 				8ED6500A248ADF2D0044B32D /* OrderBookService.swift in Sources */,
+				8ED65015248B14530044B32D /* OrderBookAskCell.swift in Sources */,
 				8ED6500F248ADF9B0044B32D /* DependencyInjector.swift in Sources */,
+				8ED65017248B158E0044B32D /* OrderBookBidCell.swift in Sources */,
 				8EA6AB4D248AA4BD0017FE63 /* OrderBookTableView.swift in Sources */,
 				8E92A29C2488409500D43828 /* Int+.swift in Sources */,
 				8EA6AB45248A99BA0017FE63 /* MarketHistoryViewController.swift in Sources */,
@@ -431,8 +453,10 @@
 				8EA6FEFB2487BE8400AC978E /* SceneDelegate.swift in Sources */,
 				8E6835322487DAD700D84F53 /* PageViewController.swift in Sources */,
 				8ED65002248AC9EC0044B32D /* OrderBookTableType.swift in Sources */,
+				8ED6501C248BC1B10044B32D /* UIFont+.swift in Sources */,
 				8ED65004248AD0B00044B32D /* Double+.swift in Sources */,
-				8EA6AB51248AA6EE0017FE63 /* OrderBookBidCell.swift in Sources */,
+				8EA6AB51248AA6EE0017FE63 /* OrderBookCell.swift in Sources */,
+				8ED65019248BBF550044B32D /* OrderBookHeaderView.swift in Sources */,
 				8EA6AB3C248A84D20017FE63 /* Localizable+.swift in Sources */,
 				8E92A2A124886AA600D43828 /* MarketDetailViewController.swift in Sources */,
 				8E92A2A324886AAF00D43828 /* MarketDetailViewModel.swift in Sources */,

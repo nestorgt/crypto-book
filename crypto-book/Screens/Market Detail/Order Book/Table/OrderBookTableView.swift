@@ -10,7 +10,6 @@ import UIKit
 
 final class OrderBookTableView: UITableView {
     
-    static let cellHeight: CGFloat = 20
     var numberOfCells: Int = 20
     
     private var type: OrderBookTableType
@@ -48,7 +47,9 @@ private extension OrderBookTableView {
     
     func setup() {
         separatorStyle = .none
-        rowHeight = Self.cellHeight
+        rowHeight = OrderBookCell.height
         register(type.cellClass, forCellReuseIdentifier: type.cellIdentifier)
+        allowsSelection = false
+        tableHeaderView = OrderBookHeaderView(type: type)
     }
 }

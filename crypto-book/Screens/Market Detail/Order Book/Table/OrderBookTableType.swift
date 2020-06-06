@@ -17,20 +17,25 @@ enum OrderBookTableType {
     }
     
     var amountLabelColor: UIColor {
-        .systemGray6
+        UIColor.label.withAlphaComponent(0.8)
     }
     
     var priceLabelColor: UIColor {
         switch self {
         case .bid:
-            return .systemGreen
+            return .binanceBid
         case .ask:
-            return .systemRed
+            return .binanceAsk
         }
     }
     
     var backgroundProgressColor: UIColor {
-        priceLabelColor.withAlphaComponent(0.5)
+        switch self {
+        case .bid:
+            return .binanceBidBackground
+        case .ask:
+            return .binanceAskBackground
+        }
     }
     
     var cellClass: AnyClass {
@@ -38,7 +43,7 @@ enum OrderBookTableType {
         case .bid:
             return OrderBookBidCell.self
         case .ask:
-            return OrderBookBidCell.self // CHANGE
+            return OrderBookAskCell.self
         }
     }
     
@@ -47,7 +52,7 @@ enum OrderBookTableType {
         case .bid:
             return OrderBookBidCell.identifier
         case .ask:
-            return OrderBookBidCell.identifier // CHANGE
+            return OrderBookAskCell.identifier
         }
     }
 }

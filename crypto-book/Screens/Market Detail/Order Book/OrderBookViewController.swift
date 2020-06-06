@@ -11,6 +11,8 @@ import Combine
 
 final class OrderBookViewController: UIViewController, ChildPageViewController {
 
+    static let marginBetweenTables: CGFloat = 1
+    
     private let viewModel: OrderBookViewModel
     
     private let bidTableView = OrderBookTableView(type: .bid)
@@ -34,8 +36,8 @@ final class OrderBookViewController: UIViewController, ChildPageViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
-        setupViewModel()
         setupDataSources()
+        setupViewModel()
     }
     
     // MARK: - ChildPageViewController
@@ -48,8 +50,6 @@ final class OrderBookViewController: UIViewController, ChildPageViewController {
 private extension OrderBookViewController {
     
     func setupViews() {
-        bidTableView.backgroundColor = .red
-        askTableView.backgroundColor = .green
         let tables = [bidTableView, askTableView]
         tables.forEach {
             $0.isScrollEnabled = false
@@ -63,7 +63,7 @@ private extension OrderBookViewController {
         askTableView.anchor(top: view.topAnchor,
                             bottom: view.bottomAnchor,
                             right: view.rightAnchor)
-        bidTableView.anchor(right: askTableView.leftAnchor, rightMargin: 2, priority: .defaultLow)
+        bidTableView.anchor(widthConstant: (view.frame.width / 2) - Self.marginBetweenTables)
     }
     
     func setupViewModel() {
@@ -86,7 +86,7 @@ private extension OrderBookViewController {
         askDataSource = UITableViewDiffableDataSource<Int, OrderBookCellViewModel>(tableView: askTableView)
         { tableView, indexPath, cellViewModel in
             guard let cell = tableView
-                .dequeueReusableCell(withIdentifier: OrderBookBidCell.identifier) as? OrderBookBidCell // CHANGE
+                .dequeueReusableCell(withIdentifier: OrderBookAskCell.identifier) as? OrderBookAskCell
                 else { return UITableViewCell() }
             cell.setup(with: cellViewModel)
             return cell
@@ -100,8 +100,7 @@ private extension OrderBookViewController {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] snapshot in
                 guard let snapshot = snapshot else { return }
-                let shouldAnimate = self?.bidTableView.numberOfSections != 0
-                self?.bidDataSource?.apply(snapshot, animatingDifferences: shouldAnimate, completion: nil) }
+                self?.bidDataSource?.apply(snapshot, animatingDifferences: false, completion: nil) }
             .store(in: &cancelables)
         
         viewModel
@@ -109,8 +108,7 @@ private extension OrderBookViewController {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] snapshot in
                 guard let snapshot = snapshot else { return }
-                let shouldAnimate = self?.askTableView.numberOfSections != 0
-                self?.askDataSource?.apply(snapshot, animatingDifferences: shouldAnimate, completion: nil) }
+                self?.askDataSource?.apply(snapshot, animatingDifferences: false, completion: nil) }
             .store(in: &cancelables)
     }
 }
