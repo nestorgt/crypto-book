@@ -18,6 +18,7 @@ final class PageMenuView: UIView {
     private let stackView = UIStackView()
     private var buttons: [UIButton] = []
     private let selectorView = UIView()
+    private let separatorView = UIView()
     
     private var centerSelectorConstriant: NSLayoutConstraint?
     
@@ -92,8 +93,10 @@ private extension PageMenuView {
         
         selectorView.backgroundColor = .binanceYellow
         selectorView.layer.cornerRadius = 5
+        
+        separatorView.backgroundColor = UIColor.binanceGray6.withAlphaComponent(0.5)
 
-        addSubviews([stackView, selectorView])
+        addSubviews([stackView, separatorView, selectorView])
         stackView.anchor(top: topAnchor,
                          left: leftAnchor,
                          right: rightAnchor)
@@ -101,6 +104,10 @@ private extension PageMenuView {
                             bottom: bottomAnchor,
                             widthConstant: 40,
                             heightConstant: 2)
+        separatorView.anchor(bottom: bottomAnchor,
+                             left: leftAnchor,
+                             right: rightAnchor,
+                             heightConstant: 1)
         
         buttons.forEach { [weak self] in self?.setup(button: $0) }
         
