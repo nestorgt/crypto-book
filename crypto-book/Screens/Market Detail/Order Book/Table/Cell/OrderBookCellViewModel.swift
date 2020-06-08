@@ -14,7 +14,7 @@ struct OrderBookCellViewModel: Hashable {
     let amount: Double
     
     /// Represents the backfround progress view. Value between `0` and `1`.
-    let progress: Double = .random(in: 0...1)
+    let progress: Double
     
     // MARK: - Helpers
     
@@ -26,7 +26,6 @@ struct OrderBookCellViewModel: Hashable {
     
     var amountString: String {
         amount
-            .rounding(decimals: 1)
             .toString()
     }
 }

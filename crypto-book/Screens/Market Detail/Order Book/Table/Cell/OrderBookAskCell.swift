@@ -13,10 +13,12 @@ final class OrderBookAskCell: OrderBookCell {
     static let identifier = "ask-cell-identifier"
     
     override func setup(with viewModel: OrderBookCellViewModel) {
+        super.setup(with: viewModel)
+        
         leftLabel.text = viewModel.priceString
         rightLabel.text = viewModel.amountString
         
-        super.setup(with: viewModel)
+        progressView.progress = Float(viewModel.progress)
     }
     
     override func setupViews() {
@@ -25,13 +27,9 @@ final class OrderBookAskCell: OrderBookCell {
         let type = OrderBookTableType.ask
         leftLabel.textColor = type.priceLabelColor
         rightLabel.textColor = type.amountLabelColor
-        progressView.backgroundColor = type.backgroundProgressColor
+        progressView.progressTintColor = type.backgroundProgressColor
         
         stackView.anchor(left: contentView.leftAnchor, leftMargin: OrderBookCell.standardMargin,
                          right: contentView.rightAnchor, rightMargin: OrderBookCell.bigMargin)
-        
-        progressViewConstraint = progressView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0)
-        progressViewConstraint?.isActive = true
-        progressView.anchor(left: contentView.leftAnchor)
     }
 }

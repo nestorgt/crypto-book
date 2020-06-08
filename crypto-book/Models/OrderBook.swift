@@ -9,12 +9,15 @@
 import Foundation
 
 /// Order book model from API
-struct OrderBook: CustomStringConvertible {
-    let lastUpdateId: TimeInterval
-    let bids: [Offer]
-    let asks: [Offer]
-    
-    // MARK: - Decodable
+struct OrderBook: CustomStringConvertible, Equatable {
+    var lastUpdateId: UInt64
+    var bids: [Offer]
+    var asks: [Offer]
+}
+
+// MARK: - Decodable
+
+extension OrderBook: Decodable {
     
     /*
     {
@@ -42,23 +45,17 @@ struct OrderBook: CustomStringConvertible {
     }
     */
     
-    struct Offer: Equatable, CustomStringConvertible {
-        let price: Double
-        let amount: Double
-        
-        static func make(from array: [[String]]) -> [OrderBook.Offer] {
-            array.compactMap { pair in
-                guard let priceString = pair[safe: 0], let amountString = pair[safe: 1],
-                    let price = Double(priceString), let amount = Double(amountString) else {
-                        return nil
-                }
-                return OrderBook.Offer(price: price, amount: amount)
-            }
-        }
-        
-        var description: String {
-            "(price: \(price), amount: \(amount))"
-        }
+    public init(from decoder: Decoder) throws {
+        let keyedContainer = try decoder.container(keyedBy: CodingKeys.self)
+        lastUpdateId = try keyedContainer.decode(UInt64.self, forKey: .lastUpdateId)
+        let bidsArray = try keyedContainer.decode([[String]].self, forKey: .bids)
+        bids = OrderBook.Offer.make(from: bidsArray)
+        let asksArray = try keyedContainer.decode([[String]].self, forKey: .asks)
+        asks = OrderBook.Offer.make(from: asksArray)
+    }
+    
+    enum CodingKeys: String, CodingKey {
+        case lastUpdateId, bids, asks
     }
     
     var description: String {

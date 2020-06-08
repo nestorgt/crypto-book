@@ -15,11 +15,9 @@ class OrderBookCell: UITableViewCell {
     static let bigMargin: CGFloat = 8
     
     let stackView = UIStackView()
-    let progressView = UIView()
+    let progressView = UIProgressView()
     let leftLabel = UILabel()
     let rightLabel = UILabel()
-    
-    var progressViewConstraint: NSLayoutConstraint?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -32,22 +30,14 @@ class OrderBookCell: UITableViewCell {
     }
     
     func setup(with viewModel: OrderBookCellViewModel) {
-        setNeedsLayout()
-        layoutIfNeeded()
         
-        progressViewConstraint?.isActive = false
-        progressViewConstraint = progressView.widthAnchor.constraint(equalTo: contentView.widthAnchor,
-                                                                     multiplier: CGFloat(viewModel.progress))
-        progressViewConstraint?.isActive = true
-        UIView.animate(withDuration: 0.3) {
-            self.contentView.layoutIfNeeded()
-        }
     }
     
     func setupViews() {
         leftLabel.font = .binanceTableCell
         rightLabel.textAlignment = .right
         rightLabel.font = .binanceTableCell
+        progressView.trackTintColor = .clear
         
         stackView.distribution = .fillEqually
         stackView.spacing = 10
@@ -58,6 +48,8 @@ class OrderBookCell: UITableViewCell {
                          bottom: contentView.bottomAnchor)
         
         progressView.anchor(top: contentView.topAnchor,
-                            bottom: contentView.bottomAnchor)
+                            bottom: contentView.bottomAnchor,
+                            left: contentView.leftAnchor,
+                            right: contentView.rightAnchor)
     }
 }

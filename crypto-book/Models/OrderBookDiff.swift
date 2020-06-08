@@ -1,5 +1,5 @@
 //
-//  OrderBookDiff.swift
+//  OrderBook.Diff.swift
 //  crypto-book
 //
 //  Created by Nestor Garcia on 06/06/2020.
@@ -8,17 +8,22 @@
 
 import Foundation
 
-/// Order book depth diff from WebSocket
-struct OrderBookDiff: Decodable {
+extension OrderBook {
+ 
+    /// Order book depth diff from WebSocket
+    struct Diff {
+        let eventType: BinanceWSEventType
+        let eventTimeInterval: TimeInterval
+        let symbol: String
+        let firstUpdateId: UInt64
+        let finalUpdateId: UInt64
+        let bids: [OrderBook.Offer]
+        let asks: [OrderBook.Offer]
+    }
+}
     
-    let eventType: BinanceWSEventType
-    let eventTimeInterval: TimeInterval
-    let symbol: String
-    let firstUpdateId: UInt64
-    let finalUpdateId: UInt64
-    let bids: [OrderBook.Offer]
-    let asks: [OrderBook.Offer]
-    
+extension OrderBook.Diff: Decodable {
+        
     // MARK: - Decodable
     
     /*

@@ -56,10 +56,11 @@ extension Log {
         case page = "Page"
         case orderBookViewModel = "Order Book ViewModel"
         case orderBookService = "Order Book Service"
+        case orderBook
         case marketHistoryViewModel = "Market History ViewModel"
         case marketHistoryService = "Market History Service"
         case parser = "Parser"
-        case network = "Network"
+        case api = "API"
         case websocket = "Web Socket"
         case other = "Other"
     }

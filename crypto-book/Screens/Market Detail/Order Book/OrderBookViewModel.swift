@@ -25,24 +25,15 @@ final class OrderBookViewModel {
     
     private var cancelables = Set<AnyCancellable>()
     
-    init(marketPair: MarketPair,
-         orderBookService: OrderBookServiceProtocol = DI.orderBookService) {
+    init(marketPair: MarketPair) {
         self.marketPair = marketPair
-        self.orderBookService = orderBookService
+        self.orderBookService = OrderBookService(marketPair: marketPair)
         setupBindings()
     }
     
     func startLiveUpdates() {
         Log.message("START Live Updates", level: .info, type: .orderBookViewModel)
         orderBookService.resumeLiveUpdates()
-//        orderBookService.orderBookSnapshot()
-//            .sink(receiveCompletion: { orderBookError in
-//                Log.message("Error Order Book \(orderBookError)", level: .error, type: .orderBookViewModel)
-//            }, receiveValue: { [weak self] orderBook in
-//                Log.message("Received Order Book: \(orderBook)", level: .debug, type: .orderBookViewModel)
-//                self?.updateDataSnapshots(with: orderBook)
-//            })
-//            .store(in: &cancelables)
     }
     
     func pauseLiveUpdates() {
@@ -58,51 +49,47 @@ final class OrderBookViewModel {
 private extension OrderBookViewModel {
     
     func setupBindings() {
-        orderBookService.liveUpdates
+        orderBookService.orderBookPublisher
             .sink(receiveCompletion: { orderBookError in
-                Log.message("Error Order Book Diff: \(orderBookError)", level: .debug, type: .orderBookViewModel)
-            }, receiveValue: { [weak self] orderBookDiff in
-                Log.message("Received Order Book Diff: \(orderBookDiff)", level: .debug, type: .orderBookViewModel)
-                self?.updateDataSnapshots(with: orderBookDiff)
+                Log.message("Commpleted, error?: \(orderBookError)",
+                    level: .debug, type: .orderBookViewModel)
+            }, receiveValue: { [weak self] orderBook in
+                Log.message("OrderBook.lastUpdateId: \(orderBook?.lastUpdateId ?? 0)",
+                    level: .debug, type: .orderBookViewModel)
+                self?.updateDataSnapshots(with: orderBook)
             })
             .store(in: &cancelables)
     }
     
-    func updateDataSnapshots(with orderBook: OrderBook) {
-        let bidModels = orderBook.bids.map {
-            OrderBookCellViewModel(price: $0.price, pricePrecision: pricePrecision, amount: $0.amount)
+    func updateDataSnapshots(with orderBook: OrderBook?) {
+        guard let orderBook = orderBook else { return }
+        let numberOfElements = OrderBookTableView.numberOfCells
+        let maxMinData = orderBook.maxMinData(prefixElements: numberOfElements)
+        
+        let bidModels = orderBook.bids.prefix(numberOfElements).map { bid -> OrderBookCellViewModel in
+            let progress = OrderBook.bidWeight(for: bid.amount, with: maxMinData)
+            return OrderBookCellViewModel(price: bid.price,
+                                   pricePrecision: pricePrecision,
+                                   amount: bid.amount,
+                                   progress: progress)
         }
         var bidSnapshot = NSDiffableDataSourceSnapshot<Int, OrderBookCellViewModel>()
         bidSnapshot.appendSections([0])
         bidSnapshot.appendItems(bidModels)
         bidDataSnapshot = bidSnapshot
 //        Log.message("Bid Offer Models: \(bidModels)", level: .info, type: .orderBookViewModel)
-        
-        let askModels = orderBook.asks.map {
-            OrderBookCellViewModel(price: $0.price, pricePrecision: pricePrecision, amount: $0.amount)
+
+        let askModels = orderBook.asks.prefix(numberOfElements).map { ask -> OrderBookCellViewModel in
+            let progress = OrderBook.askWeight(for: ask.amount, with: maxMinData)
+            return OrderBookCellViewModel(price: ask.price,
+                                   pricePrecision: pricePrecision,
+                                   amount: ask.amount,
+                                   progress: progress)
         }
         var askSnapshot = NSDiffableDataSourceSnapshot<Int, OrderBookCellViewModel>()
         askSnapshot.appendSections([0])
         askSnapshot.appendItems(askModels)
         askDataSnapshot = askSnapshot
 //        Log.message("Ask Offer Models: \(askModels)", level: .info, type: .orderBookViewModel)
-    }
-    
-    func updateDataSnapshots(with orderBookDiff: OrderBookDiff) {
-        let bidModels = orderBookDiff.bids.map {
-            OrderBookCellViewModel(price: $0.price, pricePrecision: pricePrecision, amount: $0.amount)
-        }
-        var bidSnapshot = NSDiffableDataSourceSnapshot<Int, OrderBookCellViewModel>()
-        bidSnapshot.appendSections([0])
-        bidSnapshot.appendItems(bidModels)
-        bidDataSnapshot = bidSnapshot
-        
-        let askModels = orderBookDiff.asks.map {
-            OrderBookCellViewModel(price: $0.price, pricePrecision: pricePrecision, amount: $0.amount)
-        }
-        var askSnapshot = NSDiffableDataSourceSnapshot<Int, OrderBookCellViewModel>()
-        askSnapshot.appendSections([0])
-        askSnapshot.appendItems(askModels)
-        askDataSnapshot = askSnapshot
     }
 }

@@ -13,6 +13,14 @@ struct MarketPair {
     let from: String
     let to: String
     
+    var apiSymbol: String {
+        "\(from)\(to)".uppercased()
+    }
+    
+    var webScoketSymbol: String {
+        "\(from)\(to)".lowercased()
+    }
+    
     var description: String {
         "\(from) / \(to)"
     }

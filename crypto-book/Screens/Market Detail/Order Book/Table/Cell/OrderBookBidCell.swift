@@ -13,10 +13,12 @@ final class OrderBookBidCell: OrderBookCell {
     static let identifier = "bid-cell-identifier"
     
     override func setup(with viewModel: OrderBookCellViewModel) {
+        super.setup(with: viewModel)
+        
         leftLabel.text = viewModel.amountString
         rightLabel.text = viewModel.priceString
         
-        super.setup(with: viewModel)
+        progressView.progress = Float(viewModel.progress)
     }
     
     override func setupViews() {
@@ -25,13 +27,10 @@ final class OrderBookBidCell: OrderBookCell {
         let type = OrderBookTableType.bid
         leftLabel.textColor = type.amountLabelColor
         rightLabel.textColor = type.priceLabelColor
-        progressView.backgroundColor = type.backgroundProgressColor
+        progressView.progressTintColor = type.backgroundProgressColor
+        progressView.transform = CGAffineTransform(rotationAngle: CGFloat.pi)
         
         stackView.anchor(left: contentView.leftAnchor, leftMargin: OrderBookCell.bigMargin,
                          right: contentView.rightAnchor, rightMargin: OrderBookCell.standardMargin)
-        
-        progressViewConstraint = progressView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0)
-        progressViewConstraint?.isActive = true
-        progressView.anchor(right: contentView.rightAnchor)
     }
 }

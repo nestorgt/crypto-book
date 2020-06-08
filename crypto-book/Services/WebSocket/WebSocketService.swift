@@ -7,14 +7,17 @@
 //
 
 import Foundation
+import Combine
 
 final class WebSocketService: NSObject, URLSessionWebSocketDelegate, WebSocketServiceProtocol {
     
+    static let pingTimeInterval: TimeInterval = 60
+    
     weak var delegate: WebSocketServiceDelegate?
+    
     private var webSocketTask: URLSessionWebSocketTask?
-    private var urlSession: URLSession?
-    private let queue = OperationQueue()
-    private var pingTimeInterval: TimeInterval?
+    private var queue = OperationQueue()
+    private var pingCancelable: AnyCancellable?
     
     // MARK: - URLSessionWebSocketDelegate
     
@@ -33,32 +36,37 @@ final class WebSocketService: NSObject, URLSessionWebSocketDelegate, WebSocketSe
     
     // MARK: - WebSocketServiceProtocol
     
-    func setup(with configuration: WebSocketServiceConfiguration, delegate: WebSocketServiceDelegate?) {
-        self.delegate = delegate
-        pingTimeInterval = configuration.pingTimeInterval
-        queue.qualityOfService = configuration.queueQualityOfService
-        urlSession = URLSession(configuration: .default, delegate: self, delegateQueue: queue)
-        webSocketTask = urlSession?.webSocketTask(with: configuration.url)
+    func setup(with url: URL) {
+        Log.message("setup with url: \(url.absoluteString)", level: .info, type: .websocket)
+        webSocketTask?.cancel(with: .goingAway, reason: nil)
+        webSocketTask = nil
+        let urlSession = URLSession(configuration: .default, delegate: self, delegateQueue: queue)
+        webSocketTask = urlSession.webSocketTask(with: url)
         readMessage()
     }
     
     func resume() {
         guard let webSocketTask = webSocketTask else {
-            Log.message("WebSocket is not set up", level: .error, type: .websocket)
+            Log.message("webSocketTask is not set up", level: .error, type: .websocket)
             return
         }
-        Log.message("resume", level: .info, type: .websocket)
+        Log.message("resuming...", level: .info, type: .websocket)
         webSocketTask.resume()
+        schedulePing()
     }
     
     func suspend() {
-        Log.message("suspend", level: .info, type: .websocket)
+        Log.message("suspending...", level: .info, type: .websocket)
+        pingCancelable?.cancel()
         webSocketTask?.suspend()
+        queue.cancelAllOperations()
     }
     
     func cancel() {
-        Log.message("cancel", level: .info, type: .websocket)
+        Log.message("cancelling...", level: .info, type: .websocket)
+        pingCancelable?.cancel()
         webSocketTask?.cancel(with: .goingAway, reason: nil)
+        queue.cancelAllOperations()
     }
     
     func send(message: URLSessionWebSocketTask.Message, completionHandler: ((Error?) -> Void)?) {
@@ -73,6 +81,28 @@ final class WebSocketService: NSObject, URLSessionWebSocketDelegate, WebSocketSe
 // MARK: - Private
 
 private extension WebSocketService {
+    
+    func schedulePing() {
+        Log.message("Scheduled ping every \(Self.pingTimeInterval)s", level: .info, type: .websocket)
+        pingCancelable?.cancel()
+        pingCancelable = Timer.publish(every: Self.pingTimeInterval, on: .main, in: .common)
+            .autoconnect()
+            .sink { [weak self] _ in
+                self?.sendPing()
+        }
+    }
+    
+    func sendPing() {
+        Log.message("Sending ping...", level: .info, type: .websocket)
+        webSocketTask?.sendPing(pongReceiveHandler: { error in
+            if let error = error {
+                Log.message("Error sending Ping error: \(String(describing: error))",
+                    level: .error, type: .websocket)
+            } else {
+                Log.message("Ping Success", level: .info, type: .websocket)
+            }
+        })
+    }
     
     func readMessage()  {
         webSocketTask?.receive { [weak self] result in

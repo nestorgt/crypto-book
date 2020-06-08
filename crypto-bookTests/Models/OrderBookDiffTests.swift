@@ -9,11 +9,9 @@
 import XCTest
 @testable import crypto_book
 
-class OrderBookDiffTests: XCTestCase {
+final class OrderBookDiffTests: XCTestCase {
     
-    // MARK: - Tests
-
-    func testDecoder_SuccessTrue() {
+    func testDecoder() {
         let jsonString =
         """
         {
@@ -45,7 +43,7 @@ class OrderBookDiffTests: XCTestCase {
         }
         """
         let jsonData = Parser.JSONData(from: jsonString)!
-        let sut = try! JSONDecoder().decode(OrderBookDiff.self, from: jsonData)
+        let sut = try! JSONDecoder().decode(OrderBook.Diff.self, from: jsonData)
         
         XCTAssertEqual(sut.eventType, .depthUpdate)
         XCTAssertEqual(sut.eventTimeInterval, 123456789)

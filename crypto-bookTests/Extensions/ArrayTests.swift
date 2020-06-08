@@ -9,7 +9,7 @@
 import XCTest
 @testable import crypto_book
 
-class ArrayTests: XCTestCase {
+final class ArrayTests: XCTestCase {
 
     func testSafeIndex() {
         let a = ["a","b","c"]

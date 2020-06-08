@@ -9,7 +9,7 @@
 import XCTest
 @testable import crypto_book
 
-class DoubleTests: XCTestCase {
+final class DoubleTests: XCTestCase {
 
     func testRounding() {
         let a = 1.123456789

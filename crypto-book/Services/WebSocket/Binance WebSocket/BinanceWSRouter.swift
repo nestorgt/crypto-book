@@ -10,5 +10,20 @@ import Foundation
 
 struct BinanceWSRouter {
     
-    static let url = URL(string: "wss://stream.binance.com:9443/ws/bnbbtc@depth")!
+    enum StreamName: String {
+        case depth
+    }
+    
+    static let base = "wss://stream.binance.com:9443/ws/"
+    
+    static func depth(for marketPair: MarketPair) -> URL {
+        buildURL(for: marketPair, streamName: .depth)
+    }
+    
+    static func buildURL(for marketPair: MarketPair, streamName: StreamName) -> URL {
+        guard let url = URL(string: base + marketPair.webScoketSymbol + "@" + streamName.rawValue) else {
+            fatalError("Can't build URL for \(marketPair) & \(streamName)")
+        }
+        return url
+    }
 }

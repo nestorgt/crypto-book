@@ -60,6 +60,18 @@
 		8ED65032248C17220044B32D /* BinanceWSEventType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED65031248C17220044B32D /* BinanceWSEventType.swift */; };
 		8ED6503B248C19D30044B32D /* OrderBookDiffTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED6503A248C19D30044B32D /* OrderBookDiffTests.swift */; };
 		8ED6503D248C24430044B32D /* JSONDecoder+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED6503C248C24430044B32D /* JSONDecoder+.swift */; };
+		8ED65040248C50970044B32D /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED6503F248C50970044B32D /* APIService.swift */; };
+		8ED65042248C513C0044B32D /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED65041248C513C0044B32D /* APIError.swift */; };
+		8ED65045248C517C0044B32D /* APIServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED65044248C517C0044B32D /* APIServiceTests.swift */; };
+		8ED65048248C51C20044B32D /* BinanceAPIRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED65047248C51C20044B32D /* BinanceAPIRouter.swift */; };
+		8ED6504A248C5A330044B32D /* OrderBookTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED65049248C5A330044B32D /* OrderBookTests.swift */; };
+		8ED6504C248C5AC50044B32D /* Result+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED6504B248C5AC50044B32D /* Result+.swift */; };
+		8ED6504E248C68040044B32D /* Optional+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED6504D248C68040044B32D /* Optional+.swift */; };
+		8ED65050248D4F050044B32D /* OrderBook+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED6504F248D4F050044B32D /* OrderBook+Utils.swift */; };
+		8ED65052248D51E40044B32D /* OrderBook+MergeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED65051248D51E40044B32D /* OrderBook+MergeTests.swift */; };
+		8ED65056248D52130044B32D /* OrderBookMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED65055248D52130044B32D /* OrderBookMock.swift */; };
+		8ED6505C248D67350044B32D /* OrderBookOffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED6505B248D67350044B32D /* OrderBookOffer.swift */; };
+		8ED6505E248D7FD50044B32D /* OrderBook+UtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED6505D248D7FD50044B32D /* OrderBook+UtilsTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -130,6 +142,18 @@
 		8ED65031248C17220044B32D /* BinanceWSEventType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BinanceWSEventType.swift; sourceTree = "<group>"; };
 		8ED6503A248C19D30044B32D /* OrderBookDiffTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderBookDiffTests.swift; sourceTree = "<group>"; };
 		8ED6503C248C24430044B32D /* JSONDecoder+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "JSONDecoder+.swift"; sourceTree = "<group>"; };
+		8ED6503F248C50970044B32D /* APIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
+		8ED65041248C513C0044B32D /* APIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
+		8ED65044248C517C0044B32D /* APIServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIServiceTests.swift; sourceTree = "<group>"; };
+		8ED65047248C51C20044B32D /* BinanceAPIRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BinanceAPIRouter.swift; sourceTree = "<group>"; };
+		8ED65049248C5A330044B32D /* OrderBookTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderBookTests.swift; sourceTree = "<group>"; };
+		8ED6504B248C5AC50044B32D /* Result+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Result+.swift"; sourceTree = "<group>"; };
+		8ED6504D248C68040044B32D /* Optional+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Optional+.swift"; sourceTree = "<group>"; };
+		8ED6504F248D4F050044B32D /* OrderBook+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OrderBook+Utils.swift"; sourceTree = "<group>"; };
+		8ED65051248D51E40044B32D /* OrderBook+MergeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OrderBook+MergeTests.swift"; sourceTree = "<group>"; };
+		8ED65055248D52130044B32D /* OrderBookMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderBookMock.swift; sourceTree = "<group>"; };
+		8ED6505B248D67350044B32D /* OrderBookOffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderBookOffer.swift; sourceTree = "<group>"; };
+		8ED6505D248D7FD50044B32D /* OrderBook+UtilsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OrderBook+UtilsTests.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -250,6 +274,8 @@
 		8EA6FF0E2487BE8500AC978E /* crypto-bookTests */ = {
 			isa = PBXGroup;
 			children = (
+				8ED65054248D520A0044B32D /* Mocks */,
+				8ED65043248C51740044B32D /* Services */,
 				8ED65039248C19C40044B32D /* Models */,
 				8ED65035248C19A40044B32D /* Extensions */,
 				8EA6FF0F2487BE8500AC978E /* crypto_bookTests.swift */,
@@ -271,6 +297,8 @@
 				8ED65003248AD0B00044B32D /* Double+.swift */,
 				8ED65028248C0F460044B32D /* URLSessionWebSocketTaskMessage+.swift */,
 				8ED6503C248C24430044B32D /* JSONDecoder+.swift */,
+				8ED6504B248C5AC50044B32D /* Result+.swift */,
+				8ED6504D248C68040044B32D /* Optional+.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -279,6 +307,7 @@
 			isa = PBXGroup;
 			children = (
 				8ED6500E248ADF9B0044B32D /* DependencyInjector.swift */,
+				8ED6503E248C508A0044B32D /* API */,
 				8ED65021248BF0830044B32D /* WebSocket */,
 				8ED65009248ADF2D0044B32D /* OrderBookService.swift */,
 			);
@@ -298,7 +327,9 @@
 			children = (
 				8EA6AB40248A97ED0017FE63 /* MarketPair.swift */,
 				8ED65007248ADE460044B32D /* OrderBook.swift */,
+				8ED6505B248D67350044B32D /* OrderBookOffer.swift */,
 				8ED6502C248C12170044B32D /* OrderBookDiff.swift */,
+				8ED6504F248D4F050044B32D /* OrderBook+Utils.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -377,8 +408,45 @@
 			isa = PBXGroup;
 			children = (
 				8ED6503A248C19D30044B32D /* OrderBookDiffTests.swift */,
+				8ED65049248C5A330044B32D /* OrderBookTests.swift */,
+				8ED65051248D51E40044B32D /* OrderBook+MergeTests.swift */,
+				8ED6505D248D7FD50044B32D /* OrderBook+UtilsTests.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		8ED6503E248C508A0044B32D /* API */ = {
+			isa = PBXGroup;
+			children = (
+				8ED6503F248C50970044B32D /* APIService.swift */,
+				8ED65041248C513C0044B32D /* APIError.swift */,
+				8ED65046248C51B50044B32D /* Binance API */,
+			);
+			path = API;
+			sourceTree = "<group>";
+		};
+		8ED65043248C51740044B32D /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				8ED65044248C517C0044B32D /* APIServiceTests.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		8ED65046248C51B50044B32D /* Binance API */ = {
+			isa = PBXGroup;
+			children = (
+				8ED65047248C51C20044B32D /* BinanceAPIRouter.swift */,
+			);
+			path = "Binance API";
+			sourceTree = "<group>";
+		};
+		8ED65054248D520A0044B32D /* Mocks */ = {
+			isa = PBXGroup;
+			children = (
+				8ED65055248D52130044B32D /* OrderBookMock.swift */,
+			);
+			path = Mocks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -495,17 +563,24 @@
 				8ED6500F248ADF9B0044B32D /* DependencyInjector.swift in Sources */,
 				8ED65029248C0F460044B32D /* URLSessionWebSocketTaskMessage+.swift in Sources */,
 				8ED65017248B158E0044B32D /* OrderBookBidCell.swift in Sources */,
+				8ED65042248C513C0044B32D /* APIError.swift in Sources */,
+				8ED65048248C51C20044B32D /* BinanceAPIRouter.swift in Sources */,
 				8EA6AB4D248AA4BD0017FE63 /* OrderBookTableView.swift in Sources */,
 				8E92A29C2488409500D43828 /* Int+.swift in Sources */,
 				8ED6502B248C0FF70044B32D /* Parser.swift in Sources */,
 				8ED6501E248BD2A40044B32D /* WebSocketService.swift in Sources */,
 				8EA6AB45248A99BA0017FE63 /* MarketHistoryViewController.swift in Sources */,
+				8ED6504C248C5AC50044B32D /* Result+.swift in Sources */,
+				8ED65040248C50970044B32D /* APIService.swift in Sources */,
 				8E92A28C2487EB7300D43828 /* Array+.swift in Sources */,
 				8ED6502F248C12EA0044B32D /* BinanceWSError.swift in Sources */,
 				8ED65025248BF0AA0044B32D /* WebSocketServiceDelegate.swift in Sources */,
+				8ED6505C248D67350044B32D /* OrderBookOffer.swift in Sources */,
 				8E92A2902487EF3700D43828 /* DevMenuPageViewController.swift in Sources */,
 				8E92A28E2487ED2200D43828 /* UIView+.swift in Sources */,
 				8EA6FEF92487BE8400AC978E /* AppDelegate.swift in Sources */,
+				8ED65050248D4F050044B32D /* OrderBook+Utils.swift in Sources */,
+				8ED6504E248C68040044B32D /* Optional+.swift in Sources */,
 				8EA6FEFB2487BE8400AC978E /* SceneDelegate.swift in Sources */,
 				8E6835322487DAD700D84F53 /* PageViewController.swift in Sources */,
 				8ED65023248BF0940044B32D /* WebSocketServiceProtocol.swift in Sources */,
@@ -536,9 +611,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				8EA6FF102487BE8500AC978E /* crypto_bookTests.swift in Sources */,
+				8ED65052248D51E40044B32D /* OrderBook+MergeTests.swift in Sources */,
+				8ED6504A248C5A330044B32D /* OrderBookTests.swift in Sources */,
 				8ED65006248AD0F60044B32D /* DoubleTests.swift in Sources */,
 				8ED6503B248C19D30044B32D /* OrderBookDiffTests.swift in Sources */,
 				8EA6AB3F248A85020017FE63 /* ArrayTests.swift in Sources */,
+				8ED6505E248D7FD50044B32D /* OrderBook+UtilsTests.swift in Sources */,
+				8ED65045248C517C0044B32D /* APIServiceTests.swift in Sources */,
+				8ED65056248D52130044B32D /* OrderBookMock.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

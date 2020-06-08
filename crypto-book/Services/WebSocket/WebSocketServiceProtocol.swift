@@ -8,29 +8,15 @@
 
 import Foundation
 
-/// Provides configuration parameters required to perform a connection with the WebSocketService.
-struct WebSocketServiceConfiguration {
-    
-    /// The URL of the WebSocket
-    let url: URL
-    
-    /// Specifies the quality of service for the delegate queue of the the URL Serssion
-    let queueQualityOfService: QualityOfService
-    
-    /// When assigned, it wil send a ping to the server every amount of second specified
-    var pingTimeInterval: TimeInterval?
-}
-
 /// Generic web socket service that allows openion and data flow to any given webSocket url.
 /// - seeAlso: https://binance-docs.github.io/apidocs/spot/en/#webSocket-market-streams
 protocol WebSocketServiceProtocol {
 
-    /// Sets up everything needed to start receiving/sending information.
-    /// - Note: **This method should be called first**.
-    /// - Parameters:
-    ///     - configuration: The configration for the WebSocket.
-    ///     - delegate: The entity that will receive WebSocketService delegate methods.
-    func setup(with configuration: WebSocketServiceConfiguration, delegate: WebSocketServiceDelegate?)
+    /// The entity to receive delegate calls.
+    var delegate: WebSocketServiceDelegate? { get set }
+    
+    /// Sets up the WebSocket with the given URL.
+    func setup(with url: URL)
     
     /// Resumes the WebSocket connection.
     func resume()

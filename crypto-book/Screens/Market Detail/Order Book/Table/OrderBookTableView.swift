@@ -10,7 +10,7 @@ import UIKit
 
 final class OrderBookTableView: UITableView {
     
-    var numberOfCells: Int = 20
+    static var numberOfCells: Int = 20
     
     private var type: OrderBookTableType
 
@@ -37,7 +37,7 @@ extension OrderBookTableView {
     }
     
     override func numberOfRows(inSection section: Int) -> Int {
-        numberOfCells
+        Self.numberOfCells
     }
 }
 
