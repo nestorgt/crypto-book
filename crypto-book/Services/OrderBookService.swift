@@ -98,6 +98,7 @@ final class OrderBookService: OrderBookServiceProtocol {
 private extension OrderBookService {
     
     func start() {
+        isConnecting.value = true
         orderBookDiffBuffer = []
         orderBookDiffPublisherCancelable?.cancel()
         isRequestingOrderBook = false
@@ -180,6 +181,7 @@ private extension OrderBookService {
     func mergeOrderBook(with orderBookDiffs: [OrderBook.Diff]) {
         let orderBook = orderBookPublisher.value?.merging(diffs: orderBookDiffs)
         orderBookPublisher.send(orderBook)
+        isConnecting.value = false
     }
 }
 

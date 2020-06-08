@@ -50,7 +50,6 @@ final class OrderBookViewModel {
 private extension OrderBookViewModel {
     
     func setupBindings() {
-        isLoading = true
         orderBookService.orderBookPublisher
             .sink(receiveCompletion: { orderBookError in
                 Log.message("Commpleted, error?: \(orderBookError)",
@@ -60,6 +59,12 @@ private extension OrderBookViewModel {
                     level: .debug, type: .orderBookViewModel)
                 self?.updateDataSnapshots(with: orderBook)
             })
+            .store(in: &cancelables)
+        
+        orderBookService.isConnecting
+            .removeDuplicates()
+            .compactMap { $0 }
+            .assign(to: \.isLoading, on: self)
             .store(in: &cancelables)
     }
     
@@ -90,7 +95,6 @@ private extension OrderBookViewModel {
         askSnapshot.appendSections([0])
         askSnapshot.appendItems(askModels)
         
-        isLoading = false
         bidDataSnapshot = bidSnapshot
         askDataSnapshot = askSnapshot
     }
