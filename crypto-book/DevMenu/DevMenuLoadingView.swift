@@ -12,6 +12,9 @@ final class DevMenuLoadingView: UIViewController {
     
     private var spinner: LoadingView?
     private let segmentedControl = UISegmentedControl()
+
+    private lazy var sample =
+    "Loading... Lorem ipsum dolor sit amet, consectetur adipiscing elit. In eu est sapien. In egestas placerat massa, sit amet accumsan purus viverra vel. Quisque sollicitudin aliquet tellus vel tincidunt. Mauris blandit est at elit rhoncus, sit amet varius lectus lacinia. Duis magna mi, molestie facilisis velit eu, aliquet hendrerit risus. Suspendisse non nunc sed lorem hendrerit vehicula. Duis tempor volutpat accumsan. Nulla nec lacus vehicula, varius magna eget, tempus risus. Fusce tempor quam commodo libero luctus, eget rhoncus magna laoreet."
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,11 +31,13 @@ private extension DevMenuLoadingView {
         title = "PageViewController"
         navigationItem.setRightBarButtonItems([
             UIBarButtonItem(barButtonSystemItem: .play, target: self, action: #selector(addLoadingView)),
-            UIBarButtonItem(barButtonSystemItem: .pause, target: self, action: #selector(removeLoadingView))
+            UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(removeLoadingView)),
+            UIBarButtonItem(barButtonSystemItem: .fastForward, target: self, action: #selector(changeText)),
         ], animated: false) 
         segmentedControl.insertSegment(withTitle: "medium", at: 0, animated: false)
         segmentedControl.insertSegment(withTitle: "large", at: 1, animated: false)
         segmentedControl.selectedSegmentIndex = 0
+        segmentedControl.addTarget(self, action: #selector(removeLoadingView), for: .valueChanged)
         navigationItem.titleView = segmentedControl
     }
     
@@ -51,5 +56,11 @@ private extension DevMenuLoadingView {
     @objc func removeLoadingView() {
         Log.message("Removing...", level: .debug, type: .devMenu)
         spinner?.dismiss()
+    }
+    
+    @objc func changeText() {
+        Log.message("Changing text...", level: .debug, type: .devMenu)
+        spinner?.update(message: String(sample.prefix(Int.random(in: 1..<sample.count)))) 
+        view.backgroundColor = .random()
     }
 }

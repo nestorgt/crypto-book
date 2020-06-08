@@ -76,11 +76,10 @@ private extension OrderBookViewController {
                     : self?.viewModel.pauseLiveUpdates() }
             .store(in: &cancelables)
         
-        
         viewModel.$isLoading
             .receive(on: DispatchQueue.main)
             .sink { [weak self] in
-                $0 ? self?.loadingView.present(in: self?.view)
+                $0 ? _ = self?.loadingView.present(in: self?.view)
                     : self?.loadingView.dismiss() }
             .store(in: &cancelables)
     }

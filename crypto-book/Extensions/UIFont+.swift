@@ -10,6 +10,8 @@ import UIKit
 
 extension UIFont {
     
+    static let binanceDefault = UIFont.systemFont(ofSize: 14)
+    
     static let binanceTitle = UIFont.systemFont(ofSize: 16)
     static let binanceSelectedTitle = UIFont.boldSystemFont(ofSize: 16)
     

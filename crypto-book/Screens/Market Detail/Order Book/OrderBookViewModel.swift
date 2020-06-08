@@ -51,8 +51,8 @@ private extension OrderBookViewModel {
     
     func setupBindings() {
         orderBookService.orderBookPublisher
-            .sink(receiveCompletion: { orderBookError in
-                Log.message("Commpleted, error?: \(orderBookError)",
+            .sink(receiveCompletion: { error in
+                Log.message("Commpleted, error?: \(error)",
                     level: .debug, type: .orderBookViewModel)
             }, receiveValue: { [weak self] orderBook in
                 Log.message("OrderBook.lastUpdateId: \(orderBook?.lastUpdateId ?? 0)",
@@ -64,7 +64,11 @@ private extension OrderBookViewModel {
         orderBookService.isConnecting
             .removeDuplicates()
             .compactMap { $0 }
-            .assign(to: \.isLoading, on: self)
+            .sink(receiveCompletion: { [weak self] _ in
+                self?.isLoading = false
+            }, receiveValue: { [weak self] isConnecting in
+                self?.isLoading = isConnecting
+            })
             .store(in: &cancelables)
     }
     

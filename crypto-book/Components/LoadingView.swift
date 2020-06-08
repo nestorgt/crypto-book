@@ -17,7 +17,9 @@ final class LoadingView: UIView {
     }
     
     private let contentView = UIView()
+    private let stackView = UIStackView()
     private let spinner: UIActivityIndicatorView
+    private let label = UILabel()
     
     private let config: Config
     
@@ -33,12 +35,14 @@ final class LoadingView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func present(in view: UIView?) {
+    @discardableResult
+    func present(in view: UIView?) -> LoadingView {
         transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
         view?.addFillingSubview(self)
         UIView.animate(withDuration: 0.1) {
             self.transform = .identity
         }
+        return self
     }
     
     func dismiss() {
@@ -47,6 +51,16 @@ final class LoadingView: UIView {
         }) { _ in
             self.removeFromSuperview()
         }
+    }
+    
+    @discardableResult
+    func update(message: String?) -> LoadingView {
+        UIView.animate(withDuration: 0.1) {
+            self.label.isHidden = message?.count ?? -1 == 0
+            self.label.text = message
+            self.layoutIfNeeded()
+        }
+        return self
     }
     
     static var standard: LoadingView {
@@ -61,22 +75,30 @@ private extension LoadingView {
     
     func setupViews() {
         contentView.layer.cornerRadius = 5
-        contentView.alpha = 0.8
+        contentView.alpha = 0.75
         contentView.backgroundColor = UIColor.binanceGray4
+        stackView.spacing = config.innerMargin
+        stackView.axis = .vertical
+        label.textAlignment = .center
+        label.numberOfLines = 0
+        label.font = .binanceTitle
+        label.isHidden = true
         
         addSubviewForAutoLayout(contentView)
-        contentView.addSubviewsForAutoLayout([spinner])
-        
         contentView.centerToSuperview()
-        spinner.fillToSuperview(margin: config.innerMargin)
-        spinner.centerToSuperview()
         NSLayoutConstraint.activate([
             contentView.topAnchor.constraint(greaterThanOrEqualTo: topAnchor, constant: config.outerMargin),
             contentView.bottomAnchor.constraint(lessThanOrEqualTo: bottomAnchor, constant: -config.outerMargin),
             contentView.leftAnchor.constraint(greaterThanOrEqualTo: leftAnchor, constant: config.outerMargin),
             contentView.rightAnchor.constraint(lessThanOrEqualTo: rightAnchor, constant: -config.outerMargin)
         ])
-
+        
+        contentView.addFillingSubview(stackView, margin: config.innerMargin)
+        stackView.addArrangedSubview(spinner)
+        stackView.addArrangedSubview(label)
+        
+        label.setContentCompressionResistancePriority(.required, for: .horizontal)
+        
         spinner.startAnimating()
     }
 }
