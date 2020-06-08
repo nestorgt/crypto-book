@@ -28,9 +28,15 @@ protocol OrderBookServiceProtocol {
     /// - Note: Intial value will be `nil`.
     var orderBookPublisher: CurrentValueSubject<OrderBook?, Never> { get }
     
+    /// Starts the service to
     func resumeLiveUpdates()
     func suspendLiveUpdates()
     func cancelLiveUpdates()
+    
+    /// Returns `true` while is trying to get the depth order book & connecting to the websocket.
+    /// Will return `false` once it's sending order book updates.
+    /// The initial state will be `nil`.
+    var isConnecting: CurrentValueSubject<Bool?, Never> { get }
 }
 
 enum OrderBookServiceError: Error {
@@ -40,6 +46,8 @@ enum OrderBookServiceError: Error {
 }
 
 final class OrderBookService: OrderBookServiceProtocol {
+    
+    var isConnecting = CurrentValueSubject<Bool?, Never>(nil)
     
     private var webSocketService: WebSocketServiceProtocol
     private let apiService: APIServiceProtocol
@@ -60,7 +68,7 @@ final class OrderBookService: OrderBookServiceProtocol {
         self.webSocketService = webSocketService
         self.webSocketService.setup(with: BinanceWSRouter.depth(for: marketPair))
         self.webSocketService.delegate = self
-        setupBindings()
+        start()
     }
     
     deinit {
@@ -89,7 +97,8 @@ final class OrderBookService: OrderBookServiceProtocol {
 
 private extension OrderBookService {
     
-    func setupBindings() {
+    func start() {
+        orderBookDiffBuffer = []
         orderBookDiffPublisherCancelable?.cancel()
         isRequestingOrderBook = false
         
@@ -107,7 +116,7 @@ private extension OrderBookService {
                         switch result {
                         case .failure(let error):
                             Log.message("SNAPSHOT error: \(error)", level: .error, type: .orderBookService)
-                            strongSelf.setupBindings()
+                            strongSelf.start()
                         case .success(let orderBook):
                             Log.message("SNAPSHOT lastUpdateId: \(orderBook.lastUpdateId)",
                                 level: .debug, type: .orderBookService)
@@ -116,7 +125,7 @@ private extension OrderBookService {
                         }
                     })
                 } else {
-                    // Then store keep storing on buffer until we get the order book
+                    // Then keep storing on buffer until we get the order book
                     if strongSelf.orderBookPublisher.value == nil {
                         strongSelf.addToBuffer(orderBookDiff)
                     } else {

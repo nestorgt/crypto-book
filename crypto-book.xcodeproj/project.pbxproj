@@ -72,6 +72,8 @@
 		8ED65056248D52130044B32D /* OrderBookMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED65055248D52130044B32D /* OrderBookMock.swift */; };
 		8ED6505C248D67350044B32D /* OrderBookOffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED6505B248D67350044B32D /* OrderBookOffer.swift */; };
 		8ED6505E248D7FD50044B32D /* OrderBook+UtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED6505D248D7FD50044B32D /* OrderBook+UtilsTests.swift */; };
+		8ED65060248E9BA00044B32D /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED6505F248E9BA00044B32D /* LoadingView.swift */; };
+		8ED65062248EB58D0044B32D /* DevMenuLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED65061248EB58D0044B32D /* DevMenuLoadingView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -154,6 +156,8 @@
 		8ED65055248D52130044B32D /* OrderBookMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderBookMock.swift; sourceTree = "<group>"; };
 		8ED6505B248D67350044B32D /* OrderBookOffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderBookOffer.swift; sourceTree = "<group>"; };
 		8ED6505D248D7FD50044B32D /* OrderBook+UtilsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OrderBook+UtilsTests.swift"; sourceTree = "<group>"; };
+		8ED6505F248E9BA00044B32D /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
+		8ED65061248EB58D0044B32D /* DevMenuLoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevMenuLoadingView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -180,6 +184,7 @@
 				8EA6FF222487D72F00AC978E /* Page Controller */,
 				8E92A295248805BD00D43828 /* Logger.swift */,
 				8ED6502A248C0FF70044B32D /* Parser.swift */,
+				8ED6505F248E9BA00044B32D /* LoadingView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -190,6 +195,7 @@
 				8EA6FEFE2487BE8400AC978E /* Main.storyboard */,
 				8EA6FEFC2487BE8400AC978E /* DevMenuViewController.swift */,
 				8E92A28F2487EF3700D43828 /* DevMenuPageViewController.swift */,
+				8ED65061248EB58D0044B32D /* DevMenuLoadingView.swift */,
 				8ED65012248AF8260044B32D /* ChildPageViewControllerMock.swift */,
 			);
 			path = DevMenu;
@@ -552,6 +558,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8ED65062248EB58D0044B32D /* DevMenuLoadingView.swift in Sources */,
 				8EA6FEFD2487BE8400AC978E /* DevMenuViewController.swift in Sources */,
 				8EA6AB4B248A99F80017FE63 /* MarketHistoryViewModel.swift in Sources */,
 				8ED65013248AF8260044B32D /* ChildPageViewControllerMock.swift in Sources */,
@@ -589,6 +596,7 @@
 				8ED65032248C17220044B32D /* BinanceWSEventType.swift in Sources */,
 				8ED65004248AD0B00044B32D /* Double+.swift in Sources */,
 				8EA6AB51248AA6EE0017FE63 /* OrderBookCell.swift in Sources */,
+				8ED65060248E9BA00044B32D /* LoadingView.swift in Sources */,
 				8ED65019248BBF550044B32D /* OrderBookHeaderView.swift in Sources */,
 				8EA6AB3C248A84D20017FE63 /* Localizable+.swift in Sources */,
 				8ED6503D248C24430044B32D /* JSONDecoder+.swift in Sources */,

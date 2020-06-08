@@ -18,7 +18,6 @@ extension UIColor {
     }
     
     static let binanceYellow = UIColor(red: 207/255, green: 176/255, blue: 80/255, alpha: 1)
-    static let binanceBlue = UIColor.systemBlue
     static let binanceGray = UIColor.systemGray
     static let binanceGray2 = UIColor.systemGray2
     static let binanceGray4 = UIColor.systemGray4

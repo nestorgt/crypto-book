@@ -40,6 +40,8 @@ final class DevMenuViewController: UITableViewController {
             switch component {
             case .pageViewController:
                 navigationController?.pushViewController(DevMenuPageViewController(), animated: true)
+            case .loadingView:
+                navigationController?.pushViewController(DevMenuLoadingView(), animated: true)
             }
         }
     }
@@ -57,5 +59,6 @@ extension DevMenuViewController {
     
     enum Components: Int {
         case pageViewController
+        case loadingView
     }
 }

@@ -25,7 +25,9 @@ private extension DevMenuPageViewController {
     
     func setupNavigationBar() {
         title = "PageViewController"
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addChildPage))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add,
+                                                            target: self,
+                                                            action: #selector(addChildPage))
     }
     
     func setupPageViewController() {

@@ -14,6 +14,7 @@ final class OrderBookViewModel {
     @Published var marketPair: MarketPair
     @Published var bidDataSnapshot: NSDiffableDataSourceSnapshot<Int, OrderBookCellViewModel>?
     @Published var askDataSnapshot: NSDiffableDataSourceSnapshot<Int, OrderBookCellViewModel>?
+    @Published var isLoading: Bool = false
 
     var screenTitle: String { NSLocalizedString("page-menu-order-book-title") }
     
@@ -49,6 +50,7 @@ final class OrderBookViewModel {
 private extension OrderBookViewModel {
     
     func setupBindings() {
+        isLoading = true
         orderBookService.orderBookPublisher
             .sink(receiveCompletion: { orderBookError in
                 Log.message("Commpleted, error?: \(orderBookError)",
@@ -76,8 +78,6 @@ private extension OrderBookViewModel {
         var bidSnapshot = NSDiffableDataSourceSnapshot<Int, OrderBookCellViewModel>()
         bidSnapshot.appendSections([0])
         bidSnapshot.appendItems(bidModels)
-        bidDataSnapshot = bidSnapshot
-//        Log.message("Bid Offer Models: \(bidModels)", level: .info, type: .orderBookViewModel)
 
         let askModels = orderBook.asks.prefix(numberOfElements).map { ask -> OrderBookCellViewModel in
             let progress = OrderBook.askWeight(for: ask.amount, with: maxMinData)
@@ -89,7 +89,9 @@ private extension OrderBookViewModel {
         var askSnapshot = NSDiffableDataSourceSnapshot<Int, OrderBookCellViewModel>()
         askSnapshot.appendSections([0])
         askSnapshot.appendItems(askModels)
+        
+        isLoading = false
+        bidDataSnapshot = bidSnapshot
         askDataSnapshot = askSnapshot
-//        Log.message("Ask Offer Models: \(askModels)", level: .info, type: .orderBookViewModel)
     }
 }

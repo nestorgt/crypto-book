@@ -20,6 +20,8 @@ final class OrderBookViewController: UIViewController, ChildPageViewController {
     private var bidDataSource: UITableViewDiffableDataSource<Int, OrderBookCellViewModel>?
     private var askDataSource: UITableViewDiffableDataSource<Int, OrderBookCellViewModel>?
     
+    private let loadingView = LoadingView.standard
+    
     private var cancelables = Set<AnyCancellable>()
     
     init(viewModel: OrderBookViewModel) {
@@ -70,7 +72,16 @@ private extension OrderBookViewController {
         $isActive
             .dropFirst()
             .sink { [weak self] in
-                $0 ? self?.viewModel.startLiveUpdates() : self?.viewModel.pauseLiveUpdates() }
+                $0 ? self?.viewModel.startLiveUpdates()
+                    : self?.viewModel.pauseLiveUpdates() }
+            .store(in: &cancelables)
+        
+        
+        viewModel.$isLoading
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] in
+                $0 ? self?.loadingView.present(in: self?.view)
+                    : self?.loadingView.dismiss() }
             .store(in: &cancelables)
     }
     
