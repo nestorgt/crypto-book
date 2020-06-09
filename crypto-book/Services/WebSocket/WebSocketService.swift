@@ -15,7 +15,9 @@ final class WebSocketService: NSObject, URLSessionWebSocketDelegate, WebSocketSe
     
     weak var delegate: WebSocketServiceDelegate?
     
+    private var url: URL?
     private var webSocketTask: URLSessionWebSocketTask?
+    private var urlSession: URLSession?
     private var queue = OperationQueue()
     private var pingCancelable: AnyCancellable?
     
@@ -36,37 +38,45 @@ final class WebSocketService: NSObject, URLSessionWebSocketDelegate, WebSocketSe
     
     // MARK: - WebSocketServiceProtocol
     
-    func setup(with url: URL) {
-        Log.message("setup with url: \(url.absoluteString)", level: .info, type: .websocket)
-        webSocketTask?.cancel(with: .goingAway, reason: nil)
-        webSocketTask = nil
-        let urlSession = URLSession(configuration: .default, delegate: self, delegateQueue: queue)
-        webSocketTask = urlSession.webSocketTask(with: url)
+    func open(with url: URL) {
+        Log.message("Opening with url: \(url.absoluteString)", level: .info, type: .websocket)
+        self.url = url
+        urlSession = URLSession(configuration: .default, delegate: self, delegateQueue: queue)
+        webSocketTask = urlSession?.webSocketTask(with: url)
         readMessage()
     }
     
+    func close() {
+        Log.message("closing...", level: .info, type: .websocket)
+        pingCancelable?.cancel()
+        cancel()
+        urlSession?.finishTasksAndInvalidate()
+        queue.cancelAllOperations()
+    }
+    
+    func restart() {
+        guard let url = url else { return }
+        Log.message("restarting...", level: .info, type: .websocket)
+        close()
+        open(with: url)
+        resume()
+    }
+    
     func resume() {
-        guard let webSocketTask = webSocketTask else {
-            Log.message("webSocketTask is not set up", level: .error, type: .websocket)
-            return
-        }
         Log.message("resuming...", level: .info, type: .websocket)
-        webSocketTask.resume()
+        webSocketTask?.resume()
         schedulePing()
     }
     
     func suspend() {
         Log.message("suspending...", level: .info, type: .websocket)
-        pingCancelable?.cancel()
         webSocketTask?.suspend()
         queue.cancelAllOperations()
     }
     
     func cancel() {
         Log.message("cancelling...", level: .info, type: .websocket)
-        pingCancelable?.cancel()
-        webSocketTask?.cancel(with: .goingAway, reason: nil)
-        queue.cancelAllOperations()
+        webSocketTask?.cancel(with: .goingAway, reason: "Closing manually.".data(using: .utf8))
     }
     
     func send(message: URLSessionWebSocketTask.Message, completionHandler: ((Error?) -> Void)?) {
@@ -108,13 +118,14 @@ private extension WebSocketService {
         webSocketTask?.receive { [weak self] result in
             switch result {
             case .failure(let error):
+                Log.message("receive error: \(String(describing: error))", level: .error, type: .websocket)
                 self?.delegate?.didReceive(error: error)
             case .success(let message):
                 self?.delegate?.didReceive(message: message)
+                // Be aware that if you want to receive messages continuously you need
+                // to call this again once you are done with receiving a message.
+                self?.readMessage()
             }
-            // Be aware that if you want to receive messages continuously you need
-            // to call this again once you are done with receiving a message.
-            self?.readMessage()
         }
     }
 }

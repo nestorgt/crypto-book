@@ -26,9 +26,11 @@ final class OrderBookViewModel {
     
     private var cancelables = Set<AnyCancellable>()
     
-    init(marketPair: MarketPair) {
+    init(marketPair: MarketPair,
+         limit: UInt,
+         updateSpeed: BinanceWSRouter.UpdateSpeed) {
         self.marketPair = marketPair
-        self.orderBookService = OrderBookService(marketPair: marketPair)
+        self.orderBookService = OrderBookService(marketPair: marketPair, limit: limit, updateSpeed: updateSpeed)
         setupBindings()
     }
     
@@ -52,18 +54,14 @@ private extension OrderBookViewModel {
     func setupBindings() {
         orderBookService.orderBookPublisher
             .sink(receiveCompletion: { error in
-                Log.message("Commpleted, error?: \(error)",
-                    level: .debug, type: .orderBookViewModel)
+                Log.message("Commpleted, error?: \(error)", level: .debug, type: .orderBookViewModel)
             }, receiveValue: { [weak self] orderBook in
-                Log.message("OrderBook.lastUpdateId: \(orderBook?.lastUpdateId ?? 0)",
-                    level: .debug, type: .orderBookViewModel)
                 self?.updateDataSnapshots(with: orderBook)
             })
             .store(in: &cancelables)
         
         orderBookService.isConnecting
             .removeDuplicates()
-            .compactMap { $0 }
             .sink(receiveCompletion: { [weak self] _ in
                 self?.isLoading = false
             }, receiveValue: { [weak self] isConnecting in

@@ -24,14 +24,14 @@ extension OrderBook {
     */
     func merging(diffs: [OrderBook.Diff]) -> OrderBook {
         Log.message("Merging diffs: \(diffs.map { "\($0.firstUpdateId) -> \($0.finalUpdateId)" })",
-            level: .info, type: .orderBook)
+            level: .debug, type: .orderBook)
         
         // Ignore any old update Id
         let validDiffs = diffs.filter { $0.finalUpdateId > lastUpdateId }
         
         // Merge with current order book
         guard !validDiffs.isEmpty, let finalUpdateId = validDiffs.last?.finalUpdateId
-            else { Log.message("Nothing to merge", level: .error, type: .orderBook); return self }
+            else { Log.message("Nothing to merge", level: .debug, type: .orderBook); return self }
         
         var orderBook = self
         var orderBookAsks = orderBook.asks

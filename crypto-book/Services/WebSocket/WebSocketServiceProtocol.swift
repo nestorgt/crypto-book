@@ -15,8 +15,14 @@ protocol WebSocketServiceProtocol {
     /// The entity to receive delegate calls.
     var delegate: WebSocketServiceDelegate? { get set }
     
-    /// Sets up the WebSocket with the given URL.
-    func setup(with url: URL)
+    /// Opens the WebSocket connection with the given URL. 
+    func open(with url: URL)
+    
+    /// Closes the WebSocket connection. Also calls `cancel()`.
+    func close()
+    
+    /// `close()` + `open()` with previous url used + `resume()`.
+    func restart()
     
     /// Resumes the WebSocket connection.
     func resume()

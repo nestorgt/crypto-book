@@ -21,7 +21,7 @@ final class Log {
             else { return }
         os_log("%@",
                log: OSLog(subsystem: Bundle.main.bundleIdentifier ?? "",
-                          category: type.rawValue),
+                          category: "\(level.rawValue) \(type.rawValue)"),
                type: level.oslogType,
                "\(message ?? "")")
     }
@@ -33,13 +33,9 @@ extension Log {
     
     /// Log levels supported.
     enum Level: String, CaseIterable {
-        case error
-        case info
-        case debug
-        
-        var description: String {
-            return "[\(rawValue.capitalized)]"
-        }
+        case error = "🔴"
+        case info = "🟢"
+        case debug = "🔵"
         
         var oslogType: OSLogType {
             switch self {
@@ -56,12 +52,13 @@ extension Log {
         case page = "Page"
         case orderBookViewModel = "Order Book ViewModel"
         case orderBookService = "Order Book Service"
-        case orderBook
+        case orderBook = "Order Book"
         case marketHistoryViewModel = "Market History ViewModel"
         case marketHistoryService = "Market History Service"
         case parser = "Parser"
         case api = "API"
         case websocket = "Web Socket"
+        case reachabilty = "Reachability"
         case other = "Other"
     }
 }

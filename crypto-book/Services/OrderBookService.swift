@@ -35,40 +35,47 @@ protocol OrderBookServiceProtocol {
     
     /// Returns `true` while is trying to get the depth order book & connecting to the websocket.
     /// Will return `false` once it's sending order book updates.
-    /// The initial state will be `nil`.
-    var isConnecting: CurrentValueSubject<Bool?, Never> { get }
+    var isConnecting: CurrentValueSubject<Bool, Never> { get }
 }
 
 enum OrderBookServiceError: Error {
     case apiError(APIError)
+    case wsError(BinanceWSError)
     case wrongURLRequest
     case decoder
 }
 
 final class OrderBookService: OrderBookServiceProtocol {
     
-    var isConnecting = CurrentValueSubject<Bool?, Never>(nil)
+    var isConnecting = CurrentValueSubject<Bool, Never>(true)
     
     private var webSocketService: WebSocketServiceProtocol
     private let apiService: APIServiceProtocol
+    private let reachabilityService: ReachabilityServiceProtocol
     
     private var marketPair: MarketPair
+    private var updateSpeed: BinanceWSRouter.UpdateSpeed
     
-    private var orderBookDiffPublisher = PassthroughSubject<OrderBook.Diff, OrderBookServiceError>()
+    @Published private var orderBookDiffPublisher: Result<OrderBook.Diff, OrderBookServiceError>?
     private var orderBookDiffBuffer = [OrderBook.Diff]()
     private var isRequestingOrderBook = false
     
     private var orderBookDiffPublisherCancelable: AnyCancellable?
+    private var cancelables = Set<AnyCancellable>()
     
     init(marketPair: MarketPair,
+         limit: UInt,
+         updateSpeed: BinanceWSRouter.UpdateSpeed,
          webSocketService: WebSocketServiceProtocol = WebSocketService(),
-         apiService: APIServiceProtocol = APIService()) {
+         apiService: APIServiceProtocol = APIService(),
+         reachabilityService: ReachabilityServiceProtocol = ReachabilityService()) {
         self.marketPair = marketPair
+        self.updateSpeed = updateSpeed
         self.apiService = apiService
         self.webSocketService = webSocketService
-        self.webSocketService.setup(with: BinanceWSRouter.depth(for: marketPair))
-        self.webSocketService.delegate = self
-        start()
+        self.reachabilityService = reachabilityService
+        setupWebSocket()
+        setupReachability()
     }
     
     deinit {
@@ -79,6 +86,11 @@ final class OrderBookService: OrderBookServiceProtocol {
     // MARK: - OrderBookServiceProtocol
 
     var orderBookPublisher = CurrentValueSubject<OrderBook?, Never>(nil)
+    
+    func restart() {
+        isConnecting.value = true
+        webSocketService.restart()
+    }
     
     func resumeLiveUpdates() {
         webSocketService.resume()
@@ -97,47 +109,78 @@ final class OrderBookService: OrderBookServiceProtocol {
 
 private extension OrderBookService {
     
-    func start() {
+    
+    func setupWebSocket() {
+        webSocketService.delegate = self
+        webSocketService.open(with: BinanceWSRouter.depth(for: marketPair, updateSpeed: updateSpeed))
+    }
+    
+    func setupReachability() {
+        reachabilityService.isReachablePublisher
+            .removeDuplicates()
+            .dropFirst()
+            .sink(receiveCompletion: { _ in },
+                  receiveValue: { [weak self] isReachable in
+                    if isReachable {
+                        self?.restart()
+                    } else {
+                        self?.isConnecting.value = true
+                    }
+            })
+            .store(in: &cancelables)
+    }
+    
+    func startListening() {
         isConnecting.value = true
         orderBookDiffBuffer = []
         orderBookDiffPublisherCancelable?.cancel()
+        orderBookDiffPublisher = nil
         isRequestingOrderBook = false
         
-        orderBookDiffPublisherCancelable = orderBookDiffPublisher
+        orderBookDiffPublisherCancelable = $orderBookDiffPublisher
             .receive(on: DispatchQueue.main)
-            .sink(receiveCompletion: { orderBookError in
-                Log.message("orderBookDiffPublisher error: \(orderBookError)", level: .error, type: .orderBookService)
-            }, receiveValue: { [weak self] orderBookDiff in
+            .compactMap { $0 }
+            .sink(receiveCompletion: { completion in
+                Log.message("orderBookDiffPublisher completion: \(completion)",
+                    level: .error, type: .orderBookService)
+            }, receiveValue: { [weak self] result in
                 guard let strongSelf = self else { return }
-                // First time -> get order book and save diffs on a buffer
-                if !strongSelf.isRequestingOrderBook && strongSelf.orderBookPublisher.value == nil {
-                    strongSelf.addToBuffer(orderBookDiff)
-                    strongSelf.isRequestingOrderBook = true
-                    strongSelf.orderBookSnapshot(completion: { result in
-                        switch result {
-                        case .failure(let error):
-                            Log.message("SNAPSHOT error: \(error)", level: .error, type: .orderBookService)
-                            strongSelf.start()
-                        case .success(let orderBook):
-                            Log.message("SNAPSHOT lastUpdateId: \(orderBook.lastUpdateId)",
-                                level: .debug, type: .orderBookService)
-                            strongSelf.orderBookPublisher.send(orderBook)
-                            strongSelf.isRequestingOrderBook = false
-                        }
-                    })
-                } else {
-                    // Then keep storing on buffer until we get the order book
-                    if strongSelf.orderBookPublisher.value == nil {
+                switch result {
+                case .success(let orderBookDiff):
+                    // First time -> get order book and save diffs on a buffer
+                    if !strongSelf.isRequestingOrderBook && strongSelf.orderBookPublisher.value == nil {
                         strongSelf.addToBuffer(orderBookDiff)
+                        strongSelf.isRequestingOrderBook = true
+                        strongSelf.orderBookSnapshot(completion: { result in
+                            switch result {
+                            case .failure(let error):
+                                Log.message("SNAPSHOT error: \(error)", level: .error, type: .orderBookService)
+                                self?.startListening()
+                            case .success(let orderBook):
+                                Log.message("SNAPSHOT lastUpdateId: \(orderBook.lastUpdateId)",
+                                    level: .debug, type: .orderBookService)
+                                strongSelf.orderBookPublisher.send(orderBook)
+                                strongSelf.isRequestingOrderBook = false
+                            }
+                        })
                     } else {
-                        // Once we have the order book in place:
-                        // 1- Consume Diffs on the buffer if there is any
-                        if !strongSelf.orderBookDiffBuffer.isEmpty {
-                            strongSelf.consumeBuffer()
+                        // Then keep storing on buffer until we get the order book
+                        if strongSelf.orderBookPublisher.value == nil {
+                            strongSelf.addToBuffer(orderBookDiff)
+                        } else {
+                            // Once we have the order book in place:
+                            // 1- Consume Diffs on the buffer if there is any
+                            if !strongSelf.orderBookDiffBuffer.isEmpty {
+                                strongSelf.consumeBuffer()
+                            }
+                            // 2- Consume the incoming orderBookDiff
+                            strongSelf.mergeOrderBook(with: [orderBookDiff])
                         }
-                        // 2- Consume the incoming orderBookDiff
-                        strongSelf.mergeOrderBook(with: [orderBookDiff])
                     }
+                case .failure(let error):
+                    Log.message("$orderBookDiffPublisher error: \(error)",
+                        level: .error, type: .orderBookService)
+                    self?.restart()
                 }
             })
     }
@@ -191,6 +234,7 @@ extension OrderBookService: WebSocketServiceDelegate {
     
     func didOpen(handshakeProtocol: String?) {
         Log.message("didOpen with protocol \(handshakeProtocol ?? "<nil>")", level: .info, type: .orderBookService)
+        startListening()
     }
     
     func didClose(closeCode: URLSessionWebSocketTask.CloseCode, reason: Data?) {
@@ -203,23 +247,29 @@ extension OrderBookService: WebSocketServiceDelegate {
             Log.message("didReceive un-handled data task message", level: .error, type: .orderBookService)
             return
         }
-        guard let data = Parser.JSONData(from: string),
-            let eventType = (try? JSONDecoder.binance.decode(BinanceWSEventTypeResponse.self, from: data))?.eventType else {
-                Log.message("didReceive un-handled event type", level: .error, type: .orderBookService)
-                return
+        guard let data = Parser.JSONData(from: string) else {
+            Log.message("didReceive wrong data", level: .error, type: .orderBookService)
+            return
         }
-        switch eventType {
-        case .depthUpdate:
-            do {
-                let depthUpdate = try JSONDecoder.binance.decode(OrderBook.Diff.self, from: data)
-                Log.message("depthUpdate: \(depthUpdate.firstUpdateId) -> \(depthUpdate.finalUpdateId)",
-                    level: .error, type: .orderBookService)
-                orderBookDiffPublisher.send(depthUpdate)
-            } catch {
-                Log.message("bad depthUpdate, can't decode -> error: \(error)",
-                    level: .error, type: .orderBookService)
-                orderBookDiffPublisher.send(completion: .failure(.decoder))
+        if let eventType = (try? JSONDecoder.binance.decode(BinanceWSEventTypeResponse.self, from: data))?.eventType {
+            switch eventType {
+            case .depthUpdate:
+                do {
+                    let depthUpdate = try JSONDecoder.binance.decode(OrderBook.Diff.self, from: data)
+                    Log.message("depthUpdate: \(depthUpdate.firstUpdateId) -> \(depthUpdate.finalUpdateId)",
+                        level: .debug, type: .orderBookService)
+                    orderBookDiffPublisher = .success(depthUpdate)
+                } catch {
+                    Log.message("bad depthUpdate, can't decode -> error: \(error)",
+                        level: .error, type: .orderBookService)
+                    orderBookDiffPublisher = .failure(.decoder)
+                }
             }
+        } else if let error = try? JSONDecoder.binance.decode(BinanceWSError.self, from: data) {
+            Log.message("didReceive message: \(error)", level: .error, type: .orderBookService)
+            orderBookDiffPublisher = .failure(.wsError(error))
+        } else {
+            Log.message("didReceive un-handled event type", level: .error, type: .orderBookService)
         }
     }
     

@@ -10,7 +10,7 @@ import Foundation
 
 /// Errors returned by Binance WebSocket.
 /// - seeAlso: https://github.com/binance-exchange/binance-official-api-docs/blob/master/web-socket-streams.md#error-messages
-enum BinanceWSError: Decodable {
+enum BinanceWSError: Decodable, Equatable {
 
     case unknownProperty(message: String)
     case invalidValue(message: String)
@@ -22,8 +22,9 @@ enum BinanceWSError: Decodable {
     
     public init(from decoder: Decoder) throws {
         let keyedContainer = try decoder.container(keyedBy: CodingKeys.self)
-        let code = try keyedContainer.decode(Int.self, forKey: .code)
-        let message = try keyedContainer.decode(String.self, forKey: .message)
+        let errorContainer = try keyedContainer.nestedContainer(keyedBy: ErrorCodingKeys.self, forKey: .error)
+        let code = try errorContainer.decode(Int.self, forKey: .code)
+        let message = try errorContainer.decode(String.self, forKey: .message)
         
         switch code {
         case 0:
@@ -40,6 +41,10 @@ enum BinanceWSError: Decodable {
     }
     
     enum CodingKeys: String, CodingKey {
+        case error
+    }
+    
+    enum ErrorCodingKeys: String, CodingKey {
         case code
         case message = "msg"
     }

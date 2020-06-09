@@ -10,10 +10,11 @@ import UIKit
 
 final class DevMenuViewController: UITableViewController {
     
-    @IBOutlet var fromMarketPairTextField: UITextField!
-    @IBOutlet var toMarketPairTextField: UITextField!
+    @IBOutlet weak var fromMarketPairTextField: UITextField!
+    @IBOutlet weak var toMarketPairTextField: UITextField!
     @IBOutlet weak var depthLimitTextField: UITextField!
     @IBOutlet weak var aggLimitTextField: UITextField!
+    @IBOutlet weak var updateSpeedSegmented: UISegmentedControl!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,12 +27,14 @@ final class DevMenuViewController: UITableViewController {
         guard let section = Sections(rawValue: indexPath.section) else { return  }
         switch section {
         case .start:
-            guard let marketPair = MarketPair(from: fromMarketPairTextField.text,
-                                              to: toMarketPairTextField.text)
-                else { return }
-            let vc = MarketDetailViewController(viewModel: MarketDetailViewModel(marketPair: marketPair),
-                                                orderBookViewModel: OrderBookViewModel(marketPair: marketPair),
-                                                marketHistoryViewModel: MarketHistoryViewModel(marketPair: marketPair))
+            guard let marketPair = marketPair, let updateSpeed = updateSpeed, let limit = depthLimit else { return }
+            let vc = MarketDetailViewController(
+                viewModel: MarketDetailViewModel(marketPair: marketPair),
+                orderBookViewModel: OrderBookViewModel(marketPair: marketPair,
+                                                       limit: limit,
+                                                       updateSpeed: updateSpeed),
+                marketHistoryViewModel: MarketHistoryViewModel(marketPair: marketPair)
+            )
             navigationController?.pushViewController(vc, animated: true)
         case .marketDetails:
             break
@@ -60,5 +63,28 @@ extension DevMenuViewController {
     enum Components: Int {
         case pageViewController
         case loadingView
+    }
+}
+
+// MARK: - Private
+
+private extension DevMenuViewController {
+    
+    var marketPair: MarketPair? {
+        MarketPair(from: fromMarketPairTextField.text, to: toMarketPairTextField.text)
+    }
+    
+    var updateSpeed: BinanceWSRouter.UpdateSpeed? {
+        updateSpeedSegmented.selectedSegmentIndex == 0 ? .hundred : .thousand
+    }
+    
+    var depthLimit: UInt? {
+        guard let text = depthLimitTextField.text else { return nil }
+        return UInt(text)
+    }
+    
+    var aggLimit: UInt? {
+        guard let text = aggLimitTextField.text else { return nil }
+        return UInt(text)
     }
 }

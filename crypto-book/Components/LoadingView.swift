@@ -36,9 +36,12 @@ final class LoadingView: UIView {
     }
     
     @discardableResult
-    func present(in view: UIView?) -> LoadingView {
-        transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
+    func present(in view: UIView?, message: String? = nil) -> LoadingView {
+        set(message: message)
         view?.addFillingSubview(self)
+        transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
+        setNeedsLayout()
+        layoutIfNeeded()
         UIView.animate(withDuration: 0.1) {
             self.transform = .identity
         }
@@ -56,8 +59,7 @@ final class LoadingView: UIView {
     @discardableResult
     func update(message: String?) -> LoadingView {
         UIView.animate(withDuration: 0.1) {
-            self.label.isHidden = message?.count ?? -1 == 0
-            self.label.text = message
+            self.set(message: message)
             self.layoutIfNeeded()
         }
         return self
@@ -100,5 +102,10 @@ private extension LoadingView {
         label.setContentCompressionResistancePriority(.required, for: .horizontal)
         
         spinner.startAnimating()
+    }
+    
+    func set(message: String?) {
+        label.isHidden = message?.count ?? 0 == 0
+        label.text = message
     }
 }
