@@ -1,5 +1,5 @@
 //
-//  OrderBookDiffTests.swift
+//  WSOrderBookDiffTests.swift
 //  unit-tests
 //
 //  Created by Nestor Garcia on 06/06/2020.
@@ -9,7 +9,7 @@
 import XCTest
 @testable import crypto_book
 
-final class OrderBookDiffTests: XCTestCase {
+final class WSOrderBookDiffTests: XCTestCase {
     
     func testDecoder() {
         let jsonString =
@@ -43,11 +43,11 @@ final class OrderBookDiffTests: XCTestCase {
         }
         """
         let jsonData = Parser.JSONData(from: jsonString)!
-        let sut = try! JSONDecoder().decode(OrderBook.Diff.self, from: jsonData)
+        let sut = try! JSONDecoder().decode(WSOrderBookDiff.self, from: jsonData)
         
-        XCTAssertEqual(sut.eventType, .depthUpdate)
-        XCTAssertEqual(sut.eventTimeInterval, 123456789)
-        XCTAssertEqual(sut.symbol, "BNBBTC")
+        XCTAssertEqual(sut.event.type, .depthUpdate)
+        XCTAssertEqual(sut.event.timeInterval, 123456789)
+        XCTAssertEqual(sut.event.symbol, "BNBBTC")
         XCTAssertEqual(sut.firstUpdateId, 157)
         XCTAssertEqual(sut.lastUpdateId, 160)
         XCTAssertEqual(sut.bids,

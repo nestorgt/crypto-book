@@ -53,8 +53,8 @@ final class OrderBookService: OrderBookServiceProtocol {
     private var marketPair: MarketPair
     private var updateSpeed: BinanceWSRouter.UpdateSpeed
     
-    @Published private var orderBookDiffPublisher: Result<OrderBook.Diff, OrderBookServiceError>?
-    private var orderBookDiffBuffer = [OrderBook.Diff]()
+    @Published private var orderBookDiffPublisher: Result<WSOrderBookDiff, OrderBookServiceError>?
+    private var orderBookDiffBuffer = [WSOrderBookDiff]()
     private var isRequestingOrderBook = false
     
     private var orderBookDiffPublisherCancelable: AnyCancellable?
@@ -203,7 +203,7 @@ private extension OrderBookService {
         })
     }
     
-    func addToBuffer(_ orderBookDiff: OrderBook.Diff) {
+    func addToBuffer(_ orderBookDiff: WSOrderBookDiff) {
         Log.message("BUFFER add \(orderBookDiff.lastUpdateId)",
             level: .debug, type: .orderBookService)
         orderBookDiffBuffer.append(orderBookDiff)
@@ -219,7 +219,7 @@ private extension OrderBookService {
         orderBookDiffBuffer = []
     }
     
-    func mergeOrderBook(with orderBookDiffs: [OrderBook.Diff]) {
+    func mergeOrderBook(with orderBookDiffs: [WSOrderBookDiff]) {
         let orderBook = orderBookPublisher.value?.merging(diffs: orderBookDiffs)
         orderBookPublisher.send(orderBook)
         isConnecting.value = false
@@ -256,7 +256,7 @@ extension OrderBookService: WebSocketServiceDelegate {
                 break
             case .depthUpdate:
                 do {
-                    let depthUpdate = try JSONDecoder.binance.decode(OrderBook.Diff.self, from: data)
+                    let depthUpdate = try JSONDecoder.binance.decode(WSOrderBookDiff.self, from: data)
                     Log.message("depthUpdate: \(depthUpdate.firstUpdateId) -> \(depthUpdate.lastUpdateId)",
                         level: .debug, type: .orderBookService)
                     orderBookDiffPublisher = .success(depthUpdate)

@@ -22,7 +22,7 @@ extension OrderBook {
     8- If the quantity is 0, remove the price level.
     9- Receiving an event that removes a price level that is not in your local order book can happen and is normal.
     */
-    func merging(diffs: [OrderBook.Diff]) -> OrderBook {
+    func merging(diffs: [WSOrderBookDiff]) -> OrderBook {
 //        Log.message("Merging diffs: \(diffs)", level: .debug, type: .orderBook)
         // Ignore any old update Id
         let validDiffs = diffs.filter { $0.lastUpdateId > lastUpdateId }

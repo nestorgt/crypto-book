@@ -41,13 +41,13 @@ struct OrderBookDiffMock {
     static func make(firstUpdateId: UInt64,
                      lastUpdateId: UInt64,
                      bids: [OrderBook.Offer] = [],
-                     asks: [OrderBook.Offer] = []) -> OrderBook.Diff {
-        OrderBook.Diff(eventType: .depthUpdate,
-                      eventTimeInterval: Date().timeIntervalSince1970,
-                      symbol: "BTCUSDT",
-                      firstUpdateId: firstUpdateId,
-                      lastUpdateId: lastUpdateId,
-                      bids: bids,
-                      asks: asks)
+                     asks: [OrderBook.Offer] = []) -> WSOrderBookDiff {
+        WSOrderBookDiff(event: WSEvent(type: .depthUpdate,
+                                       timeInterval: Date().timeIntervalSince1970,
+                                       symbol: "BTCUSDT"),
+                        firstUpdateId: firstUpdateId,
+                        lastUpdateId: lastUpdateId,
+                        bids: bids,
+                        asks: asks)
     }
 }

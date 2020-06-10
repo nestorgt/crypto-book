@@ -8,29 +8,25 @@
 
 import Foundation
 
-extension OrderBook {
- 
-    /// Order book depth diff from WebSocket
-    struct Diff: CustomStringConvertible {
-        let eventType: BinanceWSEventType
-        let eventTimeInterval: TimeInterval
-        let symbol: String
-        let firstUpdateId: UInt64
-        let lastUpdateId: UInt64
-        let bids: [OrderBook.Offer]
-        let asks: [OrderBook.Offer]
-        
-        var description: String {
-            """
-            \n- \(firstUpdateId) -> \(lastUpdateId)
-            - bids: \(bids)
-            - tasks: \(asks)
-            """
-        }
+/// Trade history item model from WebSocket..
+struct WSOrderBookDiff: WSEventProtocol, Equatable, CustomStringConvertible {
+    
+    let event: WSEvent
+    let firstUpdateId: UInt64
+    let lastUpdateId: UInt64
+    let bids: [OrderBook.Offer]
+    let asks: [OrderBook.Offer]
+    
+    var description: String {
+        """
+        \n- \(firstUpdateId) -> \(lastUpdateId)
+        - bids: \(bids)
+        - tasks: \(asks)
+        """
     }
 }
     
-extension OrderBook.Diff: Decodable {
+extension WSOrderBookDiff: Decodable {
         
     // MARK: - Decodable
     
@@ -57,10 +53,8 @@ extension OrderBook.Diff: Decodable {
     */
     
     public init(from decoder: Decoder) throws {
+        event = try decoder.singleValueContainer().decode(WSEvent.self)
         let keyedContainer = try decoder.container(keyedBy: CodingKeys.self)
-        eventType = try keyedContainer.decode(BinanceWSEventType.self, forKey: .eventType)
-        eventTimeInterval = try keyedContainer.decode(TimeInterval.self, forKey: .eventTimeInterval)
-        symbol = try keyedContainer.decode(String.self, forKey: .symbol)
         firstUpdateId = try keyedContainer.decode(UInt64.self, forKey: .firstUpdateId)
         lastUpdateId = try keyedContainer.decode(UInt64.self, forKey: .lastUpdateId)
         let bidsArray = try keyedContainer.decode([[String]].self, forKey: .bids)
@@ -70,9 +64,6 @@ extension OrderBook.Diff: Decodable {
     }
     
     enum CodingKeys: String, CodingKey {
-        case eventType = "e"
-        case eventTimeInterval = "E"
-        case symbol = "s"
         case firstUpdateId = "U"
         case lastUpdateId = "u"
         case bids = "b"

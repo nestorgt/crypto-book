@@ -52,10 +52,10 @@
 		8ED65020248BE69B0044B32D /* BinanceWSRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED6501F248BE69B0044B32D /* BinanceWSRouter.swift */; };
 		8ED65029248C0F460044B32D /* URLSessionWebSocketTaskMessage+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED65028248C0F460044B32D /* URLSessionWebSocketTaskMessage+.swift */; };
 		8ED6502B248C0FF70044B32D /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED6502A248C0FF70044B32D /* Parser.swift */; };
-		8ED6502D248C12170044B32D /* OrderBookDiff.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED6502C248C12170044B32D /* OrderBookDiff.swift */; };
+		8ED6502D248C12170044B32D /* WSOrderBookDiff.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED6502C248C12170044B32D /* WSOrderBookDiff.swift */; };
 		8ED6502F248C12EA0044B32D /* BinanceWSError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED6502E248C12EA0044B32D /* BinanceWSError.swift */; };
 		8ED65032248C17220044B32D /* BinanceWSEventType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED65031248C17220044B32D /* BinanceWSEventType.swift */; };
-		8ED6503B248C19D30044B32D /* OrderBookDiffTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED6503A248C19D30044B32D /* OrderBookDiffTests.swift */; };
+		8ED6503B248C19D30044B32D /* WSOrderBookDiffTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED6503A248C19D30044B32D /* WSOrderBookDiffTests.swift */; };
 		8ED6503D248C24430044B32D /* JSONDecoder+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED6503C248C24430044B32D /* JSONDecoder+.swift */; };
 		8ED65040248C50970044B32D /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED6503F248C50970044B32D /* APIService.swift */; };
 		8ED65042248C513C0044B32D /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED65041248C513C0044B32D /* APIError.swift */; };
@@ -167,10 +167,10 @@
 		8ED6501F248BE69B0044B32D /* BinanceWSRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BinanceWSRouter.swift; sourceTree = "<group>"; };
 		8ED65028248C0F460044B32D /* URLSessionWebSocketTaskMessage+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSessionWebSocketTaskMessage+.swift"; sourceTree = "<group>"; };
 		8ED6502A248C0FF70044B32D /* Parser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
-		8ED6502C248C12170044B32D /* OrderBookDiff.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderBookDiff.swift; sourceTree = "<group>"; };
+		8ED6502C248C12170044B32D /* WSOrderBookDiff.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WSOrderBookDiff.swift; sourceTree = "<group>"; };
 		8ED6502E248C12EA0044B32D /* BinanceWSError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BinanceWSError.swift; sourceTree = "<group>"; };
 		8ED65031248C17220044B32D /* BinanceWSEventType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BinanceWSEventType.swift; sourceTree = "<group>"; };
-		8ED6503A248C19D30044B32D /* OrderBookDiffTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderBookDiffTests.swift; sourceTree = "<group>"; };
+		8ED6503A248C19D30044B32D /* WSOrderBookDiffTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WSOrderBookDiffTests.swift; sourceTree = "<group>"; };
 		8ED6503C248C24430044B32D /* JSONDecoder+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "JSONDecoder+.swift"; sourceTree = "<group>"; };
 		8ED6503F248C50970044B32D /* APIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
 		8ED65041248C513C0044B32D /* APIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
@@ -583,7 +583,7 @@
 			isa = PBXGroup;
 			children = (
 				8ED650A8249067910044B32D /* WSEvent.swift */,
-				8ED6502C248C12170044B32D /* OrderBookDiff.swift */,
+				8ED6502C248C12170044B32D /* WSOrderBookDiff.swift */,
 				8ED650A6249067050044B32D /* WSTrade.swift */,
 			);
 			path = WebSocket;
@@ -592,9 +592,9 @@
 		8ED650AD24906B0A0044B32D /* WebSocket */ = {
 			isa = PBXGroup;
 			children = (
-				8ED6503A248C19D30044B32D /* OrderBookDiffTests.swift */,
-				8ED650AB249069030044B32D /* WSTradeTests.swift */,
 				8ED650AE24906B1E0044B32D /* WSEventTests.swift */,
+				8ED6503A248C19D30044B32D /* WSOrderBookDiffTests.swift */,
+				8ED650AB249069030044B32D /* WSTradeTests.swift */,
 			);
 			path = WebSocket;
 			sourceTree = "<group>";
@@ -742,7 +742,7 @@
 				8E92A296248805BD00D43828 /* Logger.swift in Sources */,
 				8ED65020248BE69B0044B32D /* BinanceWSRouter.swift in Sources */,
 				8ED6500A248ADF2D0044B32D /* OrderBookService.swift in Sources */,
-				8ED6502D248C12170044B32D /* OrderBookDiff.swift in Sources */,
+				8ED6502D248C12170044B32D /* WSOrderBookDiff.swift in Sources */,
 				8ED65015248B14530044B32D /* OrderBookAskCell.swift in Sources */,
 				8ED65029248C0F460044B32D /* URLSessionWebSocketTaskMessage+.swift in Sources */,
 				8ED65017248B158E0044B32D /* OrderBookBidCell.swift in Sources */,
@@ -812,7 +812,7 @@
 				8ED65099248FFA2C0044B32D /* DateTests.swift in Sources */,
 				8ED65071248FDA6A0044B32D /* BinanceAPIRouterTests.swift in Sources */,
 				8ED65006248AD0F60044B32D /* DoubleTests.swift in Sources */,
-				8ED6503B248C19D30044B32D /* OrderBookDiffTests.swift in Sources */,
+				8ED6503B248C19D30044B32D /* WSOrderBookDiffTests.swift in Sources */,
 				8ED6506E248FCC490044B32D /* MarketPairMock.swift in Sources */,
 				8ED6508F248FF1BD0044B32D /* TradeTests.swift in Sources */,
 				8ED650AC249069030044B32D /* WSTradeTests.swift in Sources */,
