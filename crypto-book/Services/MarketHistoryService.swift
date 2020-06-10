@@ -34,8 +34,8 @@ final class MarketHistoryService: MarketHistoryServiceProtocol {
     private let updateSpeed: BinanceWSRouter.UpdateSpeed
     
     private var binanceWSService: BinanceWSServiceProtocol
+    private let binanceAPIService: BinanceAPIServiceProtocol
     private let reachabilityService: ReachabilityServiceProtocol
-    private let apiService: BinanceAPIServiceProtocol
     
     private var buffer = [Trade]()
     private var isRequestingAPIMarketHistory = false
@@ -45,13 +45,13 @@ final class MarketHistoryService: MarketHistoryServiceProtocol {
     init(marketPair: MarketPair,
          limit: UInt,
          updateSpeed: BinanceWSRouter.UpdateSpeed,
-         apiService: BinanceAPIServiceProtocol = BinanceAPIService(),
          binanceWSService: BinanceWSServiceProtocol,
+         binanceAPIService: BinanceAPIServiceProtocol = BinanceAPIService(),
          reachabilityService: ReachabilityServiceProtocol = ReachabilityService()) {
         self.marketPair = marketPair
         self.updateSpeed = updateSpeed
         self.limit = limit
-        self.apiService = apiService
+        self.binanceAPIService = binanceAPIService
         self.binanceWSService = binanceWSService
         self.reachabilityService = reachabilityService
         setupReachability()
@@ -96,17 +96,17 @@ private extension MarketHistoryService {
         binanceWSService.publisher
             .compactMap { $0 }
             .sink(receiveCompletion: { completion in
-                Log.message("receiveCompletion \(completion)", level: .error, type: .marketHistoryService)
+                Log.message("publisher \(completion)", level: .error, type: .marketHistoryService)
             }, receiveValue: { [weak self] result in
                 switch result {
-                case .success(let trade):
-                    guard let wsTrade = trade as? WSTrade else {
+                case .success(let wsEvent):
+                    guard let wsTrade = wsEvent as? WSTrade else {
                         Log.message("Can't cast to WSTrade", level: .error, type: .marketHistoryService)
                         return
                     }
                     self?.update(with: wsTrade.trade)
                 case .failure(let error):
-                    Log.message("receiveValue error \(error)", level: .error, type: .marketHistoryService)
+                    Log.message("publisher error \(error)", level: .error, type: .marketHistoryService)
                 }
             })
             .store(in: &cancelables)
@@ -167,16 +167,15 @@ private extension MarketHistoryService {
     }
     
     func fetchMarketHistory(completion: @escaping (Bool) -> Void) {
-        apiService.compressedTrades(marketPair: marketPair, limit: limit) { [weak self] result in
+        binanceAPIService.compressedTrades(marketPair: marketPair, limit: limit) { [weak self] result in
             switch result {
             case .success(let trades):
                 Log.message("Fetched \(trades.count) trades, most recent: (\(trades.first?.timestamp ?? 0))",
                     level: .info, type: .marketHistoryService)
-                self?.marketHistoryPublisher.value = result.value
+                self?.marketHistoryPublisher.value = trades
                 completion(true)
             case .failure(let error):
-                Log.message("Could not retrieved trades: \(error)",
-                level: .error, type: .marketHistoryService)
+                Log.message("Could not retrieved trades: \(error)", level: .error, type: .marketHistoryService)
                 completion(false)
             }
         }

@@ -34,23 +34,27 @@ final class OrderBookViewModel {
          updateSpeed: BinanceWSRouter.UpdateSpeed) {
         self.marketPair = marketPair
         self.updateSpeed = updateSpeed
-        self.orderBookService = OrderBookService(marketPair: marketPair, limit: limit, updateSpeed: updateSpeed)
+        let url = BinanceWSRouter.depth(for: marketPair, updateSpeed: updateSpeed)
+        self.orderBookService = OrderBookService(marketPair: marketPair,
+                                                 limit: limit,
+                                                 updateSpeed: updateSpeed,
+                                                 binanceWSService: BinanceWSService(url: url))
         setupBindings()
     }
     
     func startLiveUpdates() {
         Log.message("START Live Updates", level: .info, type: .orderBookViewModel)
-        orderBookService.resume()
+        orderBookService.start()
     }
     
     func pauseLiveUpdates() {
         Log.message("START Live Updates", level: .info, type: .orderBookViewModel)
-        orderBookService.suspend()
+        orderBookService.pause()
     }
     
     func stopLiveUpdates() {
         Log.message("STOP Live Updates", level: .info, type: .orderBookViewModel)
-        orderBookService.cancel()
+        orderBookService.stop()
     }
 }
 

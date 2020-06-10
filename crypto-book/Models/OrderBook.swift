@@ -17,8 +17,8 @@ struct OrderBook: CustomStringConvertible, Equatable {
     var description: String {
         """
         \n- lastUpdateId: \(lastUpdateId)
-        - bids: \(bids)
-        - tasks: \(asks)
+        - bids: \(bids.count)
+        - tasks: \(asks.count)
         """
     }
 }

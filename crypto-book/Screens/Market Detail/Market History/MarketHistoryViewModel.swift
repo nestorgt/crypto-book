@@ -32,11 +32,11 @@ final class MarketHistoryViewModel {
          updateSpeed: BinanceWSRouter.UpdateSpeed) {
         self.marketPair = marketPair
         self.updateSpeed = updateSpeed
-        let wsRouter = BinanceWSRouter.compressedTrades(for: marketPair)
+        let url = BinanceWSRouter.compressedTrades(for: marketPair)
         self.marketHistoryService = MarketHistoryService(marketPair: marketPair,
                                                          limit: limit,
                                                          updateSpeed: updateSpeed,
-                                                         binanceWSService: BinanceWSService(url: wsRouter))
+                                                         binanceWSService: BinanceWSService(url: url))
         setupBindings()
     }
     
