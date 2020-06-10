@@ -1,5 +1,5 @@
 //
-//  DevMenuLoadingView.swift
+//  DevMenuLoadingViewController.swift
 //  crypto-book
 //
 //  Created by Nestor Garcia on 08/06/2020.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-final class DevMenuLoadingView: UIViewController {
+final class DevMenuLoadingViewController: UIViewController {
     
     private var spinner: LoadingView?
     private let segmentedControl = UISegmentedControl()
@@ -25,11 +25,10 @@ final class DevMenuLoadingView: UIViewController {
 
 // MARK: - Private
 
-private extension DevMenuLoadingView {
+private extension DevMenuLoadingViewController {
 
     func setupNavigationBar() {
         view.backgroundColor = .binanceBackground
-        title = "PageViewController"
         navigationItem.setRightBarButtonItems([
             UIBarButtonItem(barButtonSystemItem: .play, target: self, action: #selector(addLoadingView)),
             UIBarButtonItem(barButtonSystemItem: .fastForward, target: self, action: #selector(changeText)),

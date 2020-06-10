@@ -51,3 +51,20 @@ private extension DevMenuPageViewController {
         return vc
     }
 }
+
+// MARK: - ChildPageViewControllerMock
+
+final class ChildPageViewControllerMock: UIViewController, ChildPageViewController {
+    
+    var isActive: Bool = false {
+        didSet { Log.message("\(title ?? "") isActive: \(isActive)", level: .debug, type: .devMenu) }
+    }
+    
+    func willBecomeActive() {
+        Log.message("\(title ?? "") willBecomeActive", level: .debug, type: .devMenu)
+    }
+    
+    func willResignActive() {
+        Log.message("\(title ?? "") willResignActive", level: .debug, type: .devMenu)
+    }
+}

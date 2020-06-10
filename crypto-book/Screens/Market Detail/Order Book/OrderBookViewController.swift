@@ -116,7 +116,8 @@ private extension OrderBookViewController {
                     : self?.loadingView.dismiss() }
             .store(in: &cancelables)
         
-        viewModel.$askCellViewModels.combineLatest(viewModel.$bidCellViewModels)
+        viewModel.$askCellViewModels
+            .zip(viewModel.$bidCellViewModels)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 // Prevent rendering when scrolling
