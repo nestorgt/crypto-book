@@ -20,12 +20,12 @@ final class BinanceAPITests: XCTestCase {
     
     // MARK: - Tests
 
-    func testConvertSuccess_USDNZD_10() {
+    func testAggTradesSuccess_USDNZD_10() {
         let marketPair = MarketPairMock.btcusdt
         var result: Result<[Trade], BinanceAPIError>!
         let expectation = XCTestExpectation(description: "Performs a request")
         binanceAPIService
-            .compressedTrades(marketPair: marketPair, limit: 10, completion: { r in
+            .aggTrades(marketPair: marketPair, limit: 10, completion: { r in
                 result = r
                 expectation.fulfill()
             })
@@ -35,5 +35,21 @@ final class BinanceAPITests: XCTestCase {
         XCTAssertTrue(result.isSuccess)
         XCTAssertNotNil(result.value)
         XCTAssertEqual(result.value?.count, 10)
+    }
+    
+    func testConvertSuccess_USDNZD_10() {
+        let marketPair = MarketPairMock.btcusdt
+        var result: Result<OrderBook, BinanceAPIError>!
+        let expectation = XCTestExpectation(description: "Performs a request")
+        binanceAPIService
+            .depthSnapshot(marketPair: marketPair, completion: { r in
+                result = r
+                expectation.fulfill()
+            })
+
+        wait(for: [expectation], timeout: 2)
+
+        XCTAssertTrue(result.isSuccess)
+        XCTAssertNotNil(result.value)
     }
 }

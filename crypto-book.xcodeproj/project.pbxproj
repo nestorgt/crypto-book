@@ -36,7 +36,6 @@
 		8EA6FF002487BE8400AC978E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8EA6FEFE2487BE8400AC978E /* Main.storyboard */; };
 		8EA6FF022487BE8500AC978E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8EA6FF012487BE8500AC978E /* Assets.xcassets */; };
 		8EA6FF052487BE8500AC978E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8EA6FF032487BE8500AC978E /* LaunchScreen.storyboard */; };
-		8EA6FF102487BE8500AC978E /* crypto_bookTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EA6FF0F2487BE8500AC978E /* crypto_bookTests.swift */; };
 		8ED65002248AC9EC0044B32D /* OrderBookTableType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED65001248AC9EC0044B32D /* OrderBookTableType.swift */; };
 		8ED65004248AD0B00044B32D /* Double+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED65003248AD0B00044B32D /* Double+.swift */; };
 		8ED65006248AD0F60044B32D /* DoubleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED65005248AD0F60044B32D /* DoubleTests.swift */; };
@@ -98,6 +97,8 @@
 		8ED650A9249067910044B32D /* WSEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED650A8249067910044B32D /* WSEvent.swift */; };
 		8ED650AC249069030044B32D /* WSTradeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED650AB249069030044B32D /* WSTradeTests.swift */; };
 		8ED650AF24906B1E0044B32D /* WSEventTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED650AE24906B1E0044B32D /* WSEventTests.swift */; };
+		8ED650B124912D830044B32D /* SelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED650B024912D830044B32D /* SelectorView.swift */; };
+		8ED650B424912F310044B32D /* SelectorButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED650B324912F310044B32D /* SelectorButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -150,7 +151,6 @@
 		8EA6FF042487BE8500AC978E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8EA6FF062487BE8500AC978E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8EA6FF0B2487BE8500AC978E /* unit-tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "unit-tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		8EA6FF0F2487BE8500AC978E /* crypto_bookTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = crypto_bookTests.swift; sourceTree = "<group>"; };
 		8EA6FF112487BE8500AC978E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8ED65001248AC9EC0044B32D /* OrderBookTableType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderBookTableType.swift; sourceTree = "<group>"; };
 		8ED65003248AD0B00044B32D /* Double+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+.swift"; sourceTree = "<group>"; };
@@ -214,6 +214,8 @@
 		8ED650A8249067910044B32D /* WSEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WSEvent.swift; sourceTree = "<group>"; };
 		8ED650AB249069030044B32D /* WSTradeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WSTradeTests.swift; sourceTree = "<group>"; };
 		8ED650AE24906B1E0044B32D /* WSEventTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WSEventTests.swift; sourceTree = "<group>"; };
+		8ED650B024912D830044B32D /* SelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectorView.swift; sourceTree = "<group>"; };
+		8ED650B324912F310044B32D /* SelectorButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectorButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -249,6 +251,7 @@
 				8ED6502A248C0FF70044B32D /* Parser.swift */,
 				8ED6505F248E9BA00044B32D /* LoadingView.swift */,
 				8ED650A424904F4B0044B32D /* Metrics.swift */,
+				8ED650B224912F260044B32D /* Selector */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -353,7 +356,6 @@
 				8ED65043248C51740044B32D /* Services */,
 				8ED65039248C19C40044B32D /* Models */,
 				8ED65035248C19A40044B32D /* Extensions */,
-				8EA6FF0F2487BE8500AC978E /* crypto_bookTests.swift */,
 				8EA6FF212487BF0B00AC978E /* Supporting Files */,
 			);
 			path = "unit-tests";
@@ -599,6 +601,15 @@
 			path = WebSocket;
 			sourceTree = "<group>";
 		};
+		8ED650B224912F260044B32D /* Selector */ = {
+			isa = PBXGroup;
+			children = (
+				8ED650B024912D830044B32D /* SelectorView.swift */,
+				8ED650B324912F310044B32D /* SelectorButton.swift */,
+			);
+			path = Selector;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -738,6 +749,7 @@
 				8EA6FEFD2487BE8400AC978E /* DevMenuViewController.swift in Sources */,
 				8EA6AB4B248A99F80017FE63 /* MarketHistoryViewModel.swift in Sources */,
 				8ED650A524904F4B0044B32D /* Metrics.swift in Sources */,
+				8ED650B424912F310044B32D /* SelectorButton.swift in Sources */,
 				8ED65013248AF8260044B32D /* ChildPageViewControllerMock.swift in Sources */,
 				8E92A296248805BD00D43828 /* Logger.swift in Sources */,
 				8ED65020248BE69B0044B32D /* BinanceWSRouter.swift in Sources */,
@@ -797,6 +809,7 @@
 				8E92A29A2488405F00D43828 /* String+.swift in Sources */,
 				8EA6AB4F248AA6E60017FE63 /* OrderBookCellViewModel.swift in Sources */,
 				8E92A2922487F18E00D43828 /* UIColor+.swift in Sources */,
+				8ED650B124912D830044B32D /* SelectorView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -805,7 +818,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				8ED650AF24906B1E0044B32D /* WSEventTests.swift in Sources */,
-				8EA6FF102487BE8500AC978E /* crypto_bookTests.swift in Sources */,
 				8ED6508B248FE8530044B32D /* BinanceAPIErrorTests.swift in Sources */,
 				8ED65052248D51E40044B32D /* OrderBook+MergeTests.swift in Sources */,
 				8ED6504A248C5A330044B32D /* OrderBookTests.swift in Sources */,

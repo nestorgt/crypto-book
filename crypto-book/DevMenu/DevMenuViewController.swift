@@ -10,11 +10,14 @@ import UIKit
 
 final class DevMenuViewController: UITableViewController {
     
+    static var uiThrottle: DispatchQueue.SchedulerTimeType.Stride = .milliseconds(500)
+    
     @IBOutlet weak var fromMarketPairTextField: UITextField!
     @IBOutlet weak var toMarketPairTextField: UITextField!
     @IBOutlet weak var depthLimitTextField: UITextField!
     @IBOutlet weak var aggLimitTextField: UITextField!
     @IBOutlet weak var updateSpeedSegmented: UISegmentedControl!
+    @IBOutlet weak var uiThrottleSegmented: UISegmentedControl!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,6 +54,15 @@ final class DevMenuViewController: UITableViewController {
             case .loadingView:
                 navigationController?.pushViewController(DevMenuLoadingView(), animated: true)
             }
+        }
+    }
+    @IBAction func uiThrottleChanged(_ sender: UISegmentedControl) {
+        switch sender.selectedSegmentIndex {
+        case 0: Self.uiThrottle = .zero
+        case 1: Self.uiThrottle = .milliseconds(250)
+        case 2: Self.uiThrottle = .milliseconds(500)
+        case 3: Self.uiThrottle = .milliseconds(1000)
+        default: Self.uiThrottle = .milliseconds(500)
         }
     }
 }

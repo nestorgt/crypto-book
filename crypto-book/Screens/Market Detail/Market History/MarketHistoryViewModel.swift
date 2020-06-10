@@ -32,7 +32,7 @@ final class MarketHistoryViewModel {
          updateSpeed: BinanceWSRouter.UpdateSpeed) {
         self.marketPair = marketPair
         self.updateSpeed = updateSpeed
-        let url = BinanceWSRouter.compressedTrades(for: marketPair)
+        let url = BinanceWSRouter.aggTrades(for: marketPair)
         self.marketHistoryService = MarketHistoryService(marketPair: marketPair,
                                                          limit: limit,
                                                          updateSpeed: updateSpeed,
@@ -62,7 +62,7 @@ private extension MarketHistoryViewModel {
     
     func setupBindings() {
         marketHistoryService.marketHistoryPublisher
-            .throttle(for: .milliseconds(updateSpeed.milliseconds),
+            .throttle(for: DevMenuViewController.uiThrottle,
                       scheduler: DispatchQueue(label: "\(Self.self)"),
                       latest: true)
             .compactMap { $0 }

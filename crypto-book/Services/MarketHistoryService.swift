@@ -167,7 +167,7 @@ private extension MarketHistoryService {
     }
     
     func fetchMarketHistory(completion: @escaping (Bool) -> Void) {
-        binanceAPIService.compressedTrades(marketPair: marketPair, limit: limit) { [weak self] result in
+        binanceAPIService.aggTrades(marketPair: marketPair, limit: limit) { [weak self] result in
             switch result {
             case .success(let trades):
                 Log.message("Fetched \(trades.count) trades, most recent: (\(trades.first?.timestamp ?? 0))",

@@ -13,7 +13,7 @@ protocol BinanceAPIServiceProtocol {
     func depthSnapshot(marketPair: MarketPair,
                        completion: @escaping (Result<OrderBook, BinanceAPIError>) -> Void)
     
-    func compressedTrades(marketPair: MarketPair,
+    func aggTrades(marketPair: MarketPair,
                           limit: UInt,
                           completion: @escaping (Result<[Trade], BinanceAPIError>) -> Void)
 }
@@ -46,10 +46,10 @@ final class BinanceAPIService: BinanceAPIServiceProtocol {
         })
     }
     
-    func compressedTrades(marketPair: MarketPair,
+    func aggTrades(marketPair: MarketPair,
                           limit: UInt,
                           completion: @escaping (Result<[Trade], BinanceAPIError>) -> Void) {
-        guard let request = BinanceAPIRouter.compressedTrades(marketPair: marketPair, limit: limit) else {
+        guard let request = BinanceAPIRouter.aggTrades(marketPair: marketPair, limit: limit) else {
             completion(.failure(.generic(message: "Can't build request")))
             return
         }

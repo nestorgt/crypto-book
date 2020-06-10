@@ -72,7 +72,6 @@ final class LoadingView: UIView {
 
 // MARK: - Private
 
-
 private extension LoadingView {
     
     func setupViews() {

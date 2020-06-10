@@ -64,7 +64,7 @@ private extension OrderBookViewModel {
     
     func setupBindings() {
         orderBookService.orderBookPublisher
-            .throttle(for: .milliseconds(updateSpeed.milliseconds),
+            .throttle(for: DevMenuViewController.uiThrottle,
                       scheduler: DispatchQueue(label: "\(Self.self)"),
                       latest: true)
             .sink(receiveCompletion: { error in

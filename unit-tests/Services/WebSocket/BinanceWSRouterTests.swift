@@ -24,13 +24,13 @@ final class BinanceWSRouterTests: XCTestCase {
     }
     
     func testCompressedTrade_BTCUSDT() {
-        let sut = BinanceWSRouter.compressedTrades(for: MarketPairMock.btcusdt)
+        let sut = BinanceWSRouter.aggTrades(for: MarketPairMock.btcusdt)
         
         XCTAssertEqual(sut.absoluteString, "wss://stream.binance.com:9443/ws/btcusdt@aggTrade")
     }
     
     func testCompressedTrade_BNBUSDT() {
-        let sut = BinanceWSRouter.compressedTrades(for: MarketPairMock.bnbusdt)
+        let sut = BinanceWSRouter.aggTrades(for: MarketPairMock.bnbusdt)
         
         XCTAssertEqual(sut.absoluteString, "wss://stream.binance.com:9443/ws/bnbusdt@aggTrade")
     }

@@ -26,9 +26,9 @@ struct BinanceAPIRouter {
         return urlRequest
     }
 
-    static func compressedTrades(marketPair: MarketPair, limit: UInt = 80) -> URLRequest? {
+    static func aggTrades(marketPair: MarketPair, limit: UInt = 80) -> URLRequest? {
         var components = commonComponents
-        components.path = path(for: .compressedTrades)
+        components.path = path(for: .aggTrades)
         components.queryItems = [symbolComponent(for: marketPair),
                                  limitComponent(for: limit)]
         guard let url = components.url else { return nil }
@@ -44,7 +44,7 @@ extension BinanceAPIRouter {
     
     enum PathName: String {
         case depth
-        case compressedTrades = "aggTrades"
+        case aggTrades = "aggTrades"
     }
 }
 

@@ -16,7 +16,7 @@ struct BinanceWSRouter {
         url(for: marketPair, streamName: .depth, updateSpeed: updateSpeed)
     }
     
-    static func compressedTrades(for marketPair: MarketPair) -> URL {
+    static func aggTrades(for marketPair: MarketPair) -> URL {
         url(for: marketPair, streamName: .compressedTrade)
     }
 }
