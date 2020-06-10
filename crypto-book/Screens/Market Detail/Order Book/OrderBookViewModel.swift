@@ -20,9 +20,8 @@ final class OrderBookViewModel {
 
     var screenTitle: String { NSLocalizedString("page-menu-order-book-title") }
     
-    var pricePrecision: Int {
-        4
-    }
+    @Published var precisionOptions: Int = 3
+    @Published var precisionSelected: Int = 2
     
     private let updateSpeed: BinanceWSRouter.UpdateSpeed
     private let orderBookService: OrderBookServiceProtocol
@@ -94,14 +93,14 @@ private extension OrderBookViewModel {
         let bidModels = orderBook.bids.prefix(numberOfElements).map { bid -> OrderBookCellViewModel in
             let progress = OrderBook.bidWeight(for: bid.amount, with: maxMinData)
             return OrderBookCellViewModel(price: bid.price,
-                                   pricePrecision: pricePrecision,
+                                   pricePrecision: precisionSelected,
                                    amount: bid.amount,
                                    progress: progress)
         }
 
         let askModels = orderBook.asks.prefix(numberOfElements).map { ask -> OrderBookCellViewModel in
             OrderBookCellViewModel(price: ask.price,
-                                   pricePrecision: pricePrecision,
+                                   pricePrecision: precisionSelected,
                                    amount: ask.amount,
                                    progress: OrderBook.askWeight(for: ask.amount, with: maxMinData))
         }

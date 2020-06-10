@@ -11,17 +11,13 @@ import UIKit
 final class SelectorButton: UIView {
     
     static let width = CGFloat(30)
-    static let height = CGFloat(30)
-    
-    static func make() -> SelectorButton {
-        SelectorButton(frame: CGRect.init(x: 0, y: 0, width: Self.width, height: Self.height))
-    }
-    
+    static let height = CGFloat(20)
+
     private let triangleView = UIView()
     private let label = UILabel()
     
     override init(frame: CGRect) {
-        super.init(frame: frame)
+        super.init(frame: CGRect(x: 0, y: 0, width: Self.width, height: Self.height))
         setupViews()
     }
     

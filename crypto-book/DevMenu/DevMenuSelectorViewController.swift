@@ -41,7 +41,7 @@ private extension DevMenuSelectorViewController {
         
         selectorView?.removeFromSuperview()
         button?.removeFromSuperview()
-        button = SelectorButton.make()
+        button = SelectorButton()
         guard let button = button else { return }
         button.didPressHandler = { [weak self] in
             Log.message("Did press selector button", level: .info, type: .devMenu)

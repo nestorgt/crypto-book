@@ -20,6 +20,7 @@ final class SelectorView: UIView {
     private weak var button: SelectorButton?
     
     static let width = CGFloat(60)
+    static let rowHeight = CGFloat(30)
     private var height: CGFloat?
     private let scale = CGFloat(0.3)
     
@@ -40,6 +41,8 @@ final class SelectorView: UIView {
         setup(config: config)
         return self
     }
+    
+    var didSelect: ((String?) -> Void)?
 }
 
 // MARK: - Private
@@ -56,7 +59,7 @@ private extension SelectorView {
     func setup(config: Config) {
         Log.message("Setup selector with config: \(config)", level: .info)
         button = config.button
-        for i in 0...config.numberOfOptions {
+        for i in 0..<config.numberOfOptions {
             let button = makeButton()
             button.setTitle(String(i), for: .normal)
             button.setTitleColor(.binanceYellow, for: .highlighted)
@@ -69,7 +72,7 @@ private extension SelectorView {
         setNeedsLayout()
         layoutIfNeeded()
         
-        height = CGFloat(config.numberOfOptions * 26)
+        height = CGFloat(config.numberOfOptions) * Self.rowHeight
         guard let height = height else { return }
         
         self.stackView.frame = CGRect(x: config.button.center.x + config.button.frame.width/2 - Self.width,
@@ -94,8 +97,10 @@ private extension SelectorView {
     }
     
     @objc func didPress(_ sender: UIButton) {
-        Log.message("Did select \(sender.titleLabel?.text ?? "<nil>")", level: .info)
-        button?.text = sender.titleLabel?.text
+        let text = sender.titleLabel?.text
+        Log.message("Did select \(text ?? "<nil>")", level: .info)
+        button?.text = text
+        didSelect?(text)
         dismiss()
     }
     

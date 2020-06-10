@@ -17,7 +17,9 @@ final class OrderBookViewController: UIViewController, ChildPageViewController {
     
     private let bidTableView = OrderBookTableView(type: .bid)
     private let askTableView = OrderBookTableView(type: .ask)
-    
+
+    private let selectorButton = SelectorButton()
+    private var selectorView: SelectorView?
     private let loadingView = LoadingView.standard
     
     private var cancelables = Set<AnyCancellable>()
@@ -99,6 +101,32 @@ private extension OrderBookViewController {
                             bottom: view.bottomAnchor,
                             right: view.rightAnchor)
         bidTableView.anchor(widthConstant: (view.frame.width / 2) - Self.marginBetweenTables)
+        
+        selectorButton.text = String(viewModel.precisionSelected)
+        selectorButton.didPressHandler = { [weak self] in
+            Log.message("Did press selector button", level: .info)
+            self?.presentSelectorView()
+        }
+        view.addSubviewForAutoLayout(selectorButton)
+        NSLayoutConstraint.activate([
+            selectorButton.rightAnchor.constraint(equalTo: askTableView.rightAnchor, constant: -Metrics.margin),
+            selectorButton.topAnchor.constraint(equalTo: askTableView.topAnchor, constant: Metrics.smallMargin),
+            selectorButton.widthAnchor.constraint(equalToConstant: SelectorButton.width),
+            selectorButton.heightAnchor.constraint(equalToConstant: SelectorButton.height)
+        ])
+    }
+    
+    func presentSelectorView() {
+        selectorView = SelectorView()
+        let config = SelectorView.Config(numberOfOptions: viewModel.precisionOptions,
+                                         selectedIndex: viewModel.precisionSelected,
+                                         button: selectorButton)
+        selectorView?.present(in: view, config: config)
+        selectorView?.didSelect = { [weak self] text in
+            guard let text = text, let index = Int(text) else { return }
+            self?.viewModel.precisionSelected = index
+            self?.selectorButton.text = text
+        }
     }
     
     func setupViewModel() {

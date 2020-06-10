@@ -604,8 +604,8 @@
 		8ED650B224912F260044B32D /* Selector */ = {
 			isa = PBXGroup;
 			children = (
-				8ED650B024912D830044B32D /* SelectorView.swift */,
 				8ED650B324912F310044B32D /* SelectorButton.swift */,
+				8ED650B024912D830044B32D /* SelectorView.swift */,
 			);
 			path = Selector;
 			sourceTree = "<group>";
