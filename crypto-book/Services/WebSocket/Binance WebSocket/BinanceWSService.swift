@@ -46,6 +46,7 @@ final class BinanceWSService: BinanceWSServiceProtocol {
     var publisher = CurrentValueSubject<(Result<WSEventProtocol, BinanceWSError>?), Never>(nil)
     
     func restart() {
+        isConnecting.value = true
         webSocketService.restart()
     }
     
@@ -97,11 +98,12 @@ extension BinanceWSService: WebSocketServiceDelegate {
             return
         }
         if let wsEventType = (try? JSONDecoder.binance.decode(WSEvent.self, from: data))?.type {
+//            Log.message("didReceive event \(wsEventType)", level: .debug, type: .wsBinance)
             do {
                 switch wsEventType {
-                case .depthUpdate: break
-//                    let diffs = try JSONDecoder.binance.decode(OrderBook.Diff.self, from: data)
-//                    publisher.send(.success(diffs))
+                case .depthUpdate:
+                    let diff = try JSONDecoder.binance.decode(WSOrderBookDiff.self, from: data)
+                    publisher.send(.success(diff))
                 case .aggTrade:
                     let trade = try JSONDecoder.binance.decode(WSTrade.self, from: data)
                     publisher.send(.success(trade))

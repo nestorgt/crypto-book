@@ -62,7 +62,7 @@ private extension OrderBookViewModel {
         orderBookService.orderBookPublisher
             .throttle(for: .milliseconds(updateSpeed.milliseconds),
                       scheduler: DispatchQueue(label: "\(Self.self)"),
-                      latest: false)
+                      latest: true)
             .sink(receiveCompletion: { error in
                 Log.message("Commpleted, error?: \(error)", level: .debug, type: .orderBookViewModel)
             }, receiveValue: { [weak self] orderBook in

@@ -54,6 +54,7 @@ final class MarketHistoryService: MarketHistoryServiceProtocol {
         self.apiService = apiService
         self.binanceWSService = binanceWSService
         self.reachabilityService = reachabilityService
+        setupReachability()
         setupWSPublisher()
     }
     
@@ -68,7 +69,7 @@ final class MarketHistoryService: MarketHistoryServiceProtocol {
     var marketHistoryPublisher = CurrentValueSubject<[Trade]?, Never>(nil)
     
     func restart() {
-        isConnecting.value = true
+        isConnecting.value = false
         binanceWSService.restart()
     }
     
@@ -131,12 +132,14 @@ private extension MarketHistoryService {
         if isConnecting.value {
             buffer.append(trade)
             if !isRequestingAPIMarketHistory {
+                Log.message("Update trade, waiting for API request...", level: .debug, type: .marketHistoryService)
                 isRequestingAPIMarketHistory = true
                 fetchMarketHistory()
             }
-            // 2- Once we have the market history -> start sending events
         } else {
+            // 2- Then merge and publish
             if !buffer.isEmpty {
+                Log.message("Update trade, consuming buffer...", level: .debug, type: .marketHistoryService)
                 let bufferTrades = buffer
                 buffer = []
                 merge(trades: [trade] + bufferTrades)

@@ -15,9 +15,7 @@ enum BinanceWSEventType: String, Decodable {
     var decodableType: Decodable.Type {
         switch self {
         case .depthUpdate:
-            return WSTrade.self
-            // TODO: change
-//            return [OrderBook.Diff].self
+            return WSOrderBookDiff.self
         case .aggTrade:
             return WSTrade.self
         }

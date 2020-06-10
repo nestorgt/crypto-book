@@ -69,8 +69,10 @@ private extension MarketHistoryViewModel {
             .sink(receiveCompletion: { error in
                 Log.message("Commpleted, error?: \(error)", level: .debug, type: .marketHistoryViewModel)
             }, receiveValue: { [weak self] trades in
-                Log.message("Received \(trades.count) trades:" +
-                    "(\(String(describing: trades.first?.id)) -> \(String(describing: trades.last?.id)))",
+                let newCount = trades.firstIndex(where: { $0.id == self?.cellViewModels?.first?.id })
+                let firstId = trades.first?.id ?? 0
+                let lastId = trades.last?.id ?? 0
+                Log.message("Received \(newCount ?? Self.numberOfCells) new trades: (\(firstId) -> \(lastId))",
                     level: .debug, type: .marketHistoryViewModel)
                 self?.updateCellViewModels(with: trades)
             })
@@ -93,7 +95,8 @@ private extension MarketHistoryViewModel {
         let precision = 4
         
         let models = trades.prefix(numberOfElements).map { trade -> MarketHistoryCellViewModel in
-            MarketHistoryCellViewModel(timestamp: trade.timestamp,
+            MarketHistoryCellViewModel(id: trade.id,
+                                       timestamp: trade.timestamp,
                                        price: trade.price,
                                        amount: trade.amount,
                                        isBuyerMaker: trade.isBuyerMaker,

@@ -10,6 +10,7 @@ import UIKit
 
 struct MarketHistoryCellViewModel: Hashable {
     
+    let id: UInt64
     let timestamp: TimeInterval
     let price: Double
     let amount: Double
