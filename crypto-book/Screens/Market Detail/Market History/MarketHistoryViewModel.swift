@@ -14,13 +14,14 @@ final class MarketHistoryViewModel {
     static var numberOfCells: Int = 20
     
     @Published var marketPair: MarketPair
-    @Published var tradesSnapshot: NSDiffableDataSourceSnapshot<Int, MarketHistoryCellViewModel>?
+    @Published var cellViewModels: [MarketHistoryCellViewModel]?
     @Published var isLoading: Bool = false
     
     var screenTitle: String { NSLocalizedString("page-menu-market-history-title") }
     var timeText: String { NSLocalizedString("time-title") }
     var priceText: String { NSLocalizedString("price-title") }
     var quantityText: String { NSLocalizedString("quantity-title") }
+    var updateSpeed: BinanceWSRouter.UpdateSpeed
 
     private let marketHistoryService: MarketHistoryServiceProtocol
     
@@ -30,6 +31,7 @@ final class MarketHistoryViewModel {
          limit: UInt,
          updateSpeed: BinanceWSRouter.UpdateSpeed) {
         self.marketPair = marketPair
+        self.updateSpeed = updateSpeed
         let wsRouter = BinanceWSRouter.compressedTrades(for: marketPair)
         self.marketHistoryService = MarketHistoryService(marketPair: marketPair,
                                                          limit: limit,
@@ -44,11 +46,12 @@ final class MarketHistoryViewModel {
     }
     
     func pauseLiveUpdates() {
+        Log.message("PAUSE Live Updates", level: .info, type: .marketHistoryViewModel)
         marketHistoryService.pause()
     }
     
     func stopLiveUpdates() {
-        Log.message("STOP Live Updates", level: .debug, type: .marketHistoryViewModel)
+        Log.message("STOP Live Updates", level: .info, type: .marketHistoryViewModel)
         marketHistoryService.stop()
     }
 }
@@ -63,7 +66,7 @@ private extension MarketHistoryViewModel {
             .sink(receiveCompletion: { error in
                 Log.message("Commpleted, error?: \(error)", level: .debug, type: .marketHistoryViewModel)
             }, receiveValue: { [weak self] trades in
-                self?.updateDataSnapshot(with: trades)
+                self?.updateCellViewModels(with: trades)
             })
             .store(in: &cancelables)
         
@@ -77,7 +80,7 @@ private extension MarketHistoryViewModel {
             .store(in: &cancelables)
     }
     
-    func updateDataSnapshot(with trades: [Trade]?) {
+    func updateCellViewModels(with trades: [Trade]?) {
         guard let trades = trades else { return }
         let numberOfElements = Self.numberOfCells
         // TODO: get precision checking the first 10-20 items and see the 0's at the end
@@ -90,10 +93,7 @@ private extension MarketHistoryViewModel {
                                        isBuyerMaker: trade.isBuyerMaker,
                                        precision: precision)
         }
-        var snapshot = NSDiffableDataSourceSnapshot<Int, MarketHistoryCellViewModel>()
-        snapshot.appendSections([0])
-        snapshot.appendItems(models)
-        tradesSnapshot = snapshot
+        cellViewModels = models
     }
     
 }

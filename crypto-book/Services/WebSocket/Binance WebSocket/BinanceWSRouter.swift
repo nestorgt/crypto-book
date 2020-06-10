@@ -33,6 +33,15 @@ extension BinanceWSRouter {
     enum UpdateSpeed: String {
         case hundred = "100ms"
         case thousand = "1000ms"
+        
+        var milliseconds: Int {
+            switch self {
+            case .hundred:
+                return 100
+            case .thousand:
+                return 1000
+            }
+        }
     }
 }
 

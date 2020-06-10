@@ -14,11 +14,12 @@ final class OrderBookViewModel {
     static var numberOfCells: Int = 20
     
     @Published var marketPair: MarketPair
-    @Published var bidDataSnapshot: NSDiffableDataSourceSnapshot<Int, OrderBookCellViewModel>?
-    @Published var askDataSnapshot: NSDiffableDataSourceSnapshot<Int, OrderBookCellViewModel>?
+    @Published var bidCellViewModels: [OrderBookCellViewModel]?
+    @Published var askCellViewModels: [OrderBookCellViewModel]?
     @Published var isLoading: Bool = false
 
     var screenTitle: String { NSLocalizedString("page-menu-order-book-title") }
+    var updateSpeed: BinanceWSRouter.UpdateSpeed
     
     var pricePrecision: Int {
         4
@@ -32,22 +33,23 @@ final class OrderBookViewModel {
          limit: UInt,
          updateSpeed: BinanceWSRouter.UpdateSpeed) {
         self.marketPair = marketPair
+        self.updateSpeed = updateSpeed
         self.orderBookService = OrderBookService(marketPair: marketPair, limit: limit, updateSpeed: updateSpeed)
         setupBindings()
     }
     
     func startLiveUpdates() {
         Log.message("START Live Updates", level: .info, type: .orderBookViewModel)
-        // TODO: remove
-//        orderBookService.resume()
+        orderBookService.resume()
     }
     
     func pauseLiveUpdates() {
+        Log.message("START Live Updates", level: .info, type: .orderBookViewModel)
         orderBookService.suspend()
     }
     
     func stopLiveUpdates() {
-        Log.message("STOP Live Updates", level: .debug, type: .orderBookViewModel)
+        Log.message("STOP Live Updates", level: .info, type: .orderBookViewModel)
         orderBookService.cancel()
     }
 }
@@ -87,9 +89,6 @@ private extension OrderBookViewModel {
                                    amount: bid.amount,
                                    progress: progress)
         }
-        var bidSnapshot = NSDiffableDataSourceSnapshot<Int, OrderBookCellViewModel>()
-        bidSnapshot.appendSections([0])
-        bidSnapshot.appendItems(bidModels)
 
         let askModels = orderBook.asks.prefix(numberOfElements).map { ask -> OrderBookCellViewModel in
             OrderBookCellViewModel(price: ask.price,
@@ -97,11 +96,8 @@ private extension OrderBookViewModel {
                                    amount: ask.amount,
                                    progress: OrderBook.askWeight(for: ask.amount, with: maxMinData))
         }
-        var askSnapshot = NSDiffableDataSourceSnapshot<Int, OrderBookCellViewModel>()
-        askSnapshot.appendSections([0])
-        askSnapshot.appendItems(askModels)
         
-        bidDataSnapshot = bidSnapshot
-        askDataSnapshot = askSnapshot
+        bidCellViewModels = bidModels
+        askCellViewModels = askModels
     }
 }

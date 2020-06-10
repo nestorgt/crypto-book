@@ -12,8 +12,8 @@ final class OrderBookAskCell: OrderBookCell {
 
     static let identifier = "ask-cell-identifier"
     
-    override func setup(with viewModel: OrderBookCellViewModel) {
-        super.setup(with: viewModel)
+    override func setup(with viewModel: OrderBookCellViewModel?) {
+        guard let viewModel = viewModel else { return }
         
         leftLabel.text = viewModel.priceString
         rightLabel.text = viewModel.amountString

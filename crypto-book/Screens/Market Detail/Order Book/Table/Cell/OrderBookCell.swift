@@ -25,8 +25,8 @@ class OrderBookCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setup(with viewModel: OrderBookCellViewModel) {
-        
+    func setup(with viewModel: OrderBookCellViewModel?) {
+        // To be filled by subclass
     }
     
     func setupViews() {

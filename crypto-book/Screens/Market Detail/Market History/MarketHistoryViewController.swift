@@ -14,7 +14,6 @@ final class MarketHistoryViewController: UIViewController, ChildPageViewControll
     private let tableView = UITableView(frame: .zero, style: .plain)
     private let viewModel: MarketHistoryViewModel
     
-    private var tradeDataSource: UITableViewDiffableDataSource<Int, MarketHistoryCellViewModel>?
     private let loadingView = LoadingView.standard
     
     private var cancelables = Set<AnyCancellable>()
@@ -33,13 +32,33 @@ final class MarketHistoryViewController: UIViewController, ChildPageViewControll
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
-        setupDataSources()
         setupViewModel()
     }
     
     // MARK: - ChildPageViewController
     
     @Published var isActive: Bool = false
+}
+
+// MARK: - UITableViewDataSource
+
+extension MarketHistoryViewController: UITableViewDataSource {
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        1
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        viewModel.cellViewModels?.count ?? 0
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView
+            .dequeueReusableCell(withIdentifier: MarketHistoryCell.identifier) as? MarketHistoryCell
+            else { return UITableViewCell() }
+        cell.setup(with: viewModel.cellViewModels?[safe: indexPath.row])
+        return cell
+    }
 }
 
 // MARK: - Private
@@ -57,6 +76,7 @@ private extension MarketHistoryViewController {
             midTitle: viewModel.priceText,
             rightTitle: viewModel.quantityText
         )
+        tableView.dataSource = self
         tableView.tableFooterView = UIView()
         view.addFillingSubview(tableView)
     }
@@ -77,25 +97,14 @@ private extension MarketHistoryViewController {
                 $0.0 ? _ = self?.loadingView.present(in: self?.view)
                     : self?.loadingView.dismiss() }
             .store(in: &cancelables)
-    }
-    
-    func setupDataSources() {
-        tradeDataSource = UITableViewDiffableDataSource<Int, MarketHistoryCellViewModel>(tableView: tableView)
-        { tableView, indexPath, cellViewModel in
-            guard let cell = tableView
-                .dequeueReusableCell(withIdentifier: MarketHistoryCell.identifier) as? MarketHistoryCell
-                else { return UITableViewCell() }
-            cell.setup(with: cellViewModel)
-            return cell
-        }
         
-        tableView.dataSource = tradeDataSource
-        
-        viewModel.$tradesSnapshot
+        viewModel.$cellViewModels
+            .throttle(for: .milliseconds(viewModel.updateSpeed.milliseconds),
+                      scheduler: DispatchQueue.global(qos: .background),
+                      latest: true)
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] snapshot in
-                guard let snapshot = snapshot else { return }
-                self?.tradeDataSource?.apply(snapshot, animatingDifferences: false, completion: nil) }
+            .sink { [weak self] _ in
+                self?.tableView.reloadData() }
             .store(in: &cancelables)
     }
 }

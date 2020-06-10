@@ -12,8 +12,8 @@ final class OrderBookBidCell: OrderBookCell {
 
     static let identifier = "bid-cell-identifier"
     
-    override func setup(with viewModel: OrderBookCellViewModel) {
-        super.setup(with: viewModel)
+    override func setup(with viewModel: OrderBookCellViewModel?) {
+        guard let viewModel = viewModel else { return }
         
         leftLabel.text = viewModel.amountString
         rightLabel.text = viewModel.priceString

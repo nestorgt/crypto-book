@@ -17,8 +17,6 @@ final class OrderBookViewController: UIViewController, ChildPageViewController {
     
     private let bidTableView = OrderBookTableView(type: .bid)
     private let askTableView = OrderBookTableView(type: .ask)
-    private var bidDataSource: UITableViewDiffableDataSource<Int, OrderBookCellViewModel>?
-    private var askDataSource: UITableViewDiffableDataSource<Int, OrderBookCellViewModel>?
     
     private let loadingView = LoadingView.standard
     
@@ -38,7 +36,6 @@ final class OrderBookViewController: UIViewController, ChildPageViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
-        setupDataSources()
         setupViewModel()
     }
     
@@ -47,12 +44,52 @@ final class OrderBookViewController: UIViewController, ChildPageViewController {
     @Published var isActive: Bool = false
 }
 
+// MARK: - UITableViewDataSource
+
+extension OrderBookViewController: UITableViewDataSource {
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        1
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if tableView == bidTableView {
+            return viewModel.bidCellViewModels?.count ?? 0
+        } else if tableView == askTableView {
+            return viewModel.askCellViewModels?.count ?? 0
+        } else {
+             return 0
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if tableView == bidTableView {
+            guard let cell = tableView
+                .dequeueReusableCell(withIdentifier: OrderBookBidCell.identifier) as? OrderBookBidCell
+                else { return UITableViewCell() }
+            cell.setup(with: viewModel.bidCellViewModels?[safe: indexPath.row])
+            return cell
+        } else if tableView == askTableView {
+            guard let cell = tableView
+                .dequeueReusableCell(withIdentifier: OrderBookAskCell.identifier) as? OrderBookAskCell
+                else { return UITableViewCell() }
+            cell.setup(with: viewModel.askCellViewModels?[safe: indexPath.row])
+            return cell
+        } else {
+             return UITableViewCell()
+        }
+    }
+}
+
 // MARK: - Private
 
 private extension OrderBookViewController {
     
     func setupViews() {
         let tables = [bidTableView, askTableView]
+        tables.forEach {
+            $0.dataSource = self
+        }
         view.addSubviewsForAutoLayout(tables)
         bidTableView.anchor(top: view.topAnchor,
                             bottom: view.bottomAnchor,
@@ -78,41 +115,15 @@ private extension OrderBookViewController {
                 $0 ? _ = self?.loadingView.present(in: self?.view)
                     : self?.loadingView.dismiss() }
             .store(in: &cancelables)
-    }
-    
-    func setupDataSources() {
-        bidDataSource = UITableViewDiffableDataSource<Int, OrderBookCellViewModel>(tableView: bidTableView)
-        { tableView, indexPath, cellViewModel in  
-            guard let cell = tableView
-                .dequeueReusableCell(withIdentifier: OrderBookBidCell.identifier) as? OrderBookBidCell
-                else { return UITableViewCell() }
-            cell.setup(with: cellViewModel)
-            return cell
-        }
-        askDataSource = UITableViewDiffableDataSource<Int, OrderBookCellViewModel>(tableView: askTableView)
-        { tableView, indexPath, cellViewModel in
-            guard let cell = tableView
-                .dequeueReusableCell(withIdentifier: OrderBookAskCell.identifier) as? OrderBookAskCell
-                else { return UITableViewCell() }
-            cell.setup(with: cellViewModel)
-            return cell
-        }
         
-        bidTableView.dataSource = bidDataSource
-        askTableView.dataSource = askDataSource
-        
-        viewModel.$bidDataSnapshot
+        viewModel.$askCellViewModels.combineLatest(viewModel.$bidCellViewModels)
+            .throttle(for: .milliseconds(viewModel.updateSpeed.milliseconds),
+                      scheduler: DispatchQueue.global(qos: .background),
+                      latest: true)
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] snapshot in
-                guard let snapshot = snapshot else { return }
-                self?.bidDataSource?.apply(snapshot, animatingDifferences: false, completion: nil) }
-            .store(in: &cancelables)
-        
-        viewModel.$askDataSnapshot
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] snapshot in
-                guard let snapshot = snapshot else { return }
-                self?.askDataSource?.apply(snapshot, animatingDifferences: false, completion: nil) }
+            .sink { [weak self] _ in
+                self?.askTableView.reloadData()
+                self?.bidTableView.reloadData() }
             .store(in: &cancelables)
     }
 }

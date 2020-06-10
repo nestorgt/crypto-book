@@ -19,12 +19,15 @@ protocol MarketHistoryServiceProtocol {
     /// - Note: Intial value will be `nil`.
     var marketHistoryPublisher: CurrentValueSubject<[Trade]?, Never> { get }
     
+    func restart()
     func start()
     func pause()
     func stop()
 }
 
 final class MarketHistoryService: MarketHistoryServiceProtocol {
+    
+    static let maxTradesCapacity = 100
     
     private let marketPair: MarketPair
     private let limit: UInt
@@ -33,6 +36,9 @@ final class MarketHistoryService: MarketHistoryServiceProtocol {
     private var binanceWSService: BinanceWSServiceProtocol
     private let reachabilityService: ReachabilityServiceProtocol
     private let apiService: BinanceAPIServiceProtocol
+    
+    private var buffer = [Trade]()
+    private var isRequestingAPIMarketHistory = false
     
     private var cancelables = Set<AnyCancellable>()
     
@@ -61,6 +67,11 @@ final class MarketHistoryService: MarketHistoryServiceProtocol {
     var isConnecting = CurrentValueSubject<Bool, Never>(true)
     var marketHistoryPublisher = CurrentValueSubject<[Trade]?, Never>(nil)
     
+    func restart() {
+        isConnecting.value = true
+        binanceWSService.restart()
+    }
+    
     func start() {
         binanceWSService.start()
     }
@@ -79,6 +90,8 @@ final class MarketHistoryService: MarketHistoryServiceProtocol {
 private extension MarketHistoryService {
     
     func setupWSPublisher() {
+        isConnecting.value = true
+        
         binanceWSService.publisher
             .compactMap { $0 }
             .sink(receiveCompletion: { completion in
@@ -91,7 +104,6 @@ private extension MarketHistoryService {
                         return
                     }
                     self?.update(with: wsTrade.trade)
-//                    self?.fetchMarketHistory()
                 case .failure(let error):
                     Log.message("receiveValue error \(error)", level: .error, type: .marketHistoryService)
                 }
@@ -99,15 +111,52 @@ private extension MarketHistoryService {
             .store(in: &cancelables)
     }
     
+    func setupReachability() {
+        reachabilityService.isReachablePublisher
+            .removeDuplicates()
+            .dropFirst()
+            .sink(receiveCompletion: { _ in },
+                  receiveValue: { [weak self] isReachable in
+                    if isReachable {
+                        self?.restart()
+                    } else {
+                        self?.isConnecting.value = true
+                    }
+            })
+            .store(in: &cancelables)
+    }
+    
     func update(with trade: Trade) {
-        let currentTrades = marketHistoryPublisher.value ?? []
-        marketHistoryPublisher.value = [trade] + currentTrades
+        // 1- Store on buffer until we get the market history from API
+        if isConnecting.value {
+            buffer.append(trade)
+            if !isRequestingAPIMarketHistory {
+                isRequestingAPIMarketHistory = true
+                fetchMarketHistory()
+            }
+            // 2- Once we have the market history -> start sending events
+        } else {
+            if !buffer.isEmpty {
+                let bufferTrades = buffer
+                buffer = []
+                merge(trades: [trade] + bufferTrades)
+            } else {
+                merge(trades: [trade])
+            }
+        }
+    }
+    
+    func merge(trades: [Trade]) {
+        let validTrades = trades.filter { $0.firstTradeId > marketHistoryPublisher.value?.first?.lastTradeId ?? 0 }
+        let trades = validTrades + (marketHistoryPublisher.value ?? [])
+        let tradesIgnoringOldest = Array(trades.prefix(Self.maxTradesCapacity))
+        marketHistoryPublisher.send(tradesIgnoringOldest)
     }
     
     func fetchMarketHistory() {
         fetchMarketHistory { [weak self] didSuccess in
             if didSuccess {
-                // start merging
+                self?.isConnecting.value = false
             } else {
                 self?.fetchMarketHistory()
             }

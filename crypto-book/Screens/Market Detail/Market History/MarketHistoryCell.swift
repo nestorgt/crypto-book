@@ -29,7 +29,8 @@ class MarketHistoryCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setup(with viewModel: MarketHistoryCellViewModel) {
+    func setup(with viewModel: MarketHistoryCellViewModel?) {
+        guard let viewModel = viewModel else { return }
         leftLabel.text = viewModel.timeString
         midLabel.textColor = viewModel.priceTextColor
         midLabel.text = viewModel.priceString
