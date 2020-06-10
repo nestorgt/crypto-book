@@ -24,18 +24,17 @@ protocol OrderBookServiceProtocol {
     9- Receiving an event that removes a price level that is not in your local order book can happen and is normal.
     */
     
-    /// Provides updates of the Order Book for the Market pair setup.
-    /// - Note: Intial value will be `nil`.
-    var orderBookPublisher: CurrentValueSubject<OrderBook?, Never> { get }
-    
-    /// Starts the service to
-    func resumeLiveUpdates()
-    func suspendLiveUpdates()
-    func cancelLiveUpdates()
-    
     /// Returns `true` while is trying to get the depth order book & connecting to the websocket.
     /// Will return `false` once it's sending order book updates.
     var isConnecting: CurrentValueSubject<Bool, Never> { get }
+    
+    /// Provides updates of the Order Book.
+    /// - Note: Intial value will be `nil`.
+    var orderBookPublisher: CurrentValueSubject<OrderBook?, Never> { get }
+    
+    func resume()
+    func suspend()
+    func cancel()
 }
 
 enum OrderBookServiceError: Error {
@@ -46,8 +45,6 @@ enum OrderBookServiceError: Error {
 }
 
 final class OrderBookService: OrderBookServiceProtocol {
-    
-    var isConnecting = CurrentValueSubject<Bool, Never>(true)
     
     private var webSocketService: WebSocketServiceProtocol
     private let apiService: APIServiceProtocol
@@ -85,6 +82,7 @@ final class OrderBookService: OrderBookServiceProtocol {
     
     // MARK: - OrderBookServiceProtocol
 
+    var isConnecting = CurrentValueSubject<Bool, Never>(true)
     var orderBookPublisher = CurrentValueSubject<OrderBook?, Never>(nil)
     
     func restart() {
@@ -92,15 +90,15 @@ final class OrderBookService: OrderBookServiceProtocol {
         webSocketService.restart()
     }
     
-    func resumeLiveUpdates() {
+    func resume() {
         webSocketService.resume()
     }
     
-    func suspendLiveUpdates() {
+    func suspend() {
         webSocketService.suspend()
     }
     
-    func cancelLiveUpdates() {
+    func cancel() {
         webSocketService.cancel()
     }
 }
@@ -112,7 +110,7 @@ private extension OrderBookService {
     
     func setupWebSocket() {
         webSocketService.delegate = self
-        webSocketService.open(with: BinanceWSRouter.depth(for: marketPair, updateSpeed: updateSpeed))
+        webSocketService.setup(with: BinanceWSRouter.depth(for: marketPair, updateSpeed: updateSpeed))
     }
     
     func setupReachability() {
@@ -206,7 +204,7 @@ private extension OrderBookService {
     }
     
     func addToBuffer(_ orderBookDiff: OrderBook.Diff) {
-        Log.message("BUFFER add \(orderBookDiff.finalUpdateId)",
+        Log.message("BUFFER add \(orderBookDiff.lastUpdateId)",
             level: .debug, type: .orderBookService)
         orderBookDiffBuffer.append(orderBookDiff)
     }
@@ -214,7 +212,7 @@ private extension OrderBookService {
     func consumeBuffer() {
         Log.message(
             "BUFFER consume: \(orderBookDiffBuffer.first?.firstUpdateId ?? 0)" +
-            " -> \(orderBookDiffBuffer.last?.finalUpdateId ?? 0)",
+            " -> \(orderBookDiffBuffer.last?.lastUpdateId ?? 0)",
             level: .debug, type: .orderBookService
         )
         mergeOrderBook(with: orderBookDiffBuffer)
@@ -233,7 +231,8 @@ private extension OrderBookService {
 extension OrderBookService: WebSocketServiceDelegate {
     
     func didOpen(handshakeProtocol: String?) {
-        Log.message("didOpen with protocol \(handshakeProtocol ?? "<nil>")", level: .info, type: .orderBookService)
+        Log.message("didOpen with protocol \(String(describing: handshakeProtocol))",
+            level: .info, type: .orderBookService)
         startListening()
     }
     
@@ -251,12 +250,14 @@ extension OrderBookService: WebSocketServiceDelegate {
             Log.message("didReceive wrong data", level: .error, type: .orderBookService)
             return
         }
-        if let eventType = (try? JSONDecoder.binance.decode(BinanceWSEventTypeResponse.self, from: data))?.eventType {
-            switch eventType {
+        if let wsEventType = (try? JSONDecoder.binance.decode(WSEvent.self, from: data))?.type {
+            switch wsEventType {
+            case .aggTrade:
+                break
             case .depthUpdate:
                 do {
                     let depthUpdate = try JSONDecoder.binance.decode(OrderBook.Diff.self, from: data)
-                    Log.message("depthUpdate: \(depthUpdate.firstUpdateId) -> \(depthUpdate.finalUpdateId)",
+                    Log.message("depthUpdate: \(depthUpdate.firstUpdateId) -> \(depthUpdate.lastUpdateId)",
                         level: .debug, type: .orderBookService)
                     orderBookDiffPublisher = .success(depthUpdate)
                 } catch {

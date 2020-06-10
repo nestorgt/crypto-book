@@ -9,6 +9,60 @@
 import Foundation
 import Combine
 
+/// Generic web socket service that allows openion and data flow to any given webSocket url.
+/// - seeAlso: https://binance-docs.github.io/apidocs/spot/en/#webSocket-market-streams
+protocol WebSocketServiceProtocol {
+
+    /// The entity to receive delegate calls.
+    var delegate: WebSocketServiceDelegate? { get set }
+    
+    /// Sets up the WebSocket connection with the given URL.
+    func setup(with url: URL)
+    
+    /// Shuts down the WebSocket connection. Also calls `cancel()`.
+    func shutdown()
+    
+    /// `shutdown()` + `setup()` with previous url used + `resume()`.
+    func restart()
+    
+    /// Resumes the WebSocket connection.
+    func resume()
+    
+    /// Suspends the WebSocket connection temporary.
+    func suspend()
+    
+    /// Cancels the WebSocket connection.
+    func cancel()
+    
+    /// Sends a WebSocket message, receiving the result in a completion handler.
+    /// - Parameters:
+    ///     - message: The WebSocket message to send to the other endpoint.
+    ///     - completionHandler: A closure that receives an NSError that indicates an error encountered while sending, or nil if no error occurred.
+    func send(message: URLSessionWebSocketTask.Message, completionHandler: ((Error?) -> Void)?)
+}
+
+protocol WebSocketServiceDelegate: class {
+    
+    /// Tells the delegate that the WebSocket task successfully negotiated the handshake with the endpoint, indicating the negotiated protocol.
+    /// - Parameter handshakeProtocol: The protocol picked during the handshake phase. This parameter is nil if the server did not pick a protocol,
+    ///                                or if the client did not advertise protocols when creating the task.
+    func didOpen(handshakeProtocol: String?)
+    
+    /// Tells the delegate that the WebSocket task received a close frame from the server endpoint, optionally including a close code and reason from the server.
+    /// - Parameters:
+    ///   - closeCode: The close code provided by the server. If the close frame didn’t include a close code, this value is nil.
+    ///   - reason: The close reason provided by the server. If the close frame didn’t include a reason, this value is nil.
+    func didClose(closeCode: URLSessionWebSocketTask.CloseCode, reason: Data?)
+    
+    /// Returns a WebSocket message once all the frames of the message are available.
+    /// - Parameter message: The WebSocket message received.
+    func didReceive(message: URLSessionWebSocketTask.Message)
+    
+    /// Returns an error that indicates an error encountered while receiving the message
+    /// - Parameter error: The WebSocket error received.
+    func didReceive(error: Error)
+}
+
 final class WebSocketService: NSObject, URLSessionWebSocketDelegate, WebSocketServiceProtocol {
     
     static let pingTimeInterval: TimeInterval = 60
@@ -38,7 +92,7 @@ final class WebSocketService: NSObject, URLSessionWebSocketDelegate, WebSocketSe
     
     // MARK: - WebSocketServiceProtocol
     
-    func open(with url: URL) {
+    func setup(with url: URL) {
         Log.message("Opening with url: \(url.absoluteString)", level: .info, type: .websocket)
         self.url = url
         urlSession = URLSession(configuration: .default, delegate: self, delegateQueue: queue)
@@ -46,7 +100,7 @@ final class WebSocketService: NSObject, URLSessionWebSocketDelegate, WebSocketSe
         readMessage()
     }
     
-    func close() {
+    func shutdown() {
         Log.message("closing...", level: .info, type: .websocket)
         pingCancelable?.cancel()
         cancel()
@@ -57,8 +111,8 @@ final class WebSocketService: NSObject, URLSessionWebSocketDelegate, WebSocketSe
     func restart() {
         guard let url = url else { return }
         Log.message("restarting...", level: .info, type: .websocket)
-        close()
-        open(with: url)
+        shutdown()
+        setup(with: url)
         resume()
     }
     

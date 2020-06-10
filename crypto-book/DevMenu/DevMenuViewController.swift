@@ -27,13 +27,18 @@ final class DevMenuViewController: UITableViewController {
         guard let section = Sections(rawValue: indexPath.section) else { return  }
         switch section {
         case .start:
-            guard let marketPair = marketPair, let updateSpeed = updateSpeed, let limit = depthLimit else { return }
+            guard let marketPair = marketPair,
+                let updateSpeed = updateSpeed,
+                let depthLimit = depthLimit,
+                let aggLimit = aggLimit else { return }
             let vc = MarketDetailViewController(
                 viewModel: MarketDetailViewModel(marketPair: marketPair),
                 orderBookViewModel: OrderBookViewModel(marketPair: marketPair,
-                                                       limit: limit,
+                                                       limit: depthLimit,
                                                        updateSpeed: updateSpeed),
-                marketHistoryViewModel: MarketHistoryViewModel(marketPair: marketPair)
+                marketHistoryViewModel: MarketHistoryViewModel(marketPair: marketPair,
+                                                               limit: aggLimit,
+                                                               updateSpeed: updateSpeed)
             )
             navigationController?.pushViewController(vc, animated: true)
         case .marketDetails:

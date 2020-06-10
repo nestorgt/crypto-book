@@ -9,6 +9,7 @@
 import Foundation
 
 struct OrderBookCellViewModel: Hashable {
+    
     let price: Double
     let pricePrecision: Int
     let amount: Double

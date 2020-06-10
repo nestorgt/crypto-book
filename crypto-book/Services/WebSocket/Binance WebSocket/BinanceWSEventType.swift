@@ -8,20 +8,18 @@
 
 import Foundation
 
-struct BinanceWSEventTypeResponse: Decodable {
-    
-    let eventType: BinanceWSEventType
-    
-    public init(from decoder: Decoder) throws {
-        let keyedContainer = try decoder.container(keyedBy: CodingKeys.self)
-        eventType = try keyedContainer.decode(BinanceWSEventType.self, forKey: .eventType)
-    }
-    
-    enum CodingKeys: String, CodingKey {
-        case eventType = "e"
-    }
-}
-
 enum BinanceWSEventType: String, Decodable {
     case depthUpdate
+    case aggTrade
+    
+    var decodableType: Decodable.Type {
+        switch self {
+        case .depthUpdate:
+            return WSTrade.self
+            // TODO: change
+//            return [OrderBook.Diff].self
+        case .aggTrade:
+            return WSTrade.self
+        }
+    }
 }

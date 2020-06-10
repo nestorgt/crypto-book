@@ -29,7 +29,7 @@ final class OrderBookAskCell: OrderBookCell {
         rightLabel.textColor = type.amountLabelColor
         progressView.progressTintColor = type.backgroundProgressColor
         
-        stackView.anchor(left: contentView.leftAnchor, leftMargin: OrderBookCell.standardMargin,
-                         right: contentView.rightAnchor, rightMargin: OrderBookCell.bigMargin)
+        stackView.anchor(left: contentView.leftAnchor, leftMargin: Metrics.smallMargin,
+                         right: contentView.rightAnchor, rightMargin: Metrics.margin)
     }
 }

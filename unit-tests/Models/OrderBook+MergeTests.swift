@@ -1,6 +1,6 @@
 //
 //  OrderBook+MergeTests.swift
-//  crypto-bookTests
+//  unit-tests
 //
 //  Created by Nestor Garcia on 07/06/2020.
 //  Copyright © 2020 nestor. All rights reserved.
@@ -20,7 +20,7 @@ final class OrderBookMergeTests: XCTestCase {
     
     func testIgnore_LowerId() {
         let diff = OrderBookDiffMock.make(firstUpdateId: 990,
-                                          finalUpdateId: 999,
+                                          lastUpdateId: 999,
                                           bids: [OrderBook.Offer(price: 5, amount: 0.1)],
                                           asks: [OrderBook.Offer(price: 6, amount: 0.1)])
         let orderBook = sut.merging(diffs: [diff])
@@ -30,7 +30,7 @@ final class OrderBookMergeTests: XCTestCase {
     
     func testInsert_Bid_First() {
         let diff = OrderBookDiffMock.make(firstUpdateId: 1001,
-                                          finalUpdateId: 1002,
+                                          lastUpdateId: 1002,
                                           bids: [OrderBook.Offer(price: 5.1, amount: 1)])
         let orderBook = sut.merging(diffs: [diff])
         
@@ -47,7 +47,7 @@ final class OrderBookMergeTests: XCTestCase {
     
     func testInsert_Bid_Mid() {
         let diff = OrderBookDiffMock.make(firstUpdateId: 1001,
-                                          finalUpdateId: 1002,
+                                          lastUpdateId: 1002,
                                           bids: [OrderBook.Offer(price: 3.5, amount: 2)])
         let orderBook = sut.merging(diffs: [diff])
         
@@ -64,7 +64,7 @@ final class OrderBookMergeTests: XCTestCase {
     
     func testInsert_Bid_Last() {
         let diff = OrderBookDiffMock.make(firstUpdateId: 1001,
-                                          finalUpdateId: 1002,
+                                          lastUpdateId: 1002,
                                           bids: [OrderBook.Offer(price: 0.9, amount: 3)])
         let orderBook = sut.merging(diffs: [diff])
         
@@ -81,7 +81,7 @@ final class OrderBookMergeTests: XCTestCase {
     
     func testRemove_Bid_First() {
         let diff = OrderBookDiffMock.make(firstUpdateId: 1001,
-                                          finalUpdateId: 1002,
+                                          lastUpdateId: 1002,
                                           bids: [OrderBook.Offer(price: 5, amount: 0)])
         let orderBook = sut.merging(diffs: [diff])
         
@@ -96,7 +96,7 @@ final class OrderBookMergeTests: XCTestCase {
     
     func testRemove_Bid_Mid() {
         let diff = OrderBookDiffMock.make(firstUpdateId: 1001,
-                                          finalUpdateId: 1002,
+                                          lastUpdateId: 1002,
                                           bids: [OrderBook.Offer(price: 3, amount: 0)])
         let orderBook = sut.merging(diffs: [diff])
         
@@ -111,7 +111,7 @@ final class OrderBookMergeTests: XCTestCase {
     
     func testRemove_Bid_Last() {
         let diff = OrderBookDiffMock.make(firstUpdateId: 1001,
-                                          finalUpdateId: 1002,
+                                          lastUpdateId: 1002,
                                           bids: [OrderBook.Offer(price: 1, amount: 0)])
         let orderBook = sut.merging(diffs: [diff])
         
@@ -126,7 +126,7 @@ final class OrderBookMergeTests: XCTestCase {
     
     func testReplace_Bid_First() {
         let diff = OrderBookDiffMock.make(firstUpdateId: 1001,
-                                          finalUpdateId: 1002,
+                                          lastUpdateId: 1002,
                                           bids: [OrderBook.Offer(price: 5, amount: 0.1)])
         let orderBook = sut.merging(diffs: [diff])
         
@@ -142,7 +142,7 @@ final class OrderBookMergeTests: XCTestCase {
     
     func testReplace_Bid_Mid() {
         let diff = OrderBookDiffMock.make(firstUpdateId: 1001,
-                                          finalUpdateId: 1002,
+                                          lastUpdateId: 1002,
                                           bids: [OrderBook.Offer(price: 3, amount: 0.2)])
         let orderBook = sut.merging(diffs: [diff])
         
@@ -158,7 +158,7 @@ final class OrderBookMergeTests: XCTestCase {
     
     func testReplace_Bid_Last() {
         let diff = OrderBookDiffMock.make(firstUpdateId: 1001,
-                                          finalUpdateId: 1002,
+                                          lastUpdateId: 1002,
                                           bids: [OrderBook.Offer(price: 1, amount: 0.3)])
         let orderBook = sut.merging(diffs: [diff])
         
@@ -174,7 +174,7 @@ final class OrderBookMergeTests: XCTestCase {
 
     func testInsert_Ask_First() {
         let diff = OrderBookDiffMock.make(firstUpdateId: 1001,
-                                          finalUpdateId: 1002,
+                                          lastUpdateId: 1002,
                                           asks: [OrderBook.Offer(price: 5.9, amount: 1)])
         let orderBook = sut.merging(diffs: [diff])
         
@@ -191,7 +191,7 @@ final class OrderBookMergeTests: XCTestCase {
     
     func testInsert_Ask_Mid() {
         let diff = OrderBookDiffMock.make(firstUpdateId: 1001,
-                                          finalUpdateId: 1002,
+                                          lastUpdateId: 1002,
                                           asks: [OrderBook.Offer(price: 8.5, amount: 2)])
         let orderBook = sut.merging(diffs: [diff])
         
@@ -208,7 +208,7 @@ final class OrderBookMergeTests: XCTestCase {
     
     func testInsert_Ask_Last() {
         let diff = OrderBookDiffMock.make(firstUpdateId: 1001,
-                                          finalUpdateId: 1002,
+                                          lastUpdateId: 1002,
                                           asks: [OrderBook.Offer(price: 10.1, amount: 3)])
         let orderBook = sut.merging(diffs: [diff])
         
@@ -225,7 +225,7 @@ final class OrderBookMergeTests: XCTestCase {
     
     func testRemove_Ask_First() {
         let diff = OrderBookDiffMock.make(firstUpdateId: 1001,
-                                          finalUpdateId: 1002,
+                                          lastUpdateId: 1002,
                                           asks: [OrderBook.Offer(price: 6, amount: 0)])
         let orderBook = sut.merging(diffs: [diff])
         
@@ -240,7 +240,7 @@ final class OrderBookMergeTests: XCTestCase {
     
     func testRemove_Ask_Mid() {
         let diff = OrderBookDiffMock.make(firstUpdateId: 1001,
-                                          finalUpdateId: 1002,
+                                          lastUpdateId: 1002,
                                           asks: [OrderBook.Offer(price: 8, amount: 0)])
         let orderBook = sut.merging(diffs: [diff])
         
@@ -255,7 +255,7 @@ final class OrderBookMergeTests: XCTestCase {
     
     func testRemove_Ask_Last() {
         let diff = OrderBookDiffMock.make(firstUpdateId: 1001,
-                                          finalUpdateId: 1002,
+                                          lastUpdateId: 1002,
                                           asks: [OrderBook.Offer(price: 10, amount: 0)])
         let orderBook = sut.merging(diffs: [diff])
         
@@ -270,7 +270,7 @@ final class OrderBookMergeTests: XCTestCase {
     
     func testReplace_Ask_First() {
         let diff = OrderBookDiffMock.make(firstUpdateId: 1001,
-                                          finalUpdateId: 1002,
+                                          lastUpdateId: 1002,
                                           asks: [OrderBook.Offer(price: 6, amount: 0.1)])
         let orderBook = sut.merging(diffs: [diff])
         
@@ -286,7 +286,7 @@ final class OrderBookMergeTests: XCTestCase {
     
     func testReplace_Ask_Mid() {
         let diff = OrderBookDiffMock.make(firstUpdateId: 1001,
-                                          finalUpdateId: 1002,
+                                          lastUpdateId: 1002,
                                           asks: [OrderBook.Offer(price: 8, amount: 0.2)])
         let orderBook = sut.merging(diffs: [diff])
         
@@ -302,7 +302,7 @@ final class OrderBookMergeTests: XCTestCase {
     
     func testReplace_Ask_Last() {
         let diff = OrderBookDiffMock.make(firstUpdateId: 1001,
-                                          finalUpdateId: 1002,
+                                          lastUpdateId: 1002,
                                           asks: [OrderBook.Offer(price: 10, amount: 0.3)])
         let orderBook = sut.merging(diffs: [diff])
         

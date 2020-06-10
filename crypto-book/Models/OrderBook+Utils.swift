@@ -23,14 +23,12 @@ extension OrderBook {
     9- Receiving an event that removes a price level that is not in your local order book can happen and is normal.
     */
     func merging(diffs: [OrderBook.Diff]) -> OrderBook {
-        Log.message("Merging diffs: \(diffs.map { "\($0.firstUpdateId) -> \($0.finalUpdateId)" })",
-            level: .debug, type: .orderBook)
-        
+//        Log.message("Merging diffs: \(diffs)", level: .debug, type: .orderBook)
         // Ignore any old update Id
-        let validDiffs = diffs.filter { $0.finalUpdateId > lastUpdateId }
+        let validDiffs = diffs.filter { $0.lastUpdateId > lastUpdateId }
         
         // Merge with current order book
-        guard !validDiffs.isEmpty, let finalUpdateId = validDiffs.last?.finalUpdateId
+        guard !validDiffs.isEmpty, let lastUpdateId = validDiffs.last?.lastUpdateId
             else { Log.message("Nothing to merge", level: .debug, type: .orderBook); return self }
         
         var orderBook = self
@@ -74,7 +72,9 @@ extension OrderBook {
         }
         orderBook.bids = orderBookBids
         orderBook.asks = orderBookAsks
-        orderBook.lastUpdateId = finalUpdateId
+        orderBook.lastUpdateId = lastUpdateId
+        Log.message("Merged! bids (\(bids.count) -> \(orderBook.bids.count)), asks (\(asks.count) -> \(orderBook.asks.count))",
+            level: .debug, type: .orderBook)
         return orderBook
     }
     

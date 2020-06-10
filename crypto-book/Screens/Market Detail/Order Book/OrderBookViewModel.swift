@@ -11,6 +11,8 @@ import Combine
 
 final class OrderBookViewModel {
     
+    static var numberOfCells: Int = 20
+    
     @Published var marketPair: MarketPair
     @Published var bidDataSnapshot: NSDiffableDataSourceSnapshot<Int, OrderBookCellViewModel>?
     @Published var askDataSnapshot: NSDiffableDataSourceSnapshot<Int, OrderBookCellViewModel>?
@@ -36,18 +38,21 @@ final class OrderBookViewModel {
     
     func startLiveUpdates() {
         Log.message("START Live Updates", level: .info, type: .orderBookViewModel)
-        orderBookService.resumeLiveUpdates()
+        // TODO: remove
+//        orderBookService.resume()
     }
     
     func pauseLiveUpdates() {
-        orderBookService.suspendLiveUpdates()
+        orderBookService.suspend()
     }
     
     func stopLiveUpdates() {
         Log.message("STOP Live Updates", level: .debug, type: .orderBookViewModel)
-        orderBookService.cancelLiveUpdates()
+        orderBookService.cancel()
     }
 }
+
+// MARK: - Private
 
 private extension OrderBookViewModel {
     
@@ -72,7 +77,7 @@ private extension OrderBookViewModel {
     
     func updateDataSnapshots(with orderBook: OrderBook?) {
         guard let orderBook = orderBook else { return }
-        let numberOfElements = OrderBookTableView.numberOfCells
+        let numberOfElements = OrderBookViewModel.numberOfCells
         let maxMinData = orderBook.maxMinData(prefixElements: numberOfElements)
         
         let bidModels = orderBook.bids.prefix(numberOfElements).map { bid -> OrderBookCellViewModel in
@@ -87,11 +92,10 @@ private extension OrderBookViewModel {
         bidSnapshot.appendItems(bidModels)
 
         let askModels = orderBook.asks.prefix(numberOfElements).map { ask -> OrderBookCellViewModel in
-            let progress = OrderBook.askWeight(for: ask.amount, with: maxMinData)
-            return OrderBookCellViewModel(price: ask.price,
+            OrderBookCellViewModel(price: ask.price,
                                    pricePrecision: pricePrecision,
                                    amount: ask.amount,
-                                   progress: progress)
+                                   progress: OrderBook.askWeight(for: ask.amount, with: maxMinData))
         }
         var askSnapshot = NSDiffableDataSourceSnapshot<Int, OrderBookCellViewModel>()
         askSnapshot.appendSections([0])

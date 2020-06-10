@@ -16,7 +16,7 @@ enum APIError: Error, Equatable {
     case generic(message: String?)
     
     static func error(from httpCode: Int) -> APIError? {
-        guard httpCode != 200 else { return nil }
+        guard !(200...299 ~= httpCode) else { return nil }
         switch httpCode {
         case 400:
             return .badRequest

@@ -1,6 +1,6 @@
 //
 //  OrderBookMock.swift
-//  crypto-bookTests
+//  unit-tests
 //
 //  Created by Nestor Garcia on 07/06/2020.
 //  Copyright © 2020 nestor. All rights reserved.
@@ -39,14 +39,14 @@ struct OrderBookMock {
 struct OrderBookDiffMock {
     
     static func make(firstUpdateId: UInt64,
-                     finalUpdateId: UInt64,
+                     lastUpdateId: UInt64,
                      bids: [OrderBook.Offer] = [],
                      asks: [OrderBook.Offer] = []) -> OrderBook.Diff {
         OrderBook.Diff(eventType: .depthUpdate,
                       eventTimeInterval: Date().timeIntervalSince1970,
                       symbol: "BTCUSDT",
                       firstUpdateId: firstUpdateId,
-                      finalUpdateId: finalUpdateId,
+                      lastUpdateId: lastUpdateId,
                       bids: bids,
                       asks: asks)
     }

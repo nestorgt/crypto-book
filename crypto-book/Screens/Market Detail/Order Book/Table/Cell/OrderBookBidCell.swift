@@ -30,7 +30,7 @@ final class OrderBookBidCell: OrderBookCell {
         progressView.progressTintColor = type.backgroundProgressColor
         progressView.transform = CGAffineTransform(rotationAngle: CGFloat.pi)
         
-        stackView.anchor(left: contentView.leftAnchor, leftMargin: OrderBookCell.bigMargin,
-                         right: contentView.rightAnchor, rightMargin: OrderBookCell.standardMargin)
+        stackView.anchor(left: contentView.leftAnchor, leftMargin: Metrics.margin,
+                         right: contentView.rightAnchor, rightMargin: Metrics.smallMargin)
     }
 }

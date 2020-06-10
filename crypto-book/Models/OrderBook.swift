@@ -8,11 +8,19 @@
 
 import Foundation
 
-/// Order book model from API
+/// Order book model from API.
 struct OrderBook: CustomStringConvertible, Equatable {
     var lastUpdateId: UInt64
     var bids: [Offer]
     var asks: [Offer]
+    
+    var description: String {
+        """
+        \n- lastUpdateId: \(lastUpdateId)
+        - bids: \(bids)
+        - tasks: \(asks)
+        """
+    }
 }
 
 // MARK: - Decodable
@@ -49,20 +57,12 @@ extension OrderBook: Decodable {
         let keyedContainer = try decoder.container(keyedBy: CodingKeys.self)
         lastUpdateId = try keyedContainer.decode(UInt64.self, forKey: .lastUpdateId)
         let bidsArray = try keyedContainer.decode([[String]].self, forKey: .bids)
-        bids = OrderBook.Offer.make(from: bidsArray)
+        bids = Offer.make(from: bidsArray)
         let asksArray = try keyedContainer.decode([[String]].self, forKey: .asks)
-        asks = OrderBook.Offer.make(from: asksArray)
+        asks = Offer.make(from: asksArray)
     }
     
     enum CodingKeys: String, CodingKey {
         case lastUpdateId, bids, asks
-    }
-    
-    var description: String {
-        """
-        \n- lastUpdateId: \(lastUpdateId)
-        - bids: \(bids)
-        - tasks: \(asks)
-        """
     }
 }

@@ -1,6 +1,6 @@
 //
 //  OrderBookDiffTests.swift
-//  crypto-bookTests
+//  unit-tests
 //
 //  Created by Nestor Garcia on 06/06/2020.
 //  Copyright © 2020 nestor. All rights reserved.
@@ -49,7 +49,7 @@ final class OrderBookDiffTests: XCTestCase {
         XCTAssertEqual(sut.eventTimeInterval, 123456789)
         XCTAssertEqual(sut.symbol, "BNBBTC")
         XCTAssertEqual(sut.firstUpdateId, 157)
-        XCTAssertEqual(sut.finalUpdateId, 160)
+        XCTAssertEqual(sut.lastUpdateId, 160)
         XCTAssertEqual(sut.bids,
                        [OrderBook.Offer(price: 0.0024, amount: 10),
                         OrderBook.Offer(price: 0.0023, amount: 9.9)])

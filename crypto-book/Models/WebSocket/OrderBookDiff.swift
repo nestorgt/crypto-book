@@ -11,14 +11,22 @@ import Foundation
 extension OrderBook {
  
     /// Order book depth diff from WebSocket
-    struct Diff {
+    struct Diff: CustomStringConvertible {
         let eventType: BinanceWSEventType
         let eventTimeInterval: TimeInterval
         let symbol: String
         let firstUpdateId: UInt64
-        let finalUpdateId: UInt64
+        let lastUpdateId: UInt64
         let bids: [OrderBook.Offer]
         let asks: [OrderBook.Offer]
+        
+        var description: String {
+            """
+            \n- \(firstUpdateId) -> \(lastUpdateId)
+            - bids: \(bids)
+            - tasks: \(asks)
+            """
+        }
     }
 }
     
@@ -54,7 +62,7 @@ extension OrderBook.Diff: Decodable {
         eventTimeInterval = try keyedContainer.decode(TimeInterval.self, forKey: .eventTimeInterval)
         symbol = try keyedContainer.decode(String.self, forKey: .symbol)
         firstUpdateId = try keyedContainer.decode(UInt64.self, forKey: .firstUpdateId)
-        finalUpdateId = try keyedContainer.decode(UInt64.self, forKey: .finalUpdateId)
+        lastUpdateId = try keyedContainer.decode(UInt64.self, forKey: .lastUpdateId)
         let bidsArray = try keyedContainer.decode([[String]].self, forKey: .bids)
         bids = OrderBook.Offer.make(from: bidsArray)
         let asksArray = try keyedContainer.decode([[String]].self, forKey: .asks)
@@ -66,7 +74,7 @@ extension OrderBook.Diff: Decodable {
         case eventTimeInterval = "E"
         case symbol = "s"
         case firstUpdateId = "U"
-        case finalUpdateId = "u"
+        case lastUpdateId = "u"
         case bids = "b"
         case asks = "a"
     }

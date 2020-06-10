@@ -14,13 +14,13 @@ extension OrderBook {
         let price: Double
         let amount: Double
         
-        static func make(from array: [[String]]) -> [OrderBook.Offer] {
+        static func make(from array: [[String]]) -> [Offer] {
             array.compactMap { pair in
                 guard let priceString = pair[safe: 0], let amountString = pair[safe: 1],
                     let price = Double(priceString), let amount = Double(amountString) else {
                         return nil
                 }
-                return OrderBook.Offer(price: price, amount: amount)
+                return Offer(price: price, amount: amount)
             }
         }
         

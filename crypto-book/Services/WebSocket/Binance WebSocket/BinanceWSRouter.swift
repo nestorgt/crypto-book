@@ -16,15 +16,8 @@ struct BinanceWSRouter {
         url(for: marketPair, streamName: .depth, updateSpeed: updateSpeed)
     }
     
-    static func url(for marketPair: MarketPair, streamName: StreamName, updateSpeed: UpdateSpeed) -> URL {
-        let urlString = base
-            + marketPairComponent(for: marketPair)
-            + streamNameComponent(for: streamName)
-            + updateSpeedComponent(for: updateSpeed)
-        guard let url = URL(string: urlString) else {
-            fatalError("Can't build URL for \(marketPair) & \(streamName)")
-        }
-        return url
+    static func compressedTrades(for marketPair: MarketPair) -> URL {
+        url(for: marketPair, streamName: .compressedTrade)
     }
 }
 
@@ -34,6 +27,7 @@ extension BinanceWSRouter {
     
     enum StreamName: String {
         case depth
+        case compressedTrade = "aggTrade"
     }
     
     enum UpdateSpeed: String {
@@ -46,6 +40,17 @@ extension BinanceWSRouter {
 
 private extension BinanceWSRouter {
     
+    static func url(for marketPair: MarketPair, streamName: StreamName, updateSpeed: UpdateSpeed? = nil) -> URL {
+        let urlString = base
+            + marketPairComponent(for: marketPair)
+            + streamNameComponent(for: streamName)
+            + updateSpeedComponent(for: updateSpeed)
+        guard let url = URL(string: urlString) else {
+            fatalError("Can't build URL for \(marketPair) & \(streamName)")
+        }
+        return url
+    }
+    
     static func marketPairComponent(for marketPair: MarketPair) -> String {
         marketPair.webScoketSymbol
     }
@@ -54,8 +59,8 @@ private extension BinanceWSRouter {
         adatp(component: streamName.rawValue)
     }
     
-    static func updateSpeedComponent(for updateSpeed: UpdateSpeed) -> String {
-        adatp(component: updateSpeed.rawValue)
+    static func updateSpeedComponent(for updateSpeed: UpdateSpeed?) -> String {
+        updateSpeed != nil ? adatp(component: updateSpeed!.rawValue) : ""
     }
     
     static func adatp(component: String) -> String {

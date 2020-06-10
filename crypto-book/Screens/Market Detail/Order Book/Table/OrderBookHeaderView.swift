@@ -15,7 +15,7 @@ final class OrderBookHeaderView: UIView {
     
     init(type: OrderBookTableType) {
         self.type = type
-        super.init(frame: CGRect.init(x: 0, y: 0, width: 0, height: OrderBookCell.height))
+        super.init(frame: CGRect.init(x: 0, y: 0, width: 0, height: Metrics.cellHeights))
         setupViews()
     }
     
@@ -45,11 +45,11 @@ private extension OrderBookHeaderView {
         switch type {
         case .ask:
             label.anchor(left: leftAnchor,
-                         leftMargin: OrderBookCell.standardMargin,
+                         leftMargin: Metrics.smallMargin,
                          priority: .defaultHigh)
         case .bid:
             label.anchor(left: leftAnchor,
-                         leftMargin: OrderBookCell.bigMargin,
+                         leftMargin: Metrics.margin,
                          priority: .defaultHigh)
         }
     }

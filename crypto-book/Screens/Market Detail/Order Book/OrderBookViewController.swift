@@ -53,10 +53,6 @@ private extension OrderBookViewController {
     
     func setupViews() {
         let tables = [bidTableView, askTableView]
-        tables.forEach {
-            $0.isScrollEnabled = false
-            $0.tableFooterView = UIView()
-        }
         view.addSubviewsForAutoLayout(tables)
         bidTableView.anchor(top: view.topAnchor,
                             bottom: view.bottomAnchor,
@@ -105,16 +101,14 @@ private extension OrderBookViewController {
         bidTableView.dataSource = bidDataSource
         askTableView.dataSource = askDataSource
         
-        viewModel
-            .$bidDataSnapshot
+        viewModel.$bidDataSnapshot
             .receive(on: DispatchQueue.main)
             .sink { [weak self] snapshot in
                 guard let snapshot = snapshot else { return }
                 self?.bidDataSource?.apply(snapshot, animatingDifferences: false, completion: nil) }
             .store(in: &cancelables)
         
-        viewModel
-            .$askDataSnapshot
+        viewModel.$askDataSnapshot
             .receive(on: DispatchQueue.main)
             .sink { [weak self] snapshot in
                 guard let snapshot = snapshot else { return }

@@ -11,3 +11,7 @@
 
 "bid-title" = "Bid";
 "ask-title" = "Ask";
+
+"time-title" = "Time";
+"price-title" = "Price";
+"quantity-title" = "Quantity";

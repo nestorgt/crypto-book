@@ -1,15 +1,14 @@
 //
-//  crypto_bookTests.swift
-//  crypto-bookTests
+//  integration_tests.swift
+//  integration-tests
 //
-//  Created by Nestor Garcia on 03/06/2020.
+//  Created by Nestor Garcia on 09/06/2020.
 //  Copyright © 2020 nestor. All rights reserved.
 //
 
 import XCTest
-@testable import crypto_book
 
-class crypto_bookTests: XCTestCase {
+class integration_tests: XCTestCase {
 
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -26,7 +25,7 @@ class crypto_bookTests: XCTestCase {
 
     func testPerformanceExample() throws {
         // This is an example of a performance test case.
-        self.measure {
+        measure {
             // Put the code you want to measure the time of here.
         }
     }

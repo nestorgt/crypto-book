@@ -10,13 +10,18 @@ import Foundation
 
 /// Errors returned by Binance WebSocket.
 /// - seeAlso: https://github.com/binance-exchange/binance-official-api-docs/blob/master/web-socket-streams.md#error-messages
-enum BinanceWSError: Decodable, Equatable {
+enum BinanceWSError: Error, Decodable, Equatable {
 
+    // Binance
     case unknownProperty(message: String)
     case invalidValue(message: String)
     case invalidRequest(message: String)
     case invalidJSON(message: String)
     case other(message: String)
+    
+    // App
+    case ws(WebSocketError)
+    case generic(message: String?)
     
     // MARK: - Decodable
     

@@ -58,6 +58,7 @@ extension Log {
         case parser = "Parser"
         case api = "API"
         case websocket = "Web Socket"
+        case wsBinance = "WS Binance"
         case reachabilty = "Reachability"
         case other = "Other"
     }

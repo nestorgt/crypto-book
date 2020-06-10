@@ -10,8 +10,6 @@ import UIKit
 
 final class OrderBookTableView: UITableView {
     
-    static var numberOfCells: Int = 20
-    
     private var type: OrderBookTableType
 
     var cellDataSource: UITableViewDiffableDataSource<Double, OrderBookCellViewModel>?
@@ -37,7 +35,7 @@ extension OrderBookTableView {
     }
     
     override func numberOfRows(inSection section: Int) -> Int {
-        Self.numberOfCells
+        OrderBookViewModel.numberOfCells
     }
 }
 
@@ -47,9 +45,11 @@ private extension OrderBookTableView {
     
     func setup() {
         separatorStyle = .none
-        rowHeight = OrderBookCell.height
+        rowHeight = Metrics.cellHeights
         register(type.cellClass, forCellReuseIdentifier: type.cellIdentifier)
         allowsSelection = false
+        isScrollEnabled = false
         tableHeaderView = OrderBookHeaderView(type: type)
+        tableFooterView = UIView()
     }
 }

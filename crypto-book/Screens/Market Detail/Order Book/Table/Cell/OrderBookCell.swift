@@ -10,10 +10,6 @@ import UIKit
 
 class OrderBookCell: UITableViewCell {
     
-    static let height: CGFloat = 26
-    static let standardMargin: CGFloat = 2
-    static let bigMargin: CGFloat = 8
-    
     let stackView = UIStackView()
     let progressView = UIProgressView()
     let leftLabel = UILabel()
