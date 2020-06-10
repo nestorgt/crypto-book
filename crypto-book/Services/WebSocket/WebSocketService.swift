@@ -95,15 +95,17 @@ final class WebSocketService: NSObject, URLSessionWebSocketDelegate, WebSocketSe
     func setup(with url: URL) {
         Log.message("Opening with url: \(url.absoluteString)", level: .info, type: .websocket)
         self.url = url
-        urlSession = URLSession(configuration: .default, delegate: self, delegateQueue: queue)
+        urlSession = URLSession(configuration: .ephemeral,
+                                delegate: self,
+                                delegateQueue: queue)
         webSocketTask = urlSession?.webSocketTask(with: url)
         readMessage()
     }
     
     func shutdown() {
         Log.message("closing...", level: .info, type: .websocket)
-        pingCancelable?.cancel()
         cancel()
+        pingCancelable?.cancel()
         urlSession?.finishTasksAndInvalidate()
         queue.cancelAllOperations()
     }
@@ -125,12 +127,14 @@ final class WebSocketService: NSObject, URLSessionWebSocketDelegate, WebSocketSe
     func suspend() {
         Log.message("suspending...", level: .info, type: .websocket)
         webSocketTask?.suspend()
+        pingCancelable?.cancel()
         queue.cancelAllOperations()
     }
     
     func cancel() {
         Log.message("cancelling...", level: .info, type: .websocket)
-        webSocketTask?.cancel(with: .goingAway, reason: "Closing manually.".data(using: .utf8))
+        // Note: cancelling the data task causes a bugg reported https://forums.developer.apple.com/thread/117827
+        webSocketTask = nil
     }
     
     func send(message: URLSessionWebSocketTask.Message, completionHandler: ((Error?) -> Void)?) {

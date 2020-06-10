@@ -163,10 +163,10 @@ private extension PageViewController {
         previousIndex = self.index
         self.index = index
         pageMenuView.select(index: index)
-        scrollView.setContentOffset(CGPoint(x: CGFloat(index) * width, y: 0), animated: true)
         
         viewControllers[previousIndex].isActive = false
-        viewControllers[index].isActive = true
+        
+        scrollView.setContentOffset(CGPoint(x: CGFloat(index) * width, y: 0), animated: true)
     }
     
     // MARK: - User Input
@@ -194,5 +194,9 @@ extension PageViewController: UIScrollViewDelegate {
         let correctedStartValue = abs(currentOffset - endOffset)
         let percentage = correctedStartValue / range
         pageMenuView.animate(toIndex: index, fromIndex: previousIndex, percentage: percentage)
+    }
+    
+    func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
+        viewControllers[index].isActive = true
     }
 }

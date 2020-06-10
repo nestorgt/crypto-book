@@ -19,12 +19,12 @@ final class OrderBookViewModel {
     @Published var isLoading: Bool = false
 
     var screenTitle: String { NSLocalizedString("page-menu-order-book-title") }
-    var updateSpeed: BinanceWSRouter.UpdateSpeed
     
     var pricePrecision: Int {
         4
     }
     
+    private let updateSpeed: BinanceWSRouter.UpdateSpeed
     private let orderBookService: OrderBookServiceProtocol
     
     private var cancelables = Set<AnyCancellable>()
@@ -60,9 +60,14 @@ private extension OrderBookViewModel {
     
     func setupBindings() {
         orderBookService.orderBookPublisher
+            .throttle(for: .milliseconds(updateSpeed.milliseconds),
+                      scheduler: DispatchQueue(label: "\(Self.self)"),
+                      latest: false)
             .sink(receiveCompletion: { error in
                 Log.message("Commpleted, error?: \(error)", level: .debug, type: .orderBookViewModel)
             }, receiveValue: { [weak self] orderBook in
+                Log.message("Received orderBook, lastUpdateId: \(String(describing: orderBook?.lastUpdateId))",
+                    level: .debug, type: .orderBookViewModel)
                 self?.updateDataSnapshots(with: orderBook)
             })
             .store(in: &cancelables)

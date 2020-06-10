@@ -21,8 +21,8 @@ final class MarketHistoryViewModel {
     var timeText: String { NSLocalizedString("time-title") }
     var priceText: String { NSLocalizedString("price-title") }
     var quantityText: String { NSLocalizedString("quantity-title") }
-    var updateSpeed: BinanceWSRouter.UpdateSpeed
-
+    
+    private let updateSpeed: BinanceWSRouter.UpdateSpeed
     private let marketHistoryService: MarketHistoryServiceProtocol
     
     private var cancelables = Set<AnyCancellable>()
@@ -62,10 +62,16 @@ private extension MarketHistoryViewModel {
     
     func setupBindings() {
         marketHistoryService.marketHistoryPublisher
+            .throttle(for: .milliseconds(updateSpeed.milliseconds),
+                      scheduler: DispatchQueue(label: "\(Self.self)"),
+                      latest: true)
             .compactMap { $0 }
             .sink(receiveCompletion: { error in
                 Log.message("Commpleted, error?: \(error)", level: .debug, type: .marketHistoryViewModel)
             }, receiveValue: { [weak self] trades in
+                Log.message("Received \(trades.count) trades:" +
+                    "(\(String(describing: trades.first?.id)) -> \(String(describing: trades.last?.id)))",
+                    level: .debug, type: .marketHistoryViewModel)
                 self?.updateCellViewModels(with: trades)
             })
             .store(in: &cancelables)

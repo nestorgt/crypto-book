@@ -117,11 +117,10 @@ private extension OrderBookViewController {
             .store(in: &cancelables)
         
         viewModel.$askCellViewModels.combineLatest(viewModel.$bidCellViewModels)
-            .throttle(for: .milliseconds(viewModel.updateSpeed.milliseconds),
-                      scheduler: DispatchQueue.global(qos: .background),
-                      latest: true)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
+                // Prevent rendering when scrolling
+                guard self?.isActive == true else { return }
                 self?.askTableView.reloadData()
                 self?.bidTableView.reloadData() }
             .store(in: &cancelables)
