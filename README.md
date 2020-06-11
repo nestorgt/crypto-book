@@ -6,9 +6,15 @@
 |---|---|---|
 | ![](wiki/main-menu.png) | ![](wiki/order-book.png) | ![](wiki/market-history.png) |
 
-| Order Book | Order Book Stress Test | Market History | Market History Stress Test |
+| Order Book BTCUSDT | Order Book BNBUSDT | Market History BTCUSDT | Market History BNBUSDT |
 |---|---|---|---|
-| ![](wiki/order-book-btc.gif) | ![](wiki/stress-test-order-book-btc.gif) | ![](wiki/market-history-btc.gif) | ![](wiki/stress-test-market-history.gif) |
+| ![](wiki/order-book-btc.gif) | ![](wiki/order-book-bnb.gif) | ![](wiki/market-history-btc.gif) | ![](wiki/market-history-bnb.gif) |
+| UI Throttle 500ms, update spped 1000ms | UI Throttle 250ms, update spped 100ms | UI Throttle 500ms, update spped 1000ms | UI Throttle 250ms, update spped 100ms |
+
+| Order Book Stress Test | Market History Stress Test | Data recovery when going offline |
+|---|---|---|
+| ![](wiki/stress-test-order-book-btc.gif) | ![](wiki/stress-test-market-history.gif) | ![](wiki/data-recovery.gif) |
+| UI Throttle 0ms, update spped 100ms | UI Throttle 0ms, update spped 100ms | UI Throttle 500ms, update spped 1000ms |
 
 | Component: Page Controller | Component: Loading View | Component: Selector View |
 |---|---|---|
@@ -27,7 +33,8 @@
 * Architecture `MVVM`. Using services for commong implementations. The addition of a `Coordinator` was not really needed for this sample but would be consider if the number of screens increases.
 * All view models & services uses dependency injection to allow creation of mocks in allow better testability. 
 * No 3rd party libraries.
-* FRP with Combine.
+* FRP with `Combine`.
+* WebSockets with `URLSessionWebSocketTask`.
 
 ![](wiki/class-tree.png)
 
