@@ -9,12 +9,12 @@
 | Order Book BTCUSDT | Order Book BNBUSDT | Market History BTCUSDT | Market History BNBUSDT |
 |---|---|---|---|
 | ![](wiki/order-book-btc.gif) | ![](wiki/order-book-bnb.gif) | ![](wiki/market-history-btc.gif) | ![](wiki/market-history-bnb.gif) |
-| UI Throttle 500ms, update spped 1000ms | UI Throttle 250ms, update spped 100ms | UI Throttle 500ms, update spped 1000ms | UI Throttle 250ms, update spped 100ms |
+| `UI Throttle` 500ms, `Update spped` 1000ms | `UI Throttle` 250ms, `Update spped` 100ms | `UI Throttle` 500ms, `Update spped` 1000ms | `UI Throttle` 250ms, `Update spped` 100ms |
 
 | Order Book Stress Test | Market History Stress Test | Data recovery when going offline |
 |---|---|---|
 | ![](wiki/stress-test-order-book-btc.gif) | ![](wiki/stress-test-market-history.gif) | ![](wiki/data-recovery.gif) |
-| UI Throttle 0ms, update spped 100ms | UI Throttle 0ms, update spped 100ms | UI Throttle 250ms, update spped 100ms |
+| `UI Throttle` 0ms, `Update spped` 100ms | `UI Throttle` 0ms, `Update spped` 100ms | `UI Throttle` 250ms, `Update spped` 100ms |
 
 | Component: Page Controller | Component: Loading View | Component: Selector View |
 |---|---|---|
@@ -24,14 +24,9 @@
 * Xcode 11.5
 * iOS 13+
 
-## Xcode configuration
-* Page guide column at 120
-* Tab With: 4 spaces
-* Indent Width: 4 spaces
-
 ## Tech Stack
-* Architecture `MVVM`. Using services for commong implementations. The addition of a `Coordinator` was not really needed for this sample but would be consider if the number of screens increases.
-* All view models & services use dependency injection to allow creation of mocks and make it more testable. 
+* Architecture `MVVM`. Using `Services` for common implementations. The addition of a `Coordinator` was not really needed for this sample but would be consider if the number of screens increases.
+* All `ViewModels` & `Services` use dependency injection to allow creation of mocks and make it more testable. 
 * No 3rd party libraries (just a helper class for `Reachability`).
 * FRP with `Combine`.
 * WebSockets with `URLSessionWebSocketTask`.
