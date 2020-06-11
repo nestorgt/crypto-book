@@ -13,7 +13,7 @@ import os.log
 /// and can be viewed and filtered in the Console app.
 final class Log {
     static var enabledLevels: [Log.Level] = Log.Level.allCases
-    static var enabledTypes: [Log.Kind] = Log.Kind.allCases
+    static var enabledTypes: [Log.Kind] = [] //Log.Kind.allCases
     
     static func message(_ message: Any?, level: Log.Level, type: Log.Kind = .other) {
         guard enabledLevels.contains(level),
