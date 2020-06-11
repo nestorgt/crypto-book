@@ -2,9 +2,9 @@
 
 ## Overview
 
-| Main Menu | Order Book | Market History |
-|---|---|---|
-| ![](wiki/main-menu.png) | ![](wiki/order-book.png) | ![](wiki/market-history.png) |
+| Developer Menu | Order Book (Dark) |  Market History (Dark) | Order Book (Light) | Market History (Light) |
+|---|---|---|---|---|
+| ![](wiki/main-menu.png) | ![](wiki/order-book.png) | ![](wiki/market-history.png) | ![](wiki/order-book-light.png) | ![](wiki/market-history-light.png) |
 
 | Order Book BTCUSDT | Order Book BNBUSDT | Market History BTCUSDT | Market History BNBUSDT |
 |---|---|---|---|
