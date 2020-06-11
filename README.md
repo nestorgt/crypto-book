@@ -31,8 +31,8 @@
 
 ## Tech Stack
 * Architecture `MVVM`. Using services for commong implementations. The addition of a `Coordinator` was not really needed for this sample but would be consider if the number of screens increases.
-* All view models & services uses dependency injection to allow creation of mocks in allow better testability. 
-* No 3rd party libraries.
+* All view models & services use dependency injection to allow creation of mocks and make it more testable. 
+* No 3rd party libraries (just a helper class for `Reachability`).
 * FRP with `Combine`.
 * WebSockets with `URLSessionWebSocketTask`.
 
