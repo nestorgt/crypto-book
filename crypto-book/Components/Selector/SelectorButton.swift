@@ -39,7 +39,7 @@ final class SelectorButton: UIView {
 private extension SelectorButton {
     
     func setupViews() {
-        backgroundColor = UIColor.binanceGray6
+        backgroundColor = .binanceGray6
         label.font = .binanceTableHeader
         layer.cornerRadius = 3
         addSubviewsForAutoLayout([label, triangleView])

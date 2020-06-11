@@ -62,6 +62,7 @@ private extension SelectorView {
         for i in config.options {
             let button = makeButton()
             button.setTitle(String(i), for: .normal)
+            button.setTitleColor(.binanceGray, for: .normal)
             button.setTitleColor(.binanceYellow, for: .highlighted)
             if i == config.selectedIndex {
                 button.setTitleColor(.binanceYellow, for: .normal)
@@ -91,7 +92,7 @@ private extension SelectorView {
         let button = UIButton()
         button.titleLabel?.textAlignment = .center
         button.titleLabel?.font = .binanceTitle
-        button.backgroundColor = .binanceGray6
+        button.backgroundColor = UIColor.binanceGray6
         button.addTarget(self, action: #selector(didPress(_:)), for: .touchUpInside)
         return button
     }
