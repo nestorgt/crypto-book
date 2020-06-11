@@ -102,7 +102,7 @@ private extension OrderBookViewController {
                             right: view.rightAnchor)
         bidTableView.anchor(widthConstant: (view.frame.width / 2) - Self.marginBetweenTables)
         
-        selectorButton.text = String(viewModel.precisionSelected)
+        selectorButton.isHidden = true
         selectorButton.didPressHandler = { [weak self] in
             Log.message("Did press selector button", level: .info)
             self?.presentSelectorView()
@@ -117,9 +117,12 @@ private extension OrderBookViewController {
     }
     
     func presentSelectorView() {
+        guard let options = viewModel.precisionOptions,
+            let selected = viewModel.precisionSelected
+            else { return }
         selectorView = SelectorView()
-        let config = SelectorView.Config(numberOfOptions: viewModel.precisionOptions,
-                                         selectedIndex: viewModel.precisionSelected,
+        let config = SelectorView.Config(options: options,
+                                         selectedIndex: selected,
                                          button: selectorButton)
         selectorView?.present(in: view, config: config)
         selectorView?.didSelect = { [weak self] text in
@@ -152,6 +155,14 @@ private extension OrderBookViewController {
                 guard self?.isActive == true else { return }
                 self?.askTableView.reloadData()
                 self?.bidTableView.reloadData() }
+            .store(in: &cancelables)
+        
+        viewModel.$precisionSelected
+            .compactMap { $0 }
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] selectedIndex in
+                self?.selectorButton.text = "\(selectedIndex)"
+                self?.selectorButton.isHidden = false }
             .store(in: &cancelables)
     }
 }

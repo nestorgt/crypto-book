@@ -11,8 +11,6 @@ import UIKit
 final class OrderBookTableView: UITableView {
     
     private var type: OrderBookTableType
-
-    var cellDataSource: UITableViewDiffableDataSource<Double, OrderBookCellViewModel>?
     
     init(type: OrderBookTableType) {
         self.type = type

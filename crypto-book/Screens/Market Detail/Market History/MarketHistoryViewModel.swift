@@ -13,6 +13,7 @@ final class MarketHistoryViewModel {
     
     static var numberOfCells: Int = 20
     
+    private var precision: Precision?
     @Published var marketPair: MarketPair
     @Published var cellViewModels: [MarketHistoryCellViewModel]?
     @Published var isLoading: Bool = false
@@ -28,7 +29,7 @@ final class MarketHistoryViewModel {
     private var cancelables = Set<AnyCancellable>()
     
     init(marketPair: MarketPair,
-         limit: UInt,
+         limit: Int,
          updateSpeed: BinanceWSRouter.UpdateSpeed) {
         self.marketPair = marketPair
         self.updateSpeed = updateSpeed
@@ -91,8 +92,9 @@ private extension MarketHistoryViewModel {
     func updateCellViewModels(with trades: [Trade]?) {
         guard let trades = trades else { return }
         let numberOfElements = Self.numberOfCells
-        // TODO: get precision checking the first 10-20 items and see the 0's at the end
-        let precision = 4
+        if precision == nil {
+            precision = getPrecision(for: trades)
+        }
         
         let models = trades.prefix(numberOfElements).map { trade -> MarketHistoryCellViewModel in
             MarketHistoryCellViewModel(id: trade.id,
@@ -105,4 +107,15 @@ private extension MarketHistoryViewModel {
         cellViewModels = models
     }
     
+    func getPrecision(for trades: [Trade]) -> Precision {
+        let length = Self.numberOfCells
+        let prices = Array(trades.prefix(length)).map { $0.price }
+        
+        let maxNumberOfDecimals = prices.map { $0.maxNumberOfDecimals }.max() ?? 8
+        let zerosAfterDots = prices.map { $0.zerosAfterDot }.min() ?? 0
+        let minPrecision = zerosAfterDots > 0 ? zerosAfterDots + 1 : zerosAfterDots
+        
+        return Precision(min: minPrecision,
+                         max: maxNumberOfDecimals)
+    }
 }

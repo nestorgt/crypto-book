@@ -78,6 +78,31 @@ extension OrderBook {
         return orderBook
     }
     
+    /// Returns a subsequence, up to the specified maximum length, containing the initial elements of the collection.
+    func prefixingOffers(_ prefix: Int) -> OrderBook {
+        var orderBook = self
+        let bidsRounded = Array(orderBook.bids.prefix(prefix))
+        let asksRounded = Array(orderBook.asks.prefix(prefix))
+        orderBook.bids = bidsRounded
+        orderBook.asks = asksRounded
+        return orderBook
+    }
+    
+    /// Rounds the order book with filtered bids and asks (calculated with the precision + merging the same prices).
+    func filter(by precision: Int) -> OrderBook {
+        guard 0...8 ~= precision else { return self }
+        var orderBook = self
+        let bidsRounded = orderBook.bids
+            .map { $0.roundingPrice(to: precision) }
+            .mergingSamePrices()
+        let asksRounded = orderBook.asks
+            .map { $0.roundingPrice(to: precision) }
+            .mergingSamePrices()
+        orderBook.filteredBids = bidsRounded
+        orderBook.filteredAsks = asksRounded
+        return orderBook
+    }
+    
     /// Returns a copy of the order book filtering all bids & asks that have a 0 amount.
     var filteringZeroAmounts: OrderBook {
         var orderBook = self

@@ -11,7 +11,7 @@ import UIKit
 final class SelectorView: UIView {
 
     struct Config {
-        let numberOfOptions: Int
+        let options: [Int]
         let selectedIndex: Int
         let button: SelectorButton
     }
@@ -59,7 +59,7 @@ private extension SelectorView {
     func setup(config: Config) {
         Log.message("Setup selector with config: \(config)", level: .info)
         button = config.button
-        for i in 0..<config.numberOfOptions {
+        for i in config.options {
             let button = makeButton()
             button.setTitle(String(i), for: .normal)
             button.setTitleColor(.binanceYellow, for: .highlighted)
@@ -72,7 +72,7 @@ private extension SelectorView {
         setNeedsLayout()
         layoutIfNeeded()
         
-        height = CGFloat(config.numberOfOptions) * Self.rowHeight
+        height = CGFloat(config.options.count) * Self.rowHeight
         guard let height = height else { return }
         
         self.stackView.frame = CGRect(x: config.button.center.x + config.button.frame.width/2 - Self.width,

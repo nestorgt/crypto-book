@@ -37,7 +37,6 @@
 		8EA6FF022487BE8500AC978E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8EA6FF012487BE8500AC978E /* Assets.xcassets */; };
 		8EA6FF052487BE8500AC978E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8EA6FF032487BE8500AC978E /* LaunchScreen.storyboard */; };
 		8ED65002248AC9EC0044B32D /* OrderBookTableType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED65001248AC9EC0044B32D /* OrderBookTableType.swift */; };
-		8ED65004248AD0B00044B32D /* Double+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED65003248AD0B00044B32D /* Double+.swift */; };
 		8ED65006248AD0F60044B32D /* DoubleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED65005248AD0F60044B32D /* DoubleTests.swift */; };
 		8ED65008248ADE460044B32D /* OrderBook.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED65007248ADE460044B32D /* OrderBook.swift */; };
 		8ED6500A248ADF2D0044B32D /* OrderBookService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED65009248ADF2D0044B32D /* OrderBookService.swift */; };
@@ -99,6 +98,9 @@
 		8ED650B124912D830044B32D /* SelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED650B024912D830044B32D /* SelectorView.swift */; };
 		8ED650B424912F310044B32D /* SelectorButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED650B324912F310044B32D /* SelectorButton.swift */; };
 		8ED650B6249138850044B32D /* DevMenuSelectorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED650B5249138850044B32D /* DevMenuSelectorViewController.swift */; };
+		8ED650B82491A7CD0044B32D /* Double+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED650B72491A7CD0044B32D /* Double+.swift */; };
+		8ED650BA2491C4810044B32D /* Precision.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED650B92491C4810044B32D /* Precision.swift */; };
+		8ED650BC2491D26F0044B32D /* NumberFormatter+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED650BB2491D26F0044B32D /* NumberFormatter+.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -153,7 +155,6 @@
 		8EA6FF0B2487BE8500AC978E /* unit-tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "unit-tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8EA6FF112487BE8500AC978E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8ED65001248AC9EC0044B32D /* OrderBookTableType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderBookTableType.swift; sourceTree = "<group>"; };
-		8ED65003248AD0B00044B32D /* Double+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+.swift"; sourceTree = "<group>"; };
 		8ED65005248AD0F60044B32D /* DoubleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoubleTests.swift; sourceTree = "<group>"; };
 		8ED65007248ADE460044B32D /* OrderBook.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderBook.swift; sourceTree = "<group>"; };
 		8ED65009248ADF2D0044B32D /* OrderBookService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderBookService.swift; sourceTree = "<group>"; };
@@ -216,6 +217,9 @@
 		8ED650B024912D830044B32D /* SelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectorView.swift; sourceTree = "<group>"; };
 		8ED650B324912F310044B32D /* SelectorButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectorButton.swift; sourceTree = "<group>"; };
 		8ED650B5249138850044B32D /* DevMenuSelectorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevMenuSelectorViewController.swift; sourceTree = "<group>"; };
+		8ED650B72491A7CD0044B32D /* Double+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+.swift"; sourceTree = "<group>"; };
+		8ED650B92491C4810044B32D /* Precision.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Precision.swift; sourceTree = "<group>"; };
+		8ED650BB2491D26F0044B32D /* NumberFormatter+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NumberFormatter+.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -371,12 +375,13 @@
 				8E92A2992488405F00D43828 /* String+.swift */,
 				8E92A29B2488409500D43828 /* Int+.swift */,
 				8EA6AB3B248A84D20017FE63 /* Localizable+.swift */,
-				8ED65003248AD0B00044B32D /* Double+.swift */,
 				8ED65028248C0F460044B32D /* URLSessionWebSocketTaskMessage+.swift */,
 				8ED6503C248C24430044B32D /* JSONDecoder+.swift */,
 				8ED6504B248C5AC50044B32D /* Result+.swift */,
 				8ED6504D248C68040044B32D /* Optional+.swift */,
 				8ED65096248FFA1B0044B32D /* Date+.swift */,
+				8ED650B72491A7CD0044B32D /* Double+.swift */,
+				8ED650BB2491D26F0044B32D /* NumberFormatter+.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -404,6 +409,7 @@
 		8EA6FF1D2487BEAF00AC978E /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				8ED650B92491C4810044B32D /* Precision.swift */,
 				8EA6AB40248A97ED0017FE63 /* MarketPair.swift */,
 				8ED65007248ADE460044B32D /* OrderBook.swift */,
 				8ED6505B248D67350044B32D /* OrderBookOffer.swift */,
@@ -751,6 +757,7 @@
 				8ED650A524904F4B0044B32D /* Metrics.swift in Sources */,
 				8ED650B424912F310044B32D /* SelectorButton.swift in Sources */,
 				8E92A296248805BD00D43828 /* Logger.swift in Sources */,
+				8ED650B82491A7CD0044B32D /* Double+.swift in Sources */,
 				8ED65020248BE69B0044B32D /* BinanceWSRouter.swift in Sources */,
 				8ED6500A248ADF2D0044B32D /* OrderBookService.swift in Sources */,
 				8ED6502D248C12170044B32D /* WSOrderBookDiff.swift in Sources */,
@@ -766,12 +773,14 @@
 				8ED6508D248FECBA0044B32D /* WebSocketError.swift in Sources */,
 				8ED6502B248C0FF70044B32D /* Parser.swift in Sources */,
 				8ED65097248FFA1B0044B32D /* Date+.swift in Sources */,
+				8ED650BC2491D26F0044B32D /* NumberFormatter+.swift in Sources */,
 				8ED650A224904BB00044B32D /* MarketHistoryHeaderView.swift in Sources */,
 				8ED6501E248BD2A40044B32D /* WebSocketService.swift in Sources */,
 				8EA6AB45248A99BA0017FE63 /* MarketHistoryViewController.swift in Sources */,
 				8ED6504C248C5AC50044B32D /* Result+.swift in Sources */,
 				8ED65067248EEBF70044B32D /* ReachabilityService.swift in Sources */,
 				8ED65040248C50970044B32D /* APIService.swift in Sources */,
+				8ED650BA2491C4810044B32D /* Precision.swift in Sources */,
 				8E92A28C2487EB7300D43828 /* Array+.swift in Sources */,
 				8ED6502F248C12EA0044B32D /* BinanceWSError.swift in Sources */,
 				8ED6505C248D67350044B32D /* OrderBookOffer.swift in Sources */,
@@ -790,7 +799,6 @@
 				8ED65032248C17220044B32D /* BinanceWSEventType.swift in Sources */,
 				8ED650A0249007520044B32D /* BinanceWSService.swift in Sources */,
 				8ED65093248FF93F0044B32D /* MarketHistoryCell.swift in Sources */,
-				8ED65004248AD0B00044B32D /* Double+.swift in Sources */,
 				8ED650A9249067910044B32D /* WSEvent.swift in Sources */,
 				8EA6AB51248AA6EE0017FE63 /* OrderBookCell.swift in Sources */,
 				8ED65060248E9BA00044B32D /* LoadingView.swift in Sources */,

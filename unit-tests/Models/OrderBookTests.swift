@@ -49,4 +49,47 @@ final class OrderBookTests: XCTestCase {
                        [OrderBook.Offer(price: 9728.99000000, amount: 0.25704700),
                        OrderBook.Offer(price: 9729.07000000, amount: 2.02563600)])
     }
+    
+    func mergingSamePrices() {
+        let sut = [OrderBook.Offer(price: 1.1, amount: 1),
+                   OrderBook.Offer(price: 1.12, amount: 1),
+                   OrderBook.Offer(price: 1.12, amount: 1),
+                   OrderBook.Offer(price: 1.1234, amount: 1),
+                   OrderBook.Offer(price: 1.1234, amount: 1),
+                   OrderBook.Offer(price: 1.1234, amount: 1),
+                   OrderBook.Offer(price: 1.123456, amount: 1),
+                   OrderBook.Offer(price: 1.123456, amount: 1),
+                   OrderBook.Offer(price: 1.123456, amount: 1),
+                   OrderBook.Offer(price: 1.123456, amount: 1)]
+        
+        let expected = [OrderBook.Offer(price: 1.1, amount: 1),
+                        OrderBook.Offer(price: 1.12, amount: 2),
+                        OrderBook.Offer(price: 1.1234, amount: 3),
+                        OrderBook.Offer(price: 1.123456, amount: 4)]
+        
+        XCTAssertEqual(sut.mergingSamePrices(), expected)
+    }
+    
+    func mergingSamePrices_AllEqual() {
+        let sut = [OrderBook.Offer(price: 1.1, amount: 1),
+                   OrderBook.Offer(price: 1.1, amount: 1),
+                   OrderBook.Offer(price: 1.1, amount: 1),
+                   OrderBook.Offer(price: 1.1, amount: 1),
+                   OrderBook.Offer(price: 1.1, amount: 1),
+                   OrderBook.Offer(price: 1.1, amount: 1),
+                   OrderBook.Offer(price: 1.1, amount: 1),
+                   OrderBook.Offer(price: 1.1, amount: 1),
+                   OrderBook.Offer(price: 1.1, amount: 1),
+                   OrderBook.Offer(price: 1.1, amount: 1)]
+        
+        let expected = [OrderBook.Offer(price: 1.1, amount: 10)]
+        
+        XCTAssertEqual(sut.mergingSamePrices(), expected)
+    }
+    
+    func mergingSamePrices_Empty() {
+        let sut = [OrderBook.Offer]()
+        
+        XCTAssertEqual(sut.mergingSamePrices(), [OrderBook.Offer]())
+    }
 }

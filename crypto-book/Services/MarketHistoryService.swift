@@ -27,10 +27,8 @@ protocol MarketHistoryServiceProtocol {
 
 final class MarketHistoryService: MarketHistoryServiceProtocol {
     
-    static let maxTradesCapacity = 100
-    
     private let marketPair: MarketPair
-    private let limit: UInt
+    private let limit: Int
     private let updateSpeed: BinanceWSRouter.UpdateSpeed
     
     private var binanceWSService: BinanceWSServiceProtocol
@@ -43,7 +41,7 @@ final class MarketHistoryService: MarketHistoryServiceProtocol {
     private var cancelables = Set<AnyCancellable>()
     
     init(marketPair: MarketPair,
-         limit: UInt,
+         limit: Int,
          updateSpeed: BinanceWSRouter.UpdateSpeed,
          binanceWSService: BinanceWSServiceProtocol,
          binanceAPIService: BinanceAPIServiceProtocol = BinanceAPIService(),
@@ -152,7 +150,7 @@ private extension MarketHistoryService {
     func merge(trades: [Trade]) {
         let validTrades = trades.filter { $0.firstTradeId > marketHistoryPublisher.value?.first?.lastTradeId ?? 0 }
         let trades = validTrades + (marketHistoryPublisher.value ?? [])
-        let tradesIgnoringOldest = Array(trades.prefix(Self.maxTradesCapacity))
+        let tradesIgnoringOldest = Array(trades.prefix(limit))
         marketHistoryPublisher.send(tradesIgnoringOldest)
     }
     

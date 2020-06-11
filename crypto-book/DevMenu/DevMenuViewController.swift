@@ -22,6 +22,9 @@ final class DevMenuViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         clearsSelectionOnViewWillAppear = true
+        let tap = UITapGestureRecognizer(target: self, action: #selector(didTap))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
     }
     
     // MARK: - UITableViewDataSource
@@ -58,6 +61,7 @@ final class DevMenuViewController: UITableViewController {
             }
         }
     }
+    
     @IBAction func uiThrottleChanged(_ sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex {
         case 0: Self.uiThrottle = .zero
@@ -67,6 +71,8 @@ final class DevMenuViewController: UITableViewController {
         default: Self.uiThrottle = .milliseconds(500)
         }
     }
+    
+    
 }
 
 // MARK: - Enums
@@ -98,13 +104,17 @@ private extension DevMenuViewController {
         updateSpeedSegmented.selectedSegmentIndex == 0 ? .hundred : .thousand
     }
     
-    var depthLimit: UInt? {
+    var depthLimit: Int? {
         guard let text = depthLimitTextField.text else { return nil }
-        return UInt(text)
+        return Int(text)
     }
     
-    var aggLimit: UInt? {
+    var aggLimit: Int? {
         guard let text = aggLimitTextField.text else { return nil }
-        return UInt(text)
+        return Int(text)
+    }
+    
+    @objc func didTap() {
+        view.endEditing(true)
     }
 }

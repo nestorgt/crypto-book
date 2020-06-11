@@ -8,10 +8,10 @@
 
 import Foundation
 
-struct OrderBookCellViewModel: Hashable {
+struct OrderBookCellViewModel {
     
     let price: Double
-    let pricePrecision: Int
+    let pricePrecision: Precision?
     let amount: Double
     
     /// Represents the backfround progress view. Value between `0` and `1`.
@@ -20,13 +20,18 @@ struct OrderBookCellViewModel: Hashable {
     // MARK: - Helpers
     
     var priceString: String {
-        price
-            .rounding(decimals: pricePrecision)
-            .toString()
+        let formatter = NumberFormatter()
+        formatter.maximumFractionDigits = pricePrecision?.max ?? 8
+        formatter.minimumFractionDigits = pricePrecision?.min ?? 0
+        formatter.numberStyle = .decimal
+        return formatter.string(for: price) ?? ""
     }
     
     var amountString: String {
-        amount
-            .toString()
+        let formatter = NumberFormatter()
+        formatter.maximumFractionDigits = 8
+        formatter.minimumFractionDigits = amount.maxNumberOfDecimals
+        formatter.numberStyle = .decimal
+        return formatter.string(for: amount) ?? ""
     }
 }

@@ -12,7 +12,7 @@ final class DevMenuSelectorViewController: UIViewController {
     
     private var button: SelectorButton?
     private var selectorView: SelectorView?
-    private var numberOfOptions: Int?
+    private var options: [Int]?
     private var selectedIndex: Int?
     
     override func viewDidLoad() {
@@ -34,9 +34,10 @@ private extension DevMenuSelectorViewController {
     }
     
     @objc func addSelectorButton() {
-        numberOfOptions = Int.random(in: 2...9)
-        guard let numberOfOptions = numberOfOptions else { return }
-        selectedIndex = Int.random(in: 0..<numberOfOptions)
+        let n = Int.random(in: 2...9)
+        options = (0...n).map { $0 }
+        guard let options = options else { return }
+        selectedIndex = Int.random(in: 0..<options.count)
         guard let selectedIndex = selectedIndex else { return }
         
         selectorView?.removeFromSuperview()
@@ -58,11 +59,11 @@ private extension DevMenuSelectorViewController {
     
     func presentSelectorView() {
         guard let button = button,
-            let numberOfOptions = numberOfOptions,
+            let options = options,
             let selectedIndex = selectedIndex
             else { return }
         selectorView = SelectorView()
-        let config = SelectorView.Config(numberOfOptions: numberOfOptions,
+        let config = SelectorView.Config(options: options,
                                          selectedIndex: selectedIndex,
                                          button: button)
         selectorView?.present(in: view, config: config)

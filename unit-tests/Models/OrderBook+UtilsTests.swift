@@ -18,6 +18,20 @@ final class OrderBookUtilsTests: XCTestCase {
         sut = OrderBookMock.sample
     }
     
+    func testPrefixingOffers() {
+        let prefixed = sut.prefixingOffers(1)
+        
+        XCTAssertEqual(prefixed.asks.count, 1)
+        XCTAssertEqual(prefixed.bids.count, 1)
+    }
+    
+    func testPrefixingOffers_OutOfBounds() {
+        let prefixed = sut.prefixingOffers(100)
+        
+        XCTAssertEqual(prefixed.asks.count, 3)
+        XCTAssertEqual(prefixed.bids.count, 3)
+    }
+    
     func testMaxMin_Prefix3() {
         let maxMinData = sut.maxMinData(prefixElements: 3)
         

@@ -8,33 +8,38 @@
 
 import UIKit
 
-struct MarketHistoryCellViewModel: Hashable {
+struct MarketHistoryCellViewModel {
     
     let id: UInt64
     let timestamp: TimeInterval
     let price: Double
     let amount: Double
     let isBuyerMaker: Bool
-    let precision: Int
+    let precision: Precision?
     
     // MARK: - Helpers
     
     var timeString: String {
-        Date.hoursMinutesSeconds(from: timestamp)
+        Date.hoursMinutesSeconds(from: timestamp/1000)
     }
     
     var priceString: String {
-        price
-            .rounding(decimals: precision)
-            .toString()
+        let formatter = NumberFormatter()
+        formatter.maximumFractionDigits = precision?.max ?? 8
+        formatter.minimumFractionDigits = precision?.min ?? 0
+        formatter.numberStyle = .decimal
+        return formatter.string(for: price) ?? "\(price)"
     }
     
     var amountString: String {
-        amount
-            .toString()
+        let formatter = NumberFormatter()
+        formatter.maximumFractionDigits = 8
+        formatter.minimumFractionDigits = amount.maxNumberOfDecimals
+        formatter.numberStyle = .decimal
+        return formatter.string(for: amount) ?? ""
     }
     
     var priceTextColor: UIColor {
-        isBuyerMaker ? .binanceBid : .binanceAsk
+        isBuyerMaker ? .binanceAsk : .binanceBid
     }
 }

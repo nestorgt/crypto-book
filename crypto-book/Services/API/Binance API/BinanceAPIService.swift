@@ -14,7 +14,7 @@ protocol BinanceAPIServiceProtocol {
                        completion: @escaping (Result<OrderBook, BinanceAPIError>) -> Void)
     
     func aggTrades(marketPair: MarketPair,
-                          limit: UInt,
+                          limit: Int,
                           completion: @escaping (Result<[Trade], BinanceAPIError>) -> Void)
 }
 
@@ -47,7 +47,7 @@ final class BinanceAPIService: BinanceAPIServiceProtocol {
     }
     
     func aggTrades(marketPair: MarketPair,
-                          limit: UInt,
+                          limit: Int,
                           completion: @escaping (Result<[Trade], BinanceAPIError>) -> Void) {
         guard let request = BinanceAPIRouter.aggTrades(marketPair: marketPair, limit: limit) else {
             completion(.failure(.generic(message: "Can't build request")))

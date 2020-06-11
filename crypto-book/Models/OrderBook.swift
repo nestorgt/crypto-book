@@ -14,6 +14,10 @@ struct OrderBook: CustomStringConvertible, Equatable {
     var bids: [Offer]
     var asks: [Offer]
     
+    // Filtered offers by precision.
+    var filteredBids: [Offer] = []
+    var filteredAsks: [Offer] = []
+    
     var description: String {
         """
         \n- lastUpdateId: \(lastUpdateId)

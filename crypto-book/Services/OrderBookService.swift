@@ -47,6 +47,7 @@ final class OrderBookService: OrderBookServiceProtocol {
     private var marketPair: MarketPair
     private var updateSpeed: BinanceWSRouter.UpdateSpeed
     
+    private let limit: Int
     private var buffer = [WSOrderBookDiff]()
     private var isRequestingAPIDepthSnapshot = false
     
@@ -54,12 +55,13 @@ final class OrderBookService: OrderBookServiceProtocol {
     private var cancelables = Set<AnyCancellable>()
     
     init(marketPair: MarketPair,
-         limit: UInt,
+         limit: Int,
          updateSpeed: BinanceWSRouter.UpdateSpeed,
          binanceWSService: BinanceWSServiceProtocol,
          binanceAPIService: BinanceAPIServiceProtocol = BinanceAPIService(),
          reachabilityService: ReachabilityServiceProtocol = ReachabilityService()) {
         self.marketPair = marketPair
+        self.limit = limit
         self.updateSpeed = updateSpeed
         self.binanceAPIService = binanceAPIService
         self.binanceWSService = binanceWSService
@@ -197,7 +199,9 @@ private extension OrderBookService {
     }
     
     func mergeOrderBook(with orderBookDiffs: [WSOrderBookDiff]) {
-        let orderBook = orderBookPublisher.value?.merging(diffs: orderBookDiffs)
+        let orderBook = orderBookPublisher.value?
+            .merging(diffs: orderBookDiffs)
+            .prefixingOffers(Int(limit))
         orderBookPublisher.send(orderBook)
         isConnecting.value = false
     }

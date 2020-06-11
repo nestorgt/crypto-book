@@ -20,8 +20,10 @@ final class OrderBookViewModel {
 
     var screenTitle: String { NSLocalizedString("page-menu-order-book-title") }
     
-    @Published var precisionOptions: Int = 3
-    @Published var precisionSelected: Int = 2
+    private var precision: Precision?
+    private var originalPrecision: Int?
+    @Published var precisionOptions: [Int]?
+    @Published var precisionSelected: Int?
     
     private let updateSpeed: BinanceWSRouter.UpdateSpeed
     private let orderBookService: OrderBookServiceProtocol
@@ -29,7 +31,7 @@ final class OrderBookViewModel {
     private var cancelables = Set<AnyCancellable>()
     
     init(marketPair: MarketPair,
-         limit: UInt,
+         limit: Int,
          updateSpeed: BinanceWSRouter.UpdateSpeed) {
         self.marketPair = marketPair
         self.updateSpeed = updateSpeed
@@ -86,26 +88,54 @@ private extension OrderBookViewModel {
     }
     
     func updateDataSnapshots(with orderBook: OrderBook?) {
-        guard let orderBook = orderBook else { return }
-        let numberOfElements = OrderBookViewModel.numberOfCells
-        let maxMinData = orderBook.maxMinData(prefixElements: numberOfElements)
+        guard let book = orderBook else { return }
         
-        let bidModels = orderBook.bids.prefix(numberOfElements).map { bid -> OrderBookCellViewModel in
+        getPrecisionIfNeeded(for: book)
+        let filteredOrderBook = filterByPrecisionIfNeeded(orderBook: book)
+        
+        let numberOfElements = OrderBookViewModel.numberOfCells
+        let maxMinData = filteredOrderBook.maxMinData(prefixElements: numberOfElements)
+        
+        let bids = filteredOrderBook.filteredBids.isEmpty ? filteredOrderBook.bids : filteredOrderBook.filteredBids
+        let bidModels = bids.prefix(numberOfElements).map { bid -> OrderBookCellViewModel in
             let progress = OrderBook.bidWeight(for: bid.amount, with: maxMinData)
             return OrderBookCellViewModel(price: bid.price,
-                                   pricePrecision: precisionSelected,
-                                   amount: bid.amount,
-                                   progress: progress)
+                                          pricePrecision: precision,
+                                          amount: bid.amount,
+                                          progress: progress)
         }
 
-        let askModels = orderBook.asks.prefix(numberOfElements).map { ask -> OrderBookCellViewModel in
+        let asks = filteredOrderBook.filteredAsks.isEmpty ? filteredOrderBook.asks : filteredOrderBook.filteredAsks
+        let askModels = asks.prefix(numberOfElements).map { ask -> OrderBookCellViewModel in
             OrderBookCellViewModel(price: ask.price,
-                                   pricePrecision: precisionSelected,
+                                   pricePrecision: precision,
                                    amount: ask.amount,
                                    progress: OrderBook.askWeight(for: ask.amount, with: maxMinData))
         }
         
         bidCellViewModels = bidModels
         askCellViewModels = askModels
+    }
+    
+    func getPrecisionIfNeeded(for orderBook: OrderBook) {
+        guard precisionOptions == nil && precisionSelected == nil else { return }
+        let length = OrderBookViewModel.numberOfCells
+        let prices = Array(orderBook.bids.prefix(length) + orderBook.asks.prefix(length)).map { $0.price }
+        let maxNumberOfDecimals = prices.map { $0.maxNumberOfDecimals }.max() ?? 8
+        let zerosAfterDots = prices.map { $0.zerosAfterDot }.min() ?? 0
+        let minPrecision = zerosAfterDots > 0 ? zerosAfterDots + 1 : zerosAfterDots
+        precision = Precision(min: minPrecision, max: maxNumberOfDecimals)
+        precisionOptions = (minPrecision...maxNumberOfDecimals).map { $0 }
+        precisionSelected = maxNumberOfDecimals
+        originalPrecision = maxNumberOfDecimals
+    }
+    
+    func filterByPrecisionIfNeeded(orderBook: OrderBook) -> OrderBook {
+        guard let precisionSelected = precisionSelected,
+            let originalPrecision = originalPrecision,
+            precisionSelected != originalPrecision
+            else { return orderBook }
+        
+        return orderBook.filter(by: precisionSelected)
     }
 }

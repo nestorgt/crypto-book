@@ -15,7 +15,7 @@ struct BinanceAPIRouter {
     private static let apiVersion = "v3"
     private static let timeoutInterval = 60.0
     
-    static func depthSnapshot(marketPair: MarketPair, limit: UInt = 500) -> URLRequest? {
+    static func depthSnapshot(marketPair: MarketPair, limit: Int = 500) -> URLRequest? {
         var components = commonComponents
         components.path = path(for: .depth)
         components.queryItems = [symbolComponent(for: marketPair),
@@ -26,7 +26,7 @@ struct BinanceAPIRouter {
         return urlRequest
     }
 
-    static func aggTrades(marketPair: MarketPair, limit: UInt = 80) -> URLRequest? {
+    static func aggTrades(marketPair: MarketPair, limit: Int = 80) -> URLRequest? {
         var components = commonComponents
         components.path = path(for: .aggTrades)
         components.queryItems = [symbolComponent(for: marketPair),
@@ -67,7 +67,7 @@ private extension BinanceAPIRouter {
         URLQueryItem(name: "symbol", value: marketPair.apiSymbol)
     }
     
-    static func limitComponent(for limit: UInt) -> URLQueryItem {
+    static func limitComponent(for limit: Int) -> URLQueryItem {
         URLQueryItem(name: "limit", value: String(limit))
     }
     

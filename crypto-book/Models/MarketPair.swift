@@ -22,7 +22,7 @@ struct MarketPair {
     }
     
     var description: String {
-        "\(from) / \(to)"
+        "\(from.uppercased()) / \(to.uppercased())"
     }
 }
 
