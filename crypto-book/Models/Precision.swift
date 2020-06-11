@@ -8,6 +8,7 @@
 
 import Foundation
 
+/// Model that represents the max and min amount of decimals.
 struct Precision {
     let min: Int
     let max: Int

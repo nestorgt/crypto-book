@@ -8,6 +8,7 @@
 
 import Foundation
 
+/// Model representing a pair of currencies such as `BNB` & `BTC`.
 struct MarketPair {
     
     let from: String

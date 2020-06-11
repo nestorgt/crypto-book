@@ -8,10 +8,12 @@
 
 import Foundation
 
+/// Generic WebSocket event that should conform any Model coming from the WebSocket connection.
 protocol WSEventProtocol {
     var event: WSEvent { get }
 }
 
+/// Generic WebSocket event showing specific data for each event.
 struct WSEvent: Equatable {
     let type: BinanceWSEventType
     let timeInterval: TimeInterval

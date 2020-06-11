@@ -10,6 +10,7 @@ import Foundation
 
 extension OrderBook {
     
+    /// A price an amount of an offer in the order book.
     struct Offer: Equatable, CustomStringConvertible {
         let price: Double
         let amount: Double

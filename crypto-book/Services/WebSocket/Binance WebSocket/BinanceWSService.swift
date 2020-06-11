@@ -11,8 +11,7 @@ import Combine
 
 protocol BinanceWSServiceProtocol: class {
     
-    /// Returns `true` while is trying to get the depth order book & connecting to the websocket.
-    /// Will return `false` once it's sending order book updates.
+    /// Returns `true` while is trying to open the WebSocket connection.
     var isConnecting: CurrentValueSubject<Bool, Never> { get }
     
     /// Provides updates of the models received by the WebSocket.
@@ -81,6 +80,7 @@ extension BinanceWSService: WebSocketServiceDelegate {
     func didOpen(handshakeProtocol: String?) {
         Log.message("didOpen with protocol \(String(describing: handshakeProtocol))",
             level: .info, type: .wsBinance)
+        isConnecting.value = false
     }
     
     func didClose(closeCode: URLSessionWebSocketTask.CloseCode, reason: Data?) {
