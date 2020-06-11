@@ -11,9 +11,6 @@ import Combine
 
 protocol BinanceWSServiceProtocol: class {
     
-    /// Returns `true` while is trying to open the WebSocket connection.
-    var isConnecting: CurrentValueSubject<Bool, Never> { get }
-    
     /// Provides updates of the models received by the WebSocket.
     /// - Note:Intial value will be `nil`.
     /// - Important: Error from WebSocket are propagated upwards, the entity who uses this service should handle them.
@@ -45,7 +42,6 @@ final class BinanceWSService: BinanceWSServiceProtocol {
     var publisher = CurrentValueSubject<(Result<WSEventProtocol, BinanceWSError>?), Never>(nil)
     
     func restart() {
-        isConnecting.value = true
         webSocketService.restart()
     }
     
@@ -80,7 +76,6 @@ extension BinanceWSService: WebSocketServiceDelegate {
     func didOpen(handshakeProtocol: String?) {
         Log.message("didOpen with protocol \(String(describing: handshakeProtocol))",
             level: .info, type: .wsBinance)
-        isConnecting.value = false
     }
     
     func didClose(closeCode: URLSessionWebSocketTask.CloseCode, reason: Data?) {

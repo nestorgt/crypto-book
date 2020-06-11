@@ -14,8 +14,8 @@ protocol BinanceAPIServiceProtocol {
                        completion: @escaping (Result<OrderBook, BinanceAPIError>) -> Void)
     
     func aggTrades(marketPair: MarketPair,
-                          limit: Int,
-                          completion: @escaping (Result<[Trade], BinanceAPIError>) -> Void)
+                   limit: Int,
+                   completion: @escaping (Result<[Trade], BinanceAPIError>) -> Void)
 }
 
 final class BinanceAPIService: BinanceAPIServiceProtocol {
