@@ -14,7 +14,7 @@
 | Order Book Stress Test | Market History Stress Test | Data recovery when going offline |
 |---|---|---|
 | ![](wiki/stress-test-order-book-btc.gif) | ![](wiki/stress-test-market-history.gif) | ![](wiki/data-recovery.gif) |
-| UI Throttle 0ms, update spped 100ms | UI Throttle 0ms, update spped 100ms | UI Throttle 500ms, update spped 1000ms |
+| UI Throttle 0ms, update spped 100ms | UI Throttle 0ms, update spped 100ms | UI Throttle 250ms, update spped 100ms |
 
 | Component: Page Controller | Component: Loading View | Component: Selector View |
 |---|---|---|
